@@ -384,7 +384,7 @@
     "subject": "산림토양학",
     "tags": [],
     "question": "화살표로 표시한 토양색의 먼셀 (Munsell)표기법으로 옳은 것은?",
-    "image": null,
+    "image": "images/5-97.png",
     "options": [
       "5R 8/6",
       "5R 6/8",
@@ -438,7 +438,7 @@
     "subject": "산림토양학",
     "tags": [],
     "question": "토양단면 I ~ V 각각에 대한 설명  중 옳지 않은 것은?",
-    "image": null,
+    "image": "images/5-100.png",
     "options": [
       "I: 경운 토양으로 A층이 B층으로 전환되는 전이(위)층이 있음",
       "II: 용탈(세탈)층을 가진 토양",
@@ -2472,7 +2472,7 @@
     "subject": "수목해충학",
     "tags": [],
     "question": "어떤 곤충의 온도(x)에 따른 발육률 (y)은 아래와 같이 추정되었다. 아래  그래프를 보고 유효적산온도(온일도)를 계산하시오.",
-    "image": null,
+    "image": "images/5-48.png",
     "options": [
       "5",
       "10",
