@@ -9,34 +9,32 @@
         body { font-family: 'Pretendard', sans-serif; background: var(--bg); padding: 20px; color: #1e293b; }
         .container { max-width: 900px; margin: 0 auto; }
 
-        /* 필터 패널 */
         .filter-panel { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 20px; position: sticky; top: 10px; z-index: 100; }
         .filter-row { margin-bottom: 15px; }
         .label { font-weight: bold; display: block; margin-bottom: 8px; color: #64748b; font-size: 0.9em; }
         
         .tag-group { display: flex; flex-wrap: wrap; gap: 8px; }
-        .tag { padding: 6px 14px; background: #f1f5f9; border-radius: 50px; cursor: pointer; font-size: 0.85em; border: 1px solid #e2e8f0; transition: 0.2s; }
-        .tag.session.active { background: var(--secondary); color: white; }
-        .tag.subject.active { background: var(--primary); color: white; }
+        .tag { padding: 6px 14px; background: #f1f5f9; border-radius: 50px; cursor: pointer; font-size: 0.85em; border: 1px solid #e2e8f0; transition: 0.2s; user-select: none; }
+        .tag.session.active { background: var(--secondary); color: white; border-color: var(--secondary); }
+        .tag.subject.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* 키워드 검색창 및 자동완성 */
         .search-container { position: relative; width: 100%; }
         #keywordInput { width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #e2e8f0; box-sizing: border-box; outline: none; }
         #keywordInput:focus { border-color: var(--accent); }
-        .autocomplete-list { position: absolute; width: 100%; background: white; border: 1px solid #e2e8f0; border-top: none; max-height: 200px; overflow-y: auto; z-index: 101; display: none; border-radius: 0 0 8px 8px; }
-        .autocomplete-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #f1f5f9; }
+        .autocomplete-list { position: absolute; width: 100%; background: white; border: 1px solid #e2e8f0; border-top: none; max-height: 200px; overflow-y: auto; z-index: 101; display: none; border-radius: 0 0 8px 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .autocomplete-item { padding: 10px; cursor: pointer; }
         .autocomplete-item:hover { background: #fef3c7; }
 
-        /* 선택된 키워드 칩 */
         .selected-keywords { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
         .kw-chip { background: var(--accent); color: white; padding: 5px 12px; border-radius: 4px; display: flex; align-items: center; gap: 8px; font-size: 0.85em; }
         .kw-chip span { cursor: pointer; font-weight: bold; }
 
-        /* 문제 카드 */
         .q-card { background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #e2e8f0; }
-        .ans-section { display: none; margin-top: 15px; padding: 15px; background: #f0fdf4; border-left: 4px solid #22c55e; }
+        .ans-section { display: none; margin-top: 15px; padding: 15px; background: #f0fdf4; border-left: 4px solid #22c55e; border-radius: 8px; }
         .ans-section.show { display: block; }
-        .btn-ans { width: 100%; margin-top: 10px; padding: 8px; cursor: pointer; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; }
+        .btn-ans { width: 100%; margin-top: 15px; padding: 10px; cursor: pointer; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; font-weight: bold; }
+        .options-list { display: grid; gap: 8px; margin: 15px 0; }
+        .option-item { padding: 10px; border: 1px solid #f1f5f9; border-radius: 6px; background: #fafafa; font-size: 0.95em; }
     </style>
 </head>
 <body>
@@ -44,31 +42,29 @@
 <div class="container">
     <div class="filter-panel">
         <div class="filter-row">
-            <span class="label">📅 회차 (OR)</span>
+            <span class="label">📅 회차 선택 (OR)</span>
             <div id="sessionGroup" class="tag-group"></div>
         </div>
         <div class="filter-row">
-            <span class="label">📘 과목 (OR)</span>
+            <span class="label">📘 과목 선택 (OR)</span>
             <div id="subjectGroup" class="tag-group"></div>
         </div>
         <div class="filter-row">
-            <span class="label">🔍 키워드 검색 (AND - 입력 후 선택)</span>
+            <span class="label">🔍 키워드 검색 (AND)</span>
             <div class="search-container">
-                <input type="text" id="keywordInput" placeholder="키워드 입력 (예: SQL, OSI...)" oninput="handleSearch(this.value)">
+                <input type="text" id="keywordInput" placeholder="키워드 입력 후 선택..." oninput="handleSearch(this.value)">
                 <div id="autocompleteList" class="autocomplete-list"></div>
             </div>
             <div id="keywordChips" class="selected-keywords"></div>
         </div>
-        <div style="text-align: right; border-top: 1px solid #eee; padding-top: 10px;">
-            <span id="resultCount" style="font-weight: bold; color: var(--primary);"></span>
-            <button onclick="resetAll()" style="margin-left:15px; cursor:pointer;">초기화</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 15px;">
+            <span id="resultCount" style="font-weight: bold; color: var(--primary);">결과: 0건</span>
+            <button onclick="resetAll()" style="padding: 5px 15px; cursor:pointer;">필터 초기화</button>
         </div>
     </div>
 
     <div id="questionList"></div>
 </div>
-
-// ... (기존 HTML/CSS는 유지)
 
 <script>
     let questions = [];
@@ -77,59 +73,153 @@
     let selectedKeywords = new Set();
     let allUniqueKeywords = [];
 
-    // [핵심 수정] 가짜 데이터 대신 실제 JSON 파일을 읽어옵니다.
+    // 1. 데이터 로드
     async function loadData() {
         try {
-            // 파일 이름을 정확히 questions.json으로 맞춰주세요.
             const response = await fetch('questions.json');
-            
-            if (!response.ok) {
-                throw new Error('파일을 찾을 수 없습니다.');
-            }
-
+            if (!response.ok) throw new Error('questions.json 파일을 찾을 수 없습니다.');
             questions = await response.json();
             
-            // 데이터가 로드된 후 필터와 키워드를 초기화합니다.
-            initFilters();
-            processAndRender();
+            initFilters();    // 필터 버튼 생성
+            processAndRender(); // 초기 화면 렌더링
         } catch (error) {
-            console.error("데이터 로드 실패:", error);
-            document.getElementById('questionList').innerHTML = 
-                `<p style="color:red; text-align:center;">데이터 로딩 실패: ${error.message}<br>
-                (주의: 서버 환경이나 GitHub Pages에서 실행해야 파일 읽기가 가능합니다.)</p>`;
+            console.error(error);
+            document.getElementById('questionList').innerHTML = `<p style="color:red; text-align:center;">${error.message}</p>`;
         }
     }
 
-    // (기존 initFilters, toggleFilter, handleSearch, processAndRender 함수들은 동일하게 유지)
+    // 2. 필터 버튼 초기화
+    function initFilters() {
+        const sessions = [...new Set(questions.map(q => q.session))].sort();
+        const subjects = [...new Set(questions.map(q => q.subject))].sort();
+        allUniqueKeywords = [...new Set(questions.flatMap(q => q.tags))].sort();
 
-    // 문제 렌더링 함수 (보기가 안 보였던 문제를 해결하기 위해 q.options 체크 추가)
+        document.getElementById('sessionGroup').innerHTML = sessions.map(s => 
+            `<div class="tag session" onclick="toggleFilter('session', '${s}', this)">${s}</div>`
+        ).join('');
+
+        document.getElementById('subjectGroup').innerHTML = subjects.map(s => 
+            `<div class="tag subject" onclick="toggleFilter('subject', '${s}', this)">${s}</div>`
+        ).join('');
+    }
+
+    // 3. 필터 토글 (회차, 과목)
+    function toggleFilter(type, value, el) {
+        const targetSet = (type === 'session') ? selectedSessions : selectedSubjects;
+        if (targetSet.has(value)) targetSet.delete(value);
+        else targetSet.add(value);
+        
+        el.classList.toggle('active');
+        processAndRender();
+    }
+
+    // 4. 키워드 검색 및 자동완성
+    function handleSearch(val) {
+        const list = document.getElementById('autocompleteList');
+        if (!val) { list.style.display = 'none'; return; }
+
+        const filtered = allUniqueKeywords.filter(k => 
+            k.toLowerCase().includes(val.toLowerCase()) && !selectedKeywords.has(k)
+        );
+        
+        if (filtered.length > 0) {
+            list.innerHTML = filtered.map(k => `<div class="autocomplete-item" onclick="addKeyword('${k}')">${k}</div>`).join('');
+            list.style.display = 'block';
+        } else {
+            list.style.display = 'none';
+        }
+    }
+
+    function addKeyword(kw) {
+        selectedKeywords.add(kw);
+        document.getElementById('keywordInput').value = '';
+        document.getElementById('autocompleteList').style.display = 'none';
+        renderChips();
+        processAndRender();
+    }
+
+    function removeKeyword(kw) {
+        selectedKeywords.delete(kw);
+        renderChips();
+        processAndRender();
+    }
+
+    function renderChips() {
+        document.getElementById('keywordChips').innerHTML = [...selectedKeywords].map(kw => `
+            <div class="kw-chip">${kw} <span onclick="removeKeyword('${kw}')">×</span></div>
+        `).join('');
+    }
+
+    // 5. 필터링 로직 및 렌더링
+    function processAndRender() {
+        let result = questions;
+
+        // 회차 필터 (OR)
+        if (selectedSessions.size > 0) {
+            result = result.filter(q => selectedSessions.has(q.session));
+        }
+        
+        // 과목 필터 (OR)
+        if (selectedSubjects.size > 0) {
+            result = result.filter(q => selectedSubjects.has(q.subject));
+        }
+
+        // 키워드 필터 (AND)
+        if (selectedKeywords.size > 0) {
+            result = result.filter(q => [...selectedKeywords].every(kw => q.tags.includes(kw)));
+        }
+
+        // 정렬 (오름차순)
+        result.sort((a, b) => a.session.localeCompare(b.session) || a.number - b.number);
+
+        document.getElementById('resultCount').innerText = `결과: ${result.length}건`;
+        renderQuestions(result);
+    }
+
+    // 6. 문제 카드 생성
     function renderQuestions(data) {
-        const display = document.getElementById('questionList');
-        display.innerHTML = data.map(q => `
+        const listEl = document.getElementById('questionList');
+        if (data.length === 0) {
+            listEl.innerHTML = '<p style="text-align:center; padding:50px; color:#64748b;">조건에 맞는 문제가 없습니다.</p>';
+            return;
+        }
+
+        listEl.innerHTML = data.map(q => `
             <div class="q-card">
                 <small style="color:#64748b">${q.session} | ${q.subject} | ${q.number}번</small>
                 <div style="font-weight:bold; margin: 10px 0; font-size:1.1em;">${q.question}</div>
-                ${q.image ? `<img src="${q.image}" class="q-image" style="max-width:100%; margin-bottom:10px; border-radius:8px;">` : ''}
+                ${q.image ? `<img src="${q.image}" style="max-width:100%; border-radius:8px; margin-bottom:10px;">` : ''}
                 
-                <div class="options-list" style="display:grid; gap:8px;">
-                    ${q.options ? q.options.map((opt, i) => `
-                        <div style="padding:10px; border:1px solid #eee; border-radius:6px; background:#fafafa;">
-                            ${i + 1}. ${opt}
-                        </div>
-                    `).join('') : '<p>보기가 없는 문제입니다.</p>'}
+                <div class="options-list">
+                    ${q.options.map((opt, i) => `<div class="option-item">${i + 1}. ${opt}</div>`).join('')}
                 </div>
 
-                <button class="btn-ans" onclick="this.nextElementSibling.classList.toggle('show')">정답 확인</button>
-                <div class="ans-section" style="display:none; margin-top:10px; padding:15px; background:#f0fdf4; border-left:4px solid #22c55e;">
+                <button class="btn-ans" onclick="toggleAns(this)">정답 확인</button>
+                <div class="ans-section">
                     <strong>정답: ${q.answer + 1}</strong>
-                    <div style="margin-top:5px; font-size:0.9em;">${q.explanation}</div>
+                    <p style="margin-top:10px; font-size:0.9em; color:#475569;">${q.explanation}</p>
                 </div>
             </div>
         `).join('');
     }
 
-    // 실행 시작
+    function toggleAns(btn) {
+        btn.nextElementSibling.classList.toggle('show');
+    }
+
+    function resetAll() {
+        selectedSessions.clear();
+        selectedSubjects.clear();
+        selectedKeywords.clear();
+        document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+        document.getElementById('keywordInput').value = '';
+        renderChips();
+        processAndRender();
+    }
+
+    // 초기 실행
     loadData();
 </script>
+
 </body>
 </html>
