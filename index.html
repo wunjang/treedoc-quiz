@@ -267,37 +267,37 @@
 
     function renderQuestions(data) {
         const listEl = document.getElementById('questionList');
+        
         if (data.length === 0) {
-            listEl.innerHTML = '<p style="text-align:center; padding:50px;">조건에 맞는 문제가 없습니다.</p>';
+            listEl.innerHTML = '<p style="text-align:center; padding:50px; color:#64748b;">조건에 맞는 문제가 없습니다.</p>';
             return;
         }
 
         listEl.innerHTML = data.map(q => `
-            <div class="q-card" id="card-${q.id}">
-                <small>${q.session} | ${q.subject} | ${q.number}번</small>
-                <div class="q-title" style="font-weight:bold; margin: 10px 0;">${q.question}</div>
+            <div class="q-card">
+                <small style="color:#64748b">${q.session} | ${q.subject} | ${q.number}번</small>
                 
-                ${q.image ? `<img src="images/${q.image}" style="max-width:100%; display:block; margin:10px 0;">` : ''}
+                <div class="q-title" style="font-weight:bold; margin: 10px 0; font-size:1.1em; line-height:1.6;">
+                    ${q.question}
+                </div>
+                
+                ${q.image ? `<img src="images/${q.image}" style="max-width:100%; border-radius:8px; margin-bottom:10px; display:block;">` : ''}
                 
                 <div class="options-list" style="display:grid; gap:8px; margin: 15px 0;">
                     ${q.options.map((opt, i) => `
-                        <div class="option-item" 
-                            onclick="selectOption('${q.id}', ${i})" 
-                            id="opt-${q.id}-${i}"
-                            style="padding:12px; border:1px solid #eee; border-radius:8px; background:#fafafa; cursor:pointer;">
+                        <div style="padding:10px; border:1px solid #eee; border-radius:6px; background:#fafafa; font-size:0.95em;">
                             ${i + 1}. ${opt}
                         </div>
                     `).join('')}
                 </div>
 
-                <button class="btn-ans" onclick="checkAnswer('${q.id}', ${q.answer})" 
-                        style="width:100%; padding:12px; cursor:pointer; background:#3b82f6; color:white; border:none; border-radius:8px; font-weight:bold;">
+                <button class="btn-ans" onclick="this.nextElementSibling.classList.toggle('show')" 
+                        style="width:100%; padding:12px; cursor:pointer; background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; font-weight:bold;">
                     정답 확인
                 </button>
-
-                <div class="ans-section" id="ans-${q.id}" style="display:none; margin-top:12px; padding:15px; border-radius:8px;">
-                    <div class="result-msg" style="font-weight:bold; margin-bottom:5px;"></div>
-                    <strong>정답: ${q.answer + 1}</strong>
+                
+                <div class="ans-section" style="display:none; margin-top:10px; padding:15px; background:#f0fdf4; border-left:4px solid #22c55e; border-radius:8px;">
+                    <strong style="color:#166534;">정답: ${q.answer}</strong>
                     <p style="margin-top:10px; font-size:0.9em; color:#475569;">${q.explanation || '해설이 없습니다.'}</p>
                 </div>
             </div>
