@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "session": "2023-01",
+    "number": 1,
+    "tags": ["네트워크", "프로토콜"],
+    "question": "OSI 7계층 중 전송 계층의 특징으로 옳은 것은?",
+    "image": null,
+    "options": ["물리적 연결 설정", "프로세스 간 신뢰성 있는 전송", "경로 제어(Routing)", "데이터 압축 및 암호화"],
+    "answer": 1,
+    "explanation": "전송 계층(Transport Layer)은 종단 간(End-to-End) 신뢰성 있는 전송을 담당합니다."
+  },
+  {
+    "id": 2,
+    "session": "2023-01",
+    "number": 2,
+    "tags": ["데이터베이스", "SQL"],
+    "question": "다음 중 DDL(Data Definition Language)이 아닌 것은?",
+    "image": "images/5-97.png",
+    "options": ["CREATE", "ALTER", "DROP", "INSERT"],
+    "answer": 3,
+    "explanation": "INSERT는 데이터 조작어(DML)에 해당합니다."
+  },
+  {
+    "id": 3,
+    "session": "2023-02",
+    "number": 10,
+    "tags": ["네트워크", "IP"],
+    "question": "IPv4 주소 체계의 길이는?",
+    "image": null,
+    "options": ["16비트", "32비트", "64비트", "128비트"],
+    "answer": 1,
+    "explanation": "IPv4는 32비트, IPv6는 128비트입니다."
+  }
+]
