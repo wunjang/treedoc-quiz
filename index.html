@@ -220,46 +220,85 @@
         renderQuestions(res);
     }
 
+    // 사용자가 선택한 답을 임시 저장할 객체
+    let userSelections = {};
+
+    // 보기를 클릭했을 때 실행
+    function selectOption(qId, optionIdx) {
+        // 1. 해당 문제의 모든 보기에서 'selected' 스타일 제거
+        const card = document.getElementById(`card-${qId}`);
+        card.querySelectorAll('.option-item').forEach(el => {
+            el.style.background = "#fafafa";
+            el.style.borderColor = "#eee";
+        });
+
+        // 2. 클릭한 보기만 하이라이트
+        const selectedEl = document.getElementById(`opt-${qId}-${optionIdx}`);
+        selectedEl.style.background = "#eff6ff";
+        selectedEl.style.borderColor = "#3b82f6";
+
+        // 3. 선택 값 저장
+        userSelections[qId] = optionIdx;
+    }
+
+    // 정답 확인 버튼을 눌렀을 때 실행
+    function checkAnswer(qId, correctIdx) {
+        const userAns = userSelections[qId];
+        const ansSection = document.getElementById(`ans-${qId}`);
+        const msgEl = ansSection.querySelector('.result-msg');
+
+        if (userAns === undefined) {
+            alert("먼저 답을 선택해 주세요!");
+            return;
+        }
+
+        // 채점 결과에 따른 스타일 변경
+        ansSection.style.display = "block";
+        if (userAns === correctIdx) {
+            msgEl.innerText = "⭕ 정답입니다!";
+            msgEl.style.color = "#166534";
+            ansSection.style.background = "#f0fdf4";
+        } else {
+            msgEl.innerText = "❌ 틀렸습니다. 다시 한번 생각해보세요!";
+            msgEl.style.color = "#991b1b";
+            ansSection.style.background = "#fef2f2";
+        }
+    }
+
     function renderQuestions(data) {
         const listEl = document.getElementById('questionList');
-        
         if (data.length === 0) {
-            listEl.innerHTML = '<p style="text-align:center; padding:50px; color:#64748b;">조건에 맞는 문제가 없습니다.</p>';
+            listEl.innerHTML = '<p style="text-align:center; padding:50px;">조건에 맞는 문제가 없습니다.</p>';
             return;
         }
 
         listEl.innerHTML = data.map(q => `
-            <div class="q-card">
-                <div class="q-meta" style="font-size: 0.85em; color: #64748b; margin-bottom: 8px;">
-                    ${q.session} | ${q.subject} | ${q.number}번
-                </div>
+            <div class="q-card" id="card-${q.id}">
+                <small>${q.session} | ${q.subject} | ${q.number}번</small>
+                <div class="q-title" style="font-weight:bold; margin: 10px 0;">${q.question}</div>
                 
-                <div class="q-title" style="font-weight:bold; margin-bottom: 15px; font-size:1.1em; line-height:1.6;">
-                    ${q.question}
-                </div>
+                ${q.image ? `<img src="images/${q.image}" style="max-width:100%; display:block; margin:10px 0;">` : ''}
                 
-                ${q.image ? `
-                    <div class="q-image-container" style="margin: 15px 0;">
-                        <img src="images/${q.image}" alt="문제 이미지" 
-                            style="max-width:100%; height:auto; border: 1px solid #eee; border-radius:8px; display:block;">
-                    </div>
-                ` : ''}
-                
-                <div class="options-list" style="display:grid; gap:10px; margin: 20px 0;">
+                <div class="options-list" style="display:grid; gap:8px; margin: 15px 0;">
                     ${q.options.map((opt, i) => `
-                        <div class="option-item" style="padding:12px; border:1px solid #e2e8f0; border-radius:8px; background:#fcfcfc; font-size:0.95em;">
-                            <span style="font-weight:bold; margin-right:8px;">${i + 1}.</span> ${opt}
+                        <div class="option-item" 
+                            onclick="selectOption('${q.id}', ${i})" 
+                            id="opt-${q.id}-${i}"
+                            style="padding:12px; border:1px solid #eee; border-radius:8px; background:#fafafa; cursor:pointer;">
+                            ${i + 1}. ${opt}
                         </div>
                     `).join('')}
                 </div>
 
-                <button class="btn-ans" onclick="this.nextElementSibling.classList.toggle('show')" 
-                        style="width:100%; padding:12px; cursor:pointer; background:#fff; border:1px solid #cbd5e1; border-radius:8px; font-weight:bold; color:#475569;">
+                <button class="btn-ans" onclick="checkAnswer('${q.id}', ${q.answer})" 
+                        style="width:100%; padding:12px; cursor:pointer; background:#3b82f6; color:white; border:none; border-radius:8px; font-weight:bold;">
                     정답 확인
                 </button>
-                <div class="ans-section" style="display:none; margin-top:12px; padding:15px; background:#f0fdf4; border-left:4px solid #22c55e; border-radius:8px;">
-                    <div style="color:#166534; font-weight:bold; margin-bottom:5px;">정답: ${q.answer + 1}</div>
-                    <div style="font-size:0.9em; color:#475569; line-height:1.5;">${q.explanation || '해설이 등록되지 않았습니다.'}</div>
+
+                <div class="ans-section" id="ans-${q.id}" style="display:none; margin-top:12px; padding:15px; border-radius:8px;">
+                    <div class="result-msg" style="font-weight:bold; margin-bottom:5px;"></div>
+                    <strong>정답: ${q.answer + 1}</strong>
+                    <p style="margin-top:10px; font-size:0.9em; color:#475569;">${q.explanation || '해설이 없습니다.'}</p>
                 </div>
             </div>
         `).join('');
