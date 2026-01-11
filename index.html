@@ -221,13 +221,42 @@
     }
 
     function renderQuestions(data) {
-    document.getElementById('questionList').innerHTML = data.map(q => `
-        <div class="q-card">
-            <div style="font-weight:bold; margin: 10px 0;" class="q-title">
-                ${q.question} </div>
+        const listEl = document.getElementById('questionList');
+        
+        if (data.length === 0) {
+            listEl.innerHTML = '<p style="text-align:center; padding:50px; color:#64748b;">조건에 맞는 문제가 없습니다.</p>';
+            return;
+        }
+
+        listEl.innerHTML = data.map(q => `
+            <div class="q-card">
+                <small style="color:#64748b">${q.session} | ${q.subject} | ${q.number}번</small>
+                
+                <div class="q-title" style="font-weight:bold; margin: 10px 0; font-size:1.1em; line-height:1.6;">
+                    ${q.question}
+                </div>
+                
+                ${q.image ? `<img src="images/${q.image}" style="max-width:100%; border-radius:8px; margin-bottom:10px; display:block;">` : ''}
+                
+                <div class="options-list" style="display:grid; gap:8px; margin: 15px 0;">
+                    ${q.options.map((opt, i) => `
+                        <div style="padding:10px; border:1px solid #eee; border-radius:6px; background:#fafafa; font-size:0.95em;">
+                            ${i + 1}. ${opt}
+                        </div>
+                    `).join('')}
+                </div>
+
+                <button class="btn-ans" onclick="this.nextElementSibling.classList.toggle('show')" 
+                        style="width:100%; padding:10px; cursor:pointer; background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; font-weight:bold;">
+                    정답 확인
+                </button>
+                <div class="ans-section" style="display:none; margin-top:10px; padding:15px; background:#f0fdf4; border-left:4px solid #22c55e; border-radius:8px;">
+                    <strong>정답: ${q.answer + 1}</strong>
+                    <p style="margin-top:10px; font-size:0.9em; color:#475569;">${q.explanation || '해설이 없습니다.'}</p>
+                </div>
             </div>
-    `).join('');
-}
+        `).join('');
+    }
 
     function resetAll() {
         selectedSessions.clear(); selectedSubjects.clear(); selectedKeywords.clear();
