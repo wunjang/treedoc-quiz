@@ -2,34 +2,121 @@
   {
     "id": 1,
     "session": "2023-01",
-    "number": 1,
-    "tags": ["네트워크", "프로토콜"],
-    "question": "OSI 7계층 중 전송 계층의 특징으로 옳은 것은?",
+    "subject": "운영체제",
+    "tags": ["스케줄링", "HRN", "우선순위"],
+    "question": "HRN(Highest Response-ratio Next) 스케줄링 방식에서 우선순위를 결정하는 계산식으로 옳은 것은?",
     "image": null,
-    "options": ["물리적 연결 설정", "프로세스 간 신뢰성 있는 전송", "경로 제어(Routing)", "데이터 압축 및 암호화"],
-    "answer": 1,
-    "explanation": "전송 계층(Transport Layer)은 종단 간(End-to-End) 신뢰성 있는 전송을 담당합니다."
+    "options": [
+      "(대기시간 + 서비스시간) / 서비스시간",
+      "(대기시간 + 서비스시간) / 대기시간",
+      "대기시간 / 서비스시간",
+      "서비스시간 / 대기시간"
+    ],
+    "answer": 0,
+    "explanation": "HRN 우선순위 = (대기시간 + 서비스시간) / 서비스시간입니다. 값이 클수록 우선순위가 높습니다."
   },
   {
     "id": 2,
     "session": "2023-01",
-    "number": 2,
-    "tags": ["데이터베이스", "SQL"],
-    "question": "다음 중 DDL(Data Definition Language)이 아닌 것은?",
-    "image": "images/5-97.png",
-    "options": ["CREATE", "ALTER", "DROP", "INSERT"],
-    "answer": 3,
-    "explanation": "INSERT는 데이터 조작어(DML)에 해당합니다."
+    "subject": "데이터베이스",
+    "tags": ["SQL", "DML", "SELECT"],
+    "question": "SQL의 SELECT문에서 중복된 값을 제거하여 출력하기 위해 사용되는 키워드는?",
+    "image": null,
+    "options": ["DISTINCT", "UNIQUE", "GROUP BY", "ORDER BY"],
+    "answer": 0,
+    "explanation": "DISTINCT 키워드는 검색 결과에서 중복된 행을 제거합니다."
   },
   {
     "id": 3,
-    "session": "2023-02",
-    "number": 10,
-    "tags": ["네트워크", "IP"],
-    "question": "IPv4 주소 체계의 길이는?",
+    "session": "2023-01",
+    "subject": "네트워크",
+    "tags": ["OSI7계층", "전송계층", "TCP"],
+    "question": "OSI 7계층 중 종단 간(End-to-End)의 에러 교정 및 흐름 제어를 담당하는 계층은?",
     "image": null,
-    "options": ["16비트", "32비트", "64비트", "128비트"],
+    "options": ["데이터 링크 계층", "네트워크 계층", "전송 계층", "세션 계층"],
+    "answer": 2,
+    "explanation": "전송 계층(Transport Layer)은 신뢰성 있는 통신을 보장하기 위해 흐름 제어, 오류 제어 등을 수행합니다."
+  },
+  {
+    "id": 4,
+    "session": "2023-02",
+    "subject": "소프트웨어공학",
+    "tags": ["디자인패턴", "생성패턴", "싱글톤"],
+    "question": "클래스의 인스턴스가 오직 하나만 생성됨을 보장하는 디자인 패턴은?",
+    "image": null,
+    "options": ["Factory Method", "Singleton", "Adapter", "Observer"],
     "answer": 1,
-    "explanation": "IPv4는 32비트, IPv6는 128비트입니다."
+    "explanation": "싱글톤(Singleton) 패턴은 특정 클래스의 인스턴스를 하나만 유지하도록 합니다."
+  },
+  {
+    "id": 5,
+    "session": "2023-02",
+    "subject": "정보보안",
+    "tags": ["암호화", "공개키", "RSA"],
+    "question": "다음 중 비대칭 암호화 알고리즘에 해당하는 것은?",
+    "image": null,
+    "options": ["DES", "AES", "RSA", "SEED"],
+    "answer": 2,
+    "explanation": "RSA는 대표적인 공개키(비대칭키) 암호화 알고리즘입니다."
+  },
+  {
+    "id": 6,
+    "session": "2024-01",
+    "subject": "데이터베이스",
+    "tags": ["정규화", "이상현상", "이미지테스트"],
+    "question": "다음 그림의 릴레이션에서 학번 200이 자퇴할 경우 이름 '김철수' 정보까지 삭제되는 이상(Anomaly) 현상은?",
+    "image": "images/5-100.png",
+    "options": ["삽입 이상", "삭제 이상", "갱신 이상", "정규화 이상"],
+    "answer": 1,
+    "explanation": "삭제 이상은 연쇄 삭제로 인해 보관해야 할 정보까지 함께 삭제되는 현상입니다."
+  },
+  {
+    "id": 7,
+    "session": "2024-01",
+    "subject": "운영체제",
+    "tags": ["가상메모리", "페이지교체", "LRU"],
+    "question": "가상 메모리 관리에서 최근에 가장 오랫동안 사용되지 않은 페이지를 교체하는 기법은?",
+    "image": null,
+    "options": ["FIFO", "LRU", "LFU", "OPT"],
+    "answer": 1,
+    "explanation": "LRU(Least Recently Used)는 가장 최근에 쓰이지 않은 페이지를 교체합니다."
+  },
+  {
+    "id": 8,
+    "session": "2024-02",
+    "subject": "네트워크",
+    "tags": ["IP", "IPv6", "주소체계"],
+    "question": "IPv6 주소 체계에 대한 설명으로 틀린 것은?",
+    "image": null,
+    "options": [
+      "128비트 주소 체계이다.",
+      "유니캐스트, 멀티캐스트, 애니캐스트를 지원한다.",
+      "각 부분은 마침표(.)로 구분한다.",
+      "주소의 자동 설정 기능이 있다."
+    ],
+    "answer": 2,
+    "explanation": "IPv6는 콜론(:)으로 구분하며, IPv4가 마침표(.)를 사용합니다."
+  },
+  {
+    "id": 9,
+    "session": "2024-02",
+    "subject": "정보보안",
+    "tags": ["인증", "생체인식", "보안"],
+    "question": "사용자의 신체적 특성이나 행동적 특성을 이용하여 신원을 확인하는 기술은?",
+    "image": null,
+    "options": ["OTP", "Biometrics", "PKI", "SSO"],
+    "answer": 1,
+    "explanation": "생체 인식(Biometrics)은 지문, 홍채 등 신체 특성을 인증에 활용합니다."
+  },
+  {
+    "id": 10,
+    "session": "2024-02",
+    "subject": "소프트웨어공학",
+    "tags": ["테스트", "화이트박스", "블랙박스"],
+    "question": "소프트웨어의 내부 구조나 소스 코드를 보지 않고 기능의 유효성을 테스트하는 기법은?",
+    "image": null,
+    "options": ["White Box Test", "Black Box Test", "Unit Test", "Integration Test"],
+    "answer": 1,
+    "explanation": "블랙박스 테스트는 입력에 따른 출력 결과만을 확인하는 기능 테스트 기법입니다."
   }
 ]
