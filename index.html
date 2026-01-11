@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기출문제 스마트 뷰어</title>
+    <style>
+        :root { --primary-color: #4a90e2; --bg-color: #f5f7fa; }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg-color); margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        
+        /* 컨트롤 섹션 */
+        .controls { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; position: sticky; top: 10px; z-index: 100; }
+        .tag-container { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+        .tag { padding: 5px 12px; background: #e0e6ed; border-radius: 20px; cursor: pointer; font-size: 0.9em; transition: 0.2s; }
+        .tag.active { background: var(--primary-color); color: white; }
+        
+        /* 문제 카드 */
+        .q-card { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .q-header { color: #666; font-size: 0.85em; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        .q-text { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; line-height: 1.5; }
+        .q-image { max-width: 100%; border-radius: 8px; margin-bottom: 15px; border: 1px solid #eee; }
+        .options { display: grid; gap: 10px; }
+        .opt { padding: 12px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; }
+        .opt:hover { background: #f0f7ff; }
+        
+        /* 정답/해설 영역 */
+        .answer-box { margin-top: 15px; padding: 15px; background: #f0fff4; border-radius: 8px; border-left: 5px solid #48bb78; display: none; }
+        .answer-box.visible { display: block; }
+        
+        .btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .btn-toggle { background: #4a90e2; color: white; width: 100%; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="controls">
+        <h2>📝 기출문제 공부방</h2>
+        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+            <select id="sortOrder" onchange="renderQuestions()">
+                <option value="asc">회차/번호순 ↑</option>
+                <option value="desc">회차/번호순 ↓</option>
+            </select>
+            <button class="btn" onclick="toggleAllAnswers()">정답 모두 보기/가리기</button>
+        </div>
+        <div class="tag-container" id="tagList">
+            </div>
+    </div>
+
+    <div id="questionList">
+        </div>
+</div>
+
+<script>
+    // 실제로는 fetch('data.json')으로 가져올 데이터
+    const mockData = [
+        { id: 1, session: "2023-01", number: 1, tags: ["네트워크", "OSI"], question: "OSI 7계층 중 전송 계층의 프로토콜은?", image: null, options: ["HTTP", "TCP", "IP", "Ethernet"], answer: 1, explanation: "TCP와 UDP는 4계층(전송) 프로토콜입니다." },
+        { id: 2, session: "2023-01", number: 2, tags: ["DB", "SQL"], question: "SQL에서 데이터 삭제 명령어는?", image: "https://via.placeholder.com/400x150?text=Sample+Image", options: ["DELETE", "REMOVE", "DROP", "TRUNCATE"], answer: 0, explanation: "DELETE는 행을 삭제하는 DML입니다." },
+        { id: 3, session: "2022-03", number: 5, tags: ["네트워크", "IP"], question: "IPv6의 비트 수는?", image: null, options: ["32비트", "64비트", "128비트", "256비트"], answer: 2, explanation: "IPv6는 128비트 주소 체계를 가집니다." }
+    ];
+
+    let currentTag = '전체';
+    let showAllAnswers = false;
+
+    // 초기화
+    function init() {
+        renderTags();
+        renderQuestions();
+    }
+
+    // 태그 목록 렌더링
+    function renderTags() {
+        const tags = ['전체', ...new Set(mockData.flatMap(q => q.tags))];
+        const tagList = document.getElementById('tagList');
+        tagList.innerHTML = tags.map(tag => 
+            `<span class="tag ${tag === currentTag ? 'active' : ''}" onclick="filterByTag('${tag}')">${tag}</span>`
+        ).join('');
+    }
+
+    function filterByTag(tag) {
+        currentTag = tag;
+        renderTags();
+        renderQuestions();
+    }
+
+    function toggleAllAnswers() {
+        showAllAnswers = !showAllAnswers;
+        renderQuestions();
+    }
+
+    // 문제 리스트 렌더링
+    function renderQuestions() {
+        const listElement = document.getElementById('questionList');
+        const sortOrder = document.getElementById('sortOrder').value;
+
+        let filtered = currentTag === '전체' 
+            ? [...mockData] 
+            : mockData.filter(q => q.tags.includes(currentTag));
+
+        // 정렬: 회차 -> 번호 순
+        filtered.sort((a, b) => {
+            const res = a.session.localeCompare(b.session);
+            return sortOrder === 'asc' ? (res || a.number - b.number) : -(res || a.number - b.number);
+        });
+
+        listElement.innerHTML = filtered.map(q => `
+            <div class="q-card">
+                <div class="q-header">
+                    <span>${q.session}회차 | ${q.number}번</span>
+                    <span>${q.tags.join(', ')}</span>
+                </div>
+                <div class="q-text">${q.question}</div>
+                ${q.image ? `<img src="${q.image}" class="q-image">` : ''}
+                <div class="options">
+                    ${q.options.map((opt, i) => `<div class="opt">${i+1}. ${opt}</div>`).join('')}
+                </div>
+                <button class="btn btn-toggle" onclick="this.nextElementSibling.classList.toggle('visible')">정답 확인</button>
+                <div class="answer-box ${showAllAnswers ? 'visible' : ''}">
+                    <strong>정답: ${q.answer + 1}</strong><br>
+                    <small>${q.explanation}</small>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    init();
+</script>
+</body>
+</html>
