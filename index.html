@@ -75,6 +75,25 @@
         /* 화살표 아이콘 */
         .arrow { transition: transform 0.3s; }
         .collapsed .arrow { transform: rotate(-180deg); }
+
+        /* 문제 내부에 포함된 <보기> 박스 스타일 */
+        .inner-box {
+            background-color: #ffffff;
+            border: 1px dashed #444; /* 점선 테두리 */
+            padding: 12px 15px;
+            margin: 10px 0;
+            font-size: 0.95em;
+            line-height: 1.7;
+            border-radius: 4px;
+            display: block;
+            word-break: keep-all; /* 단어 단위 줄바꿈 */
+        }
+
+        /* 박스 안의 항목(ㄱ, ㄴ, ㄷ) 강조 */
+        .inner-box b {
+            color: var(--primary);
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -202,19 +221,13 @@
     }
 
     function renderQuestions(data) {
-        document.getElementById('questionList').innerHTML = data.map(q => `
-            <div class="q-card">
-                <small>${q.session} | ${q.subject} | ${q.number}번</small>
-                <div style="font-weight:bold; margin: 10px 0;">${q.question}</div>
-                ${q.image ? `<img src="${q.image}" style="max-width:100%; display:block; margin:10px 0;">` : ''}
-                <div style="display:grid; gap:8px;">
-                    ${q.options.map((o, i) => `<div style="padding:10px; background:#f8fafc; border:1px solid #eee; border-radius:6px; font-size:0.9em;">${i+1}. ${o}</div>`).join('')}
-                </div>
-                <button class="btn-ans" onclick="this.nextElementSibling.classList.toggle('show')">정답 확인</button>
-                <div class="ans-section"><strong>정답: ${q.answer + 1}</strong><p>${q.explanation}</p></div>
+    document.getElementById('questionList').innerHTML = data.map(q => `
+        <div class="q-card">
+            <div style="font-weight:bold; margin: 10px 0;" class="q-title">
+                ${q.question} </div>
             </div>
-        `).join('');
-    }
+    `).join('');
+}
 
     function resetAll() {
         selectedSessions.clear(); selectedSubjects.clear(); selectedKeywords.clear();
