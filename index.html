@@ -230,29 +230,36 @@
 
         listEl.innerHTML = data.map(q => `
             <div class="q-card">
-                <small style="color:#64748b">${q.session} | ${q.subject} | ${q.number}번</small>
+                <div class="q-meta" style="font-size: 0.85em; color: #64748b; margin-bottom: 8px;">
+                    ${q.session} | ${q.subject} | ${q.number}번
+                </div>
                 
-                <div class="q-title" style="font-weight:bold; margin: 10px 0; font-size:1.1em; line-height:1.6;">
+                <div class="q-title" style="font-weight:bold; margin-bottom: 15px; font-size:1.1em; line-height:1.6;">
                     ${q.question}
                 </div>
                 
-                ${q.image ? `<img src="images/${q.image}" style="max-width:100%; border-radius:8px; margin-bottom:10px; display:block;">` : ''}
+                ${q.image ? `
+                    <div class="q-image-container" style="margin: 15px 0;">
+                        <img src="images/${q.image}" alt="문제 이미지" 
+                            style="max-width:100%; height:auto; border: 1px solid #eee; border-radius:8px; display:block;">
+                    </div>
+                ` : ''}
                 
-                <div class="options-list" style="display:grid; gap:8px; margin: 15px 0;">
+                <div class="options-list" style="display:grid; gap:10px; margin: 20px 0;">
                     ${q.options.map((opt, i) => `
-                        <div style="padding:10px; border:1px solid #eee; border-radius:6px; background:#fafafa; font-size:0.95em;">
-                            ${i + 1}. ${opt}
+                        <div class="option-item" style="padding:12px; border:1px solid #e2e8f0; border-radius:8px; background:#fcfcfc; font-size:0.95em;">
+                            <span style="font-weight:bold; margin-right:8px;">${i + 1}.</span> ${opt}
                         </div>
                     `).join('')}
                 </div>
 
                 <button class="btn-ans" onclick="this.nextElementSibling.classList.toggle('show')" 
-                        style="width:100%; padding:10px; cursor:pointer; background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; font-weight:bold;">
+                        style="width:100%; padding:12px; cursor:pointer; background:#fff; border:1px solid #cbd5e1; border-radius:8px; font-weight:bold; color:#475569;">
                     정답 확인
                 </button>
-                <div class="ans-section" style="display:none; margin-top:10px; padding:15px; background:#f0fdf4; border-left:4px solid #22c55e; border-radius:8px;">
-                    <strong>정답: ${q.answer + 1}</strong>
-                    <p style="margin-top:10px; font-size:0.9em; color:#475569;">${q.explanation || '해설이 없습니다.'}</p>
+                <div class="ans-section" style="display:none; margin-top:12px; padding:15px; background:#f0fdf4; border-left:4px solid #22c55e; border-radius:8px;">
+                    <div style="color:#166534; font-weight:bold; margin-bottom:5px;">정답: ${q.answer + 1}</div>
+                    <div style="font-size:0.9em; color:#475569; line-height:1.5;">${q.explanation || '해설이 등록되지 않았습니다.'}</div>
                 </div>
             </div>
         `).join('');
