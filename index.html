@@ -76,23 +76,24 @@
         .arrow { transition: transform 0.3s; }
         .collapsed .arrow { transform: rotate(-180deg); }
 
-        /* 문제 내부에 포함된 <보기> 박스 스타일 */
+        /* 파서가 생성하는 <보기> 박스 스타일 */
         .inner-box {
             background-color: #f9f9f9;
             border: 1px dashed #555;
             padding: 15px;
-            margin: 12px 0;
-            font-size: 0.92em;
-            line-height: 1.8; /* 가독성을 위해 줄간격을 넓힘 */
-            border-radius: 5px;
+            margin: 15px 0;
+            font-size: 0.95em;
+            line-height: 1.8;
+            border-radius: 6px;
             color: #333;
-            text-align: left;
+            word-break: keep-all;
         }
 
-        /* 박스 안의 항목(ㄱ, ㄴ, ㄷ) 강조 */
+        /* 박스 내 강조 텍스트 */
         .inner-box b {
-            color: var(--primary);
-            margin-right: 5px;
+            color: #3b82f6;
+            display: block;
+            margin-bottom: 5px;
         }
     </style>
 </head>
@@ -274,31 +275,34 @@
         }
 
         listEl.innerHTML = data.map(q => `
-            <div class="q-card">
+            <div class="q-card" style="background:white; padding:20px; border-radius:12px; margin-bottom:20px; border:1px solid #e2e8f0;">
                 <small style="color:#64748b">${q.session} | ${q.subject} | ${q.number}번</small>
                 
-                <div class="q-title" style="font-weight:bold; margin: 10px 0; font-size:1.1em; line-height:1.6;">
+                <div class="q-title" style="font-weight:bold; margin: 15px 0; font-size:1.1em; line-height:1.6;">
                     ${q.question}
                 </div>
                 
-                ${q.image ? `<img src="images/${q.image}" style="max-width:100%; border-radius:8px; margin-bottom:10px; display:block;">` : ''}
+                ${q.image ? `<img src="images/${q.image}" style="max-width:100%; border-radius:8px; margin-bottom:15px; display:block;">` : ''}
                 
-                <div class="options-list" style="display:grid; gap:8px; margin: 15px 0;">
+                <div class="options-list" style="display:grid; gap:8px; margin: 20px 0;">
                     ${q.options.map((opt, i) => `
-                        <div style="padding:10px; border:1px solid #eee; border-radius:6px; background:#fafafa; font-size:0.95em;">
-                            ${i + 1}. ${opt}
+                        <div style="padding:12px; border:1px solid #f1f5f9; border-radius:8px; background:#fafafa; font-size:0.95em;">
+                            <span style="font-weight:bold; margin-right:5px;">${i + 1}.</span> ${opt}
                         </div>
                     `).join('')}
                 </div>
 
-                <button class="btn-ans" onclick="this.nextElementSibling.classList.toggle('show')" 
-                        style="width:100%; padding:12px; cursor:pointer; background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; font-weight:bold;">
+                <button class="btn-ans" 
+                        onclick="const target = this.nextElementSibling; target.style.display = (target.style.display === 'block') ? 'none' : 'block';" 
+                        style="width:100%; padding:12px; cursor:pointer; background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; font-weight:bold; color:#444;">
                     정답 확인
                 </button>
                 
-                <div class="ans-section" style="display:none; margin-top:10px; padding:15px; background:#f0fdf4; border-left:4px solid #22c55e; border-radius:8px;">
-                    <strong style="color:#166534;">정답: ${q.answer}</strong>
-                    <p style="margin-top:10px; font-size:0.9em; color:#475569;">${q.explanation || '해설이 없습니다.'}</p>
+                <div class="ans-section" style="display:none; margin-top:12px; padding:15px; background:#f0fdf4; border-left:4px solid #22c55e; border-radius:8px;">
+                    <div style="font-weight:bold; color:#166534; font-size:1.1em;">정답: ${q.answer}</div>
+                    <p style="margin-top:10px; font-size:0.95em; color:#475569; line-height:1.6;">
+                        ${q.explanation || '해설이 등록되지 않았습니다.'}
+                    </p>
                 </div>
             </div>
         `).join('');
