@@ -62,6 +62,19 @@
         .arrow { transition: transform 0.3s; }
         .collapsed .arrow { transform: rotate(-180deg); }
 
+        .inner-box {
+            background-color: #f9f9f9;
+            border: 1px dashed #555;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.95em;
+            line-height: 1.8;
+            border-radius: 6px;
+            color: #333;
+            word-break: keep-all;
+        }
+        .inner-box b { color: #3b82f6; display: block; margin-bottom: 5px; }
+
         /* TOP 버튼 */
         #btnTop {
             position: fixed;
@@ -203,21 +216,47 @@
         listEl.innerHTML = data.map(q => `
             <div class="q-card">
                 <small style="color:#64748b">${q.session} | ${q.subject} | ${q.number}번</small>
-                <div class="q-title" style="font-weight:bold; margin: 15px 0; font-size:1.1em; line-height:1.6;">${q.question}</div>
+                
+                <div class="q-title" style="font-weight:bold; margin: 15px 0; font-size:1.1em; line-height:1.6;">
+                    ${q.question}
+                </div>
+
+                ${q.box ? `<div class="inner-box">${q.box}</div>` : ''}
+
                 ${q.tableData ? `
                     <table class="quiz-table">
                         ${q.tableData.map((row, rowIndex) => `
-                            <tr>${row.map(cell => `<${rowIndex === 0 ? 'th' : 'td'}>${cell}</${rowIndex === 0 ? 'th' : 'td'}>`).join('')}</tr>
+                            <tr>
+                                ${row.map(cell => `
+                                    <${rowIndex === 0 ? 'th' : 'td'}>
+                                        ${cell}
+                                    </${rowIndex === 0 ? 'th' : 'td'}>
+                                `).join('')}
+                            </tr>
                         `).join('')}
-                    </table>` : ''}
+                    </table>
+                ` : ''}
+                
                 ${q.image ? `<img src="images/${q.image}" style="max-width:100%; border-radius:8px; margin-bottom:15px; display:block;">` : ''}
+                
                 <div class="options-list" style="display:grid; gap:8px; margin: 20px 0;">
-                    ${q.options.map((opt, i) => `<div style="padding:12px; border:1px solid #f1f5f9; border-radius:8px; background:#fafafa; font-size:0.95em;"><span style="font-weight:bold; margin-right:5px;">${i + 1}.</span> ${opt}</div>`).join('')}
+                    ${q.options.map((opt, i) => `
+                        <div style="padding:12px; border:1px solid #f1f5f9; border-radius:8px; background:#fafafa; font-size:0.95em;">
+                            <span style="font-weight:bold; margin-right:5px;">${i + 1}.</span> ${opt}
+                        </div>
+                    `).join('')}
                 </div>
-                <button class="btn-ans" onclick="toggleAns(this)">정답 확인</button>
+
+                <button class="btn-ans" 
+                        onclick="const target = this.nextElementSibling; target.style.display = (target.style.display === 'block') ? 'none' : 'block';">
+                    정답 확인
+                </button>
+                
                 <div class="ans-section">
                     <div style="font-weight:bold; color:#166534; font-size:1.1em;">정답: ${q.answer}</div>
-                    <p style="margin-top:10px; font-size:0.95em; color:#475569; line-height:1.6;">${q.explanation || ''}</p>
+                    <p style="margin-top:10px; font-size:0.95em; color:#475569; line-height:1.6;">
+                        ${q.explanation || ''}
+                    </p>
                 </div>
             </div>
         `).join('');
