@@ -283,63 +283,59 @@
     }
 
     function renderQuestions(data) {
-        const quizContainer = document.getElementById('quiz-container');
-        if (!quizContainer || !data) return;
-
-        quizContainer.innerHTML = '';
-
-        // 1. 문제 텍스트 (question)
-        const questionText = document.createElement('div');
-        questionText.className = 'question-text';
-        // 문제 번호는 전역 변수나 별도 로직이 필요할 수 있으나, 기본 텍스트를 출력합니다.
-        questionText.innerText = data.question;
-        quizContainer.appendChild(questionText);
-
-        // 2. 표 데이터 (tableData) 처리 [핵심 추가 기능]
-        if (data.tableData && Array.isArray(data.tableData)) {
-            const table = document.createElement('table');
-            table.className = 'quiz-table';
-
-            data.tableData.forEach((row, rowIndex) => {
-                const tr = document.createElement('tr');
-                row.forEach(cellData => {
-                    // 첫 행은 제목행(th)으로, 나머지는 데이터행(td)으로 생성
-                    const cell = document.createElement(rowIndex === 0 ? 'th' : 'td');
-                    cell.textContent = cellData;
-                    tr.appendChild(cell);
-                });
-                table.appendChild(tr);
-            });
-            quizContainer.appendChild(table);
+        const listEl = document.getElementById('questionList');
+        
+        if (data.length === 0) {
+            listEl.innerHTML = '<p style="text-align:center; padding:50px; color:#64748b;">조건에 맞는 문제가 없습니다.</p>';
+            return;
         }
 
-        // 3. 이미지 (image)가 있다면 추가 
-        if (data.image) {
-            const img = document.createElement('img');
-            img.src = `images/${data.image}`;
-            img.className = 'question-image';
-            quizContainer.appendChild(img);
-        }
+        listEl.innerHTML = data.map(q => `
+            <div class="q-card" style="background:white; padding:20px; border-radius:12px; margin-bottom:20px; border:1px solid #e2e8f0;">
+                <small style="color:#64748b">${q.session} | ${q.subject} | ${q.number}번</small>
+                
+                <div class="q-title" style="font-weight:bold; margin: 15px 0; font-size:1.1em; line-height:1.6;">
+                    ${q.question}
+                </div>
 
-        // 4. 보기 버튼 생성 (options) 
-        const optionsContainer = document.createElement('div');
-        optionsContainer.className = 'options-container';
+                ${q.tableData ? `
+                    <table class="quiz-table" style="width:100%; border-collapse:collapse; margin-bottom:15px; font-size:0.9em;">
+                        ${q.tableData.map((row, rowIndex) => `
+                            <tr>
+                                ${row.map(cell => `
+                                    <${rowIndex === 0 ? 'th' : 'td'} style="border:1px solid #e2e8f0; padding:8px; text-align:center; ${rowIndex === 0 ? 'background:#f8fafc; font-weight:bold;' : ''}">
+                                        ${cell}
+                                    </${rowIndex === 0 ? 'th' : 'td'}>
+                                `).join('')}
+                            </tr>
+                        `).join('')}
+                    </table>
+                ` : ''}
+                
+                ${q.image ? `<img src="images/${q.image}" style="max-width:100%; border-radius:8px; margin-bottom:15px; display:block;">` : ''}
+                
+                <div class="options-list" style="display:grid; gap:8px; margin: 20px 0;">
+                    ${q.options.map((opt, i) => `
+                        <div style="padding:12px; border:1px solid #f1f5f9; border-radius:8px; background:#fafafa; font-size:0.95em;">
+                            <span style="font-weight:bold; margin-right:5px;">${i + 1}.</span> ${opt}
+                        </div>
+                    `).join('')}
+                </div>
 
-        data.options.forEach((option, index) => {
-            const button = document.createElement('button');
-            button.className = 'option-btn';
-            button.innerText = option;
-            
-            // 정답 확인 로직 (기존 checkAnswer 함수 호출) 
-            button.onclick = () => {
-                if (typeof checkAnswer === 'function') {
-                    checkAnswer(index, data.answer, data.explanation);
-                }
-            };
-            optionsContainer.appendChild(button);
-        });
-
-        quizContainer.appendChild(optionsContainer);
+                <button class="btn-ans" 
+                        onclick="const target = this.nextElementSibling; target.style.display = (target.style.display === 'block') ? 'none' : 'block';" 
+                        style="width:100%; padding:12px; cursor:pointer; background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; font-weight:bold; color:#444;">
+                    정답 확인
+                </button>
+                
+                <div class="ans-section" style="display:none; margin-top:12px; padding:15px; background:#f0fdf4; border-left:4px solid #22c55e; border-radius:8px;">
+                    <div style="font-weight:bold; color:#166534; font-size:1.1em;">정답: ${q.answer}</div>
+                    <p style="margin-top:10px; font-size:0.95em; color:#475569; line-height:1.6;">
+                        ${q.explanation || '해설이 등록되지 않았습니다.'}
+                    </p>
+                </div>
+            </div>
+        `).join('');
     }
 
     function resetAll() {
