@@ -283,18 +283,19 @@
     }
 
     function renderQuestions(data) {
-        // 1. 컨테이너 초기화 (ID가 'quiz-container'라고 가정)
-        const container = document.getElementById('quiz-container');
-        if (!container) return;
-        container.innerHTML = '';
+        const quizContainer = document.getElementById('quiz-container');
+        if (!quizContainer || !data) return;
 
-        // 2. 문제 텍스트 (question)
-        const qText = document.createElement('div');
-        qText.className = 'question-text';
-        qText.innerText = data.question;
-        container.appendChild(qText);
+        quizContainer.innerHTML = '';
 
-        // 3. 표 데이터 (tableData) 처리 - 새로 추가된 로직
+        // 1. 문제 텍스트 (question)
+        const questionText = document.createElement('div');
+        questionText.className = 'question-text';
+        // 문제 번호는 전역 변수나 별도 로직이 필요할 수 있으나, 기본 텍스트를 출력합니다.
+        questionText.innerText = data.question;
+        quizContainer.appendChild(questionText);
+
+        // 2. 표 데이터 (tableData) 처리 [핵심 추가 기능]
         if (data.tableData && Array.isArray(data.tableData)) {
             const table = document.createElement('table');
             table.className = 'quiz-table';
@@ -302,43 +303,43 @@
             data.tableData.forEach((row, rowIndex) => {
                 const tr = document.createElement('tr');
                 row.forEach(cellData => {
-                    // 첫 번째 행은 th, 나머지는 td
+                    // 첫 행은 제목행(th)으로, 나머지는 데이터행(td)으로 생성
                     const cell = document.createElement(rowIndex === 0 ? 'th' : 'td');
                     cell.textContent = cellData;
                     tr.appendChild(cell);
                 });
                 table.appendChild(tr);
             });
-            container.appendChild(table);
+            quizContainer.appendChild(table);
         }
 
-        // 4. 이미지 (image)가 있다면 추가
+        // 3. 이미지 (image)가 있다면 추가 
         if (data.image) {
             const img = document.createElement('img');
             img.src = `images/${data.image}`;
             img.className = 'question-image';
-            container.appendChild(img);
+            quizContainer.appendChild(img);
         }
 
-        // 5. 보기 (options) 버튼 생성
-        const optionsDiv = document.createElement('div');
-        optionsDiv.className = 'options-container';
+        // 4. 보기 버튼 생성 (options) 
+        const optionsContainer = document.createElement('div');
+        optionsContainer.className = 'options-container';
 
-        data.options.forEach((text, index) => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.innerText = text;
+        data.options.forEach((option, index) => {
+            const button = document.createElement('button');
+            button.className = 'option-btn';
+            button.innerText = option;
             
-            // 클릭 시 정답 여부 확인 (기존 checkAnswer 함수 호출)
-            btn.onclick = () => {
+            // 정답 확인 로직 (기존 checkAnswer 함수 호출) 
+            button.onclick = () => {
                 if (typeof checkAnswer === 'function') {
                     checkAnswer(index, data.answer, data.explanation);
                 }
             };
-            optionsDiv.appendChild(btn);
+            optionsContainer.appendChild(button);
         });
 
-        container.appendChild(optionsDiv);
+        quizContainer.appendChild(optionsContainer);
     }
 
     function resetAll() {
