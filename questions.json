@@ -142,7 +142,7 @@
     "options": [
       "산성 토양에서는 철에 의해 고정된다.",
       "토양의 pH에 따라 유효도가 제한적이다.",
-      "H2PO4-, HPO42- 형태가 식물에 주로 흡수 이용된다.",
+      "H₂PO₄⁻, HPO₄²⁻ 형태가 식물에 주로 흡수 이용된다.",
       "pH가 7 이상의 토양에서는 알루미늄에 의해 고정된다.",
       "인(P)의 유실은 주로 토양 침식에 동반하여 일어난다."
     ],
@@ -2255,11 +2255,11 @@
     "question": "수목을 가해하는 해충의 발생세대수, 목명, 학명의 연결이 옳지 않은 것은?",
     "image": null,
     "options": [
-      "목화진딧물: 수회 Hemiptera, Aphis gossypii",
-      "버즘나무방패벌레: 3회 Hemiptera, Corythucha ciliata",
-      "미국흰불나방: 2, 3회 Lepidoptera, Hyphantria cunea",
-      "밤바구미: 1회 Coleoptera, Curculio sikkimensis",
-      "미국선녀벌레: 1회 Lepidoptera, Metcalfa pruninosa"
+      "목화진딧물: 수회 Hemiptera, <i>Aphis gossypii</i>",
+      "버즘나무방패벌레: 3회 Hemiptera, <i>Corythucha ciliata</i>",
+      "미국흰불나방: 2, 3회 Lepidoptera, <i>Hyphantria cunea</i>",
+      "밤바구미: 1회 Coleoptera, <i>Curculio sikkimensis</i>",
+      "미국선녀벌레: 1회 Lepidoptera, <i>Metcalfa pruninosa</i>"
     ],
     "answer": "5",
     "explanation": ""
@@ -2733,7 +2733,7 @@
     "session": "제6회",
     "number": 87,
     "subject": "산림토양학",
-    "question": "특이산성토양의 특성에 대한 설명으로옳지 않은 것은?",
+    "question": "특이산성토양의 특성에 대한 설명으로 옳지 않은 것은?",
     "options": [
       "담수 상태는 황화물 산화를 억제할 수 있다.",
       "황화수소(H2S)의 발생으로 작물의 피해가 발생한다.",
@@ -2797,7 +2797,7 @@
     "session": "제6회",
     "number": 91,
     "subject": "산림토양학",
-    "question": "토양에 첨가된 유기물은 분해 과정 및분해 산물에 의한 효과와 분해 후부식에 의한 효과로 구분하는데부식에 의한 효과로 옳은 것은?",
+    "question": "토양에 첨가된 유기물은 분해 과정 및분해 산물에 의한 효과와 분해 후부식에 의한 효과로 구분하는데, 부식에 의한 효과로 옳은 것은?",
     "options": [
       "토양 보수력 증가",
       "양이온교환용량 증가",
@@ -4673,7 +4673,7 @@
     "options": [
       "소나무왕진딧물은 여름철 기주 전환을 하지 않는다.",
       "솔나방은 연 1회 발생하고 5령 유충 으로 월동한다.",
-      "솔잎혹파리의 학명은 Thecodiplosis japonensis 이다.",
+      "솔잎혹파리의 학명은 <i>Thecodiplosis japonensis</i> 이다.",
       "솔껍질깍지벌레는 하면을 하며 수컷은 불완전변태를 한다.",
       "솔수염하늘소는 연 1회 혹은 2년 1회 발생하며, 목질부 속에서 유충으로 월동한다."
     ],
@@ -9335,7 +9335,7 @@
       "토양에서 부생적으로 오랫동안 생존할 수 있다.",
       "한국에서는 1973년 밤나무 묘목에 크게 발생하였다.",
       "병원균은 그람음성세균이며 짧은 막대 모양의 단세포이다.",
-      "주요 병원균으로는 Agrobacterium tumefaciens, A. radiobacter K84 등이 있다."
+      "주요 병원균으로는 <i>Agrobacterium tumefaciens, A. radiobacter</i> K84 등이 있다."
     ],
     "answer": "5",
     "explanation": ""
@@ -9351,7 +9351,7 @@
       "매개충은 나무좀으로 알려져 있다.",
       "병원균은 뿌리접목으로 전반 되지 않는다.",
       "방제법으로는 매개충 방제, 감염목 제거 등이 있다.",
-      "병원균은 자낭균문에 속하며, 학명은 Ophiostoma (novo-) ulmi이다."
+      "병원균은 자낭균문에 속하며, 학명은 <i>Ophiostoma (novo-) ulmi</i>이다."
     ],
     "answer": "3",
     "explanation": ""
@@ -9393,13 +9393,13 @@
     "session": "제9회",
     "number": 23,
     "subject": "수목병리학",
-    "question": "아래 수목병 증상을 나타내는 병원균은?봄에 새순과 어린잎이 회갈색으로 변하면서 급격히 말라죽는다. 여름부터 초가을까지 말라죽은 침엽 기부의 표피를 뚫고 검은색 작은 분생포자각이 나타난다.",
+    "question": "아래 수목병 증상을 나타내는 병원균은?<div class='inner-box'>봄에 새순과 어린잎이 회갈색으로 변하면서 급격히 말라죽는다. 여름부터 초가을까지 말라죽은 침엽 기부의 표피를 뚫고 검은색 작은 분생포자각이 나타난다.</div>",
     "options": [
-      "Marssonina rosae",
-      "Lecanosticta acicola",
-      "Sphaeropsis sapinea",
-      "Entomosporium mespili",
-      "Drepanopeziza brunnea"
+      "<i>Marssonina rosae</i>",
+      "<i>Lecanosticta acicola</i>",
+      "<i>Sphaeropsis sapinea</i>",
+      "<i>Entomosporium mespili</i>",
+      "<i>Drepanopeziza brunnea</i>"
     ],
     "answer": "3",
     "explanation": ""
@@ -9425,7 +9425,7 @@
     "session": "제9회",
     "number": 25,
     "subject": "수목병리학",
-    "question": "수목의 줄기 부위를 부후 하는 균만 고른 것은?<div class='inner-box'>ㄱ. 말굽버섯(Fomes fomentarius)<br>ㄴ. 느타리(Pleurotus ostreatus)<br>ㄷ. 왕잎새버섯(Meripilus giganteus)<br>ㄹ. 해면버섯(Phaeolus schweinitzii)<br>ㅁ. 덕다리버섯(Laetiporus sulphureus)<br>ㅂ. 소나무잔나비버섯(Fomitopsis pinicola)</div>",
+    "question": "수목의 줄기 부위를 부후 하는 균만 고른 것은?<div class='inner-box'>ㄱ. 말굽버섯(<i>Fomes fomentarius</i>)<br>ㄴ. 느타리(<i>Pleurotus ostreatus</i>)<br>ㄷ. 왕잎새버섯(<i>Meripilus giganteus</i>)<br>ㄹ. 해면버섯(<i>Phaeolus schweinitzii</i>)<br>ㅁ. 덕다리버섯(<i>Laetiporus sulphureus</i>)<br>ㅂ. 소나무잔나비버섯(<i>Fomitopsis pinicola</i>)</div>",
     "options": [
       "ㄱ,ㄴ,ㄷ",
       "ㄱ,ㄷ,ㅂ",
@@ -9459,11 +9459,11 @@
     "subject": "수목해충학",
     "question": "매미나방의 분류 체계를 나타낸 것이다. ( ) 안에 들어갈 명칭을 순서대로 나열한 것은?<div class='inner-box'>강 Class : Insecta<br>  목 Order : Lepidoptera<br>    과 Family :( ㄱ )<br>      속 Genus: ( ㄴ )<br>        종 Species :( ㄷ )</div>",
     "options": [
-      "(ㄱ) Erebidae     (ㄴ) Lymantria    (ㄷ) dispar",
-      "(ㄱ) Erebidae     (ㄴ) Lymantria    (ㄷ) auripes",
-      "(ㄱ) Notodontidae   (ㄴ) Ivela    (ㄷ) dispar",
-      "(ㄱ) Notodontidae   (ㄴ) Ivela (ㄷ) auripes",
-      "(ㄱ) Notodontidae    (ㄴ) Lymantria    (ㄷ) dispar"
+      "(ㄱ)-Erebidae       (ㄴ)-<i>Lymantria</i>   (ㄷ)-<i>dispar</i>",
+      "(ㄱ)-Erebidae       (ㄴ)-<i>Lymantria</i>   (ㄷ)-<i>auripes</i>",
+      "(ㄱ)-Notodontidae   (ㄴ)-<i>Ivela</i>       (ㄷ)-<i>dispar</i>",
+      "(ㄱ)-Notodontidae   (ㄴ)-<i>Ivela</i>       (ㄷ)-<i>auripes</i>",
+      "(ㄱ)-Notodontidae   (ㄴ)-<i>Lymantria</i>   (ㄷ)-<i>dispar</i>"
     ],
     "answer": "1",
     "explanation": ""
@@ -10387,11 +10387,11 @@
     "subject": "산림토양학",
     "question": "토양의 질산화작용 중 각 단계에 관여하는 미생물의 속명이 옳게 연결된 것은?<br>1단계 : (NH₄⁺ -> NO₂⁻)          2단계 : (NO₂⁻ -> NO₃⁻)",
     "options": [
-      "Nitrocystis   Rhizobium",
-      "Nitrosomonas   Frankia",
-      "Nitrosospira   Nitrobacter",
-      "Rhizobium   Nitrosococcus",
-      "Pseudomonas   Nitrosomonas"
+      "<i>Nitrocystis    Rhizobium</i>",
+      "<i>Nitrosomonas   Frankia</i>",
+      "<i>Nitrosospira   Nitrobacter</i>",
+      "<i>Rhizobium      Nitrosococcus</i>",
+      "<i>Pseudomonas    Nitrosomonas</i>"
     ],
     "answer": "3",
     "explanation": ""
@@ -10533,7 +10533,7 @@
     "options": [
       "토양 개량으로 양분 유효도 개선을 기대할 수 있다.",
       "석회석의 토양 산성 중화력은 생석회보다 더 높은 편이다.",
-      "석회고토는 백운성(CaCO₃ • MgCO₃)을 분쇄하여 분말로 제조할 것이다.",
+      "석회고토는 백운석(CaCO₃ • MgCO₃)을 분쇄하여 분말로 제조할 것이다.",
       "소석회는 알칼리성이 강하므로 수용성인산을 함유한 비료와 배합해서는 안 된다.",
       "부식과 점토함량이 낮은 토양의 산도교정에는 생석회를 많이 사용하지 않아도 된다."
     ],
@@ -10691,11 +10691,11 @@
     "subject": "수목관리학",
     "question": "다음 설명에 해당하는 수종은?<div class='inner-box'>• 층층나무과의 낙엽활엽교목이다.<br>• 가지 끝에 달리는 산방꽃차례에 흰색 꽃이 5월에 핀다.<br>• 잎은 어긋나고 측맥은 6~9쌍이며 뒷면에 흰 털이 발달한다.<br>• 열매는 핵과이고 둥글며 검은색으로 익는다.</div>",
     "options": [
-      "Cornus kousa",
-      "C. walteri",
-      "C. officinalis",
-      "C. controversa",
-      "C. macrophylla"
+      "<i>Cornus kousa</i>",
+      "<i>C. walteri</i>",
+      "<i>C. officinalis</i>",
+      "<i>C. controversa</i>",
+      "<i>C. macrophylla</i>"
     ],
     "answer": "4",
     "explanation": ""
@@ -12670,7 +12670,7 @@
     "session": "제10회",
     "number": 99,
     "subject": "산림토양학",
-    "question": "'토양환경보전법 시행규칙' 제1조의2(토양오염물질)에 규정된",
+    "question": "'토양환경보전법 시행규칙' 제1조의2(토양오염물질)에 규정된 토양오염물질로만 나열되지 않은 것은?",
     "options": [
       "구리, 에틸벤젠",
       "카드뮴, 톨루엔",
