@@ -112,6 +112,11 @@
         .quiz-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 14px; }
         .quiz-table th, .quiz-table td { border: 1px solid #ccc; padding: 6px 2px; text-align: center; }
         .quiz-table th { background-color: #f9f9f9; font-weight: bold; }
+
+        mark {
+            border-radius: 3px;
+            color: black; /* 글자색 고정 */
+        }
     </style>
 </head>
 <body>
@@ -127,6 +132,12 @@
         </div>
         
         <div class="filter-content">
+            <div class="filter-row">
+                <span class="label">🔍 검색어 (AND)</span>
+                <input type="text" id="searchInput" placeholder="쉼표로 구분하여 여러 단어 검색"
+                    oninput="processAndRender()"
+                    style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 0.95em; outline: none;">
+            </div>
             <div class="filter-row">
                 <span class="label">📅 회차 (OR)</span>
                 <div id="sessionGroup" class="tag-group"></div>
@@ -206,73 +217,126 @@
         processAndRender();
     }
 
+    // 하이라이트에 사용할 색상 배열
+    const highlightColors = ['#ffeb3b', '#81c784', '#64b5f6', '#ffb74d', '#ba68c8'];
+
+    // 텍스트에서 키워드를 찾아 색상별로 <mark> 태그를 입히는 함수
+    function highlightText(text, keywords) {
+        if (!keywords || keywords.length === 0 || !text) return text;
+        
+        let highlighted = text;
+        keywords.forEach((word, index) => {
+            if (!word) return;
+            // 특수문자 이스케이프 및 정규식 생성 (대소문자 구분 없음)
+            const regex = new RegExp(`(${word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
+            const color = highlightColors[index % highlightColors.length];
+            
+            // 이미 하이라이트된 <mark> 태그 내부를 건드리지 않기 위해 주의가 필요하지만, 
+            // 간단한 구현을 위해 순차적으로 치환합니다.
+            highlighted = highlighted.replace(regex, `<mark style="background-color: ${color}">$1</mark>`);
+        });
+        return highlighted;
+    }
+
     function processAndRender() {
         let res = questions;
+
+        // 1. 회차 필터
         if (selectedSessions.size) res = res.filter(q => selectedSessions.has(q.session));
+        
+        // 2. 과목 필터
         if (selectedSubjects.size) res = res.filter(q => selectedSubjects.has(q.subject));
 
+        // 3. 검색어 필터 (콤마 기준으로 분리)
+        const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
+        
+        // 콤마로 분리 후, 각 단어의 앞뒤 공백 제거 및 빈 문자열 제외
+        const keywords = searchVal ? searchVal.split(',').map(kw => kw.trim()).filter(kw => kw !== '') : [];
+
+        if (keywords.length > 0) {
+            res = res.filter(q => {
+                const targetText = (
+                    q.question + 
+                    q.options.join(' ') + 
+                    (q.box || '')
+                ).toLowerCase();
+                
+                // 모든 키워드가 포함되었는지 확인
+                return keywords.every(kw => targetText.includes(kw));
+            });
+        }
+
+        // 정렬 및 요약 업데이트
         res.sort((a, b) => a.session.localeCompare(b.session, undefined, {numeric:true}) || a.number - b.number);
         
         const summary = [];
         if (selectedSessions.size) summary.push(`회차 ${selectedSessions.size}`);
         if (selectedSubjects.size) summary.push(`과목 ${selectedSubjects.size}`);
+        if (keywords.length) summary.push(`검색어 ${keywords.length}`);
         
         document.getElementById('filterSummary').innerText = summary.length ? summary.join(', ') : '전체 보기';
         document.getElementById('headerResultCount').innerText = `(${res.length}건)`;
 
-        renderQuestions(res);
+        renderQuestions(res, keywords);
     }
 
-    function renderQuestions(data) {
+    function renderQuestions(data, keywords = []) {
         const listEl = document.getElementById('questionList');
         if (data.length === 0) {
             listEl.innerHTML = '<p style="text-align:center; padding:50px; color:#64748b;">조건에 맞는 문제가 없습니다.</p>';
             return;
         }
 
-        listEl.innerHTML = data.map(q => `
-            <div class="q-card">
-                <small style="color:#64748b">${q.session} | ${q.subject} | ${q.number}번</small>
-                
-                <div class="q-title" style="font-weight:bold; margin: 15px 0; font-size:1.1em; line-height:1.6;">
-                    ${q.question}
-                </div>
+        listEl.innerHTML = data.map(q => {
+            // 문제, 박스, 보기에 하이라이트 적용
+            const displayQuestion = highlightText(q.question, keywords);
+            const displayBox = q.box ? highlightText(q.box, keywords) : '';
+            const displayOptions = q.options.map(opt => highlightText(opt, keywords));
 
-                ${q.box ? `<div class="inner-box">${q.box}</div>` : ''}
+            return `
+                <div class="q-card">
+                    <small style="color:#64748b">${q.session} | ${q.subject} | ${q.number}번</small>
+                    
+                    <div class="q-title" style="font-weight:bold; margin: 15px 0; font-size:1.1em; line-height:1.6;">
+                        ${displayQuestion}
+                    </div>
 
-                ${q.tableData ? `
-                    <table class="quiz-table">
-                        ${q.tableData.map((row, rowIndex) => `
-                            <tr>
-                                ${row.map(cell => `
-                                    <${rowIndex === 0 ? 'th' : 'td'}>
-                                        ${cell}
-                                    </${rowIndex === 0 ? 'th' : 'td'}>
-                                `).join('')}
-                            </tr>
+                    ${q.box ? `<div class="inner-box">${displayBox}</div>` : ''}
+
+                    ${q.tableData ? `
+                        <table class="quiz-table">
+                            ${q.tableData.map((row, rowIndex) => `
+                                <tr>
+                                    ${row.map(cell => `
+                                        <${rowIndex === 0 ? 'th' : 'td'}>
+                                            ${cell}
+                                        </${rowIndex === 0 ? 'th' : 'td'}>
+                                    `).join('')}
+                                </tr>
+                            `).join('')}
+                        </table>
+                    ` : ''}
+                    
+                    ${q.image ? `<img src="images/${q.image}" style="max-width:100%; border-radius:8px; margin-bottom:15px; display:block;">` : ''}
+                    
+                    <div class="options-list" style="display:grid; gap:8px; margin: 20px 0;">
+                        ${displayOptions.map((opt, i) => `
+                            <div style="padding:12px; border:1px solid #f1f5f9; border-radius:8px; background:#fafafa; font-size:0.95em;">
+                                <span style="font-weight:bold; margin-right:5px;">${i + 1}.</span> ${opt}
+                            </div>
                         `).join('')}
-                    </table>
-                ` : ''}
-                
-                ${q.image ? `<img src="images/${q.image}" style="max-width:100%; border-radius:8px; margin-bottom:15px; display:block;">` : ''}
-                
-                <div class="options-list" style="display:grid; gap:8px; margin: 20px 0;">
-                    ${q.options.map((opt, i) => `
-                        <div style="padding:12px; border:1px solid #f1f5f9; border-radius:8px; background:#fafafa; font-size:0.95em;">
-                            <span style="font-weight:bold; margin-right:5px;">${i + 1}.</span> ${opt}
-                        </div>
-                    `).join('')}
-                </div>
+                    </div>
 
-                <button class="btn-ans" 
+                    <button class="btn-ans" 
                     <button class="btn-ans" onclick="toggleAns(this)">정답 확인</button>
-                </button>
-                
-                <div class="ans-section">
-                    <div style="font-weight:bold; color:#166534; font-size:1.1em;">정답: ${q.answer}</div>
+                    </button>
+                    
+                    <div class="ans-section">
+                        <div style="font-weight:bold; color:#166534; font-size:1.1em;">정답: ${q.answer}</div>
+                    </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     }
 
     function toggleAns(btn) {
@@ -281,7 +345,9 @@
     }
 
     function resetAll() {
-        selectedSessions.clear(); selectedSubjects.clear();
+        selectedSessions.clear(); 
+        selectedSubjects.clear();
+        document.getElementById('searchInput').value = ''; // 검색창 초기화
         document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
         processAndRender();
     }
