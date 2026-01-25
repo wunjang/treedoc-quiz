@@ -45,12 +45,17 @@
 
         .filter-content {
             padding: 0 20px 20px 20px;
-            max-height: 1000px;
-            transition: max-height 0.3s ease-out, opacity 0.2s;
+            max-height: 500px; 
+            transition: max-height 0.3s ease-in-out, 
+                        padding 0.3s ease-in-out, 
+                        opacity 0.2s ease-in-out;
             opacity: 1;
+            overflow: hidden;
         }
+
         .filter-panel.collapsed .filter-content {
             max-height: 0;
+            padding-top: 0;
             padding-bottom: 0;
             opacity: 0;
             pointer-events: none;
@@ -260,8 +265,7 @@
                 </div>
 
                 <button class="btn-ans" 
-                        onclick="const target = this.nextElementSibling; target.style.display = (target.style.display === 'block') ? 'none' : 'block';">
-                    정답 확인
+                    <button class="btn-ans" onclick="toggleAns(this)">정답 확인</button>
                 </button>
                 
                 <div class="ans-section">
