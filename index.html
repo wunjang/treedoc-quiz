@@ -134,7 +134,7 @@
         <div class="filter-content">
             <div class="filter-row">
                 <span class="label">🔍 검색어 (AND)</span>
-                <input type="text" id="searchInput" placeholder="쉼표로 구분하여 여러 단어 검색"
+                <input type="text" id="searchInput" placeholder="검색어를 입력하세요"
                     oninput="processAndRender()"
                     style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 0.95em; outline: none;">
             </div>
@@ -229,7 +229,7 @@
             if (!word) return;
             // 특수문자 이스케이프 및 정규식 생성 (대소문자 구분 없음)
             const regex = new RegExp(`(${word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
-            const color = highlightColors[index % highlightColors.length];
+            const color = highlightColors[0];
             
             // 이미 하이라이트된 <mark> 태그 내부를 건드리지 않기 위해 주의가 필요하지만, 
             // 간단한 구현을 위해 순차적으로 치환합니다.
@@ -247,11 +247,11 @@
         // 2. 과목 필터
         if (selectedSubjects.size) res = res.filter(q => selectedSubjects.has(q.subject));
 
-        // 3. 검색어 필터 (콤마 기준으로 분리)
+        // 3. 검색어 필터 (공백 기준으로 분리) - 수정된 부분
         const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
         
-        // 콤마로 분리 후, 각 단어의 앞뒤 공백 제거 및 빈 문자열 제외
-        const keywords = searchVal ? searchVal.split(',').map(kw => kw.trim()).filter(kw => kw !== '') : [];
+        // 정규식 /\s+/ 를 사용하면 공백이 여러 칸이어도 하나로 인식해 분리합니다.
+        const keywords = searchVal ? searchVal.split(/\s+/).filter(kw => kw !== '') : [];
 
         if (keywords.length > 0) {
             res = res.filter(q => {
@@ -261,12 +261,12 @@
                     (q.box || '')
                 ).toLowerCase();
                 
-                // 모든 키워드가 포함되었는지 확인
+                // 모든 키워드가 포함되었는지 확인 (AND 검색)
                 return keywords.every(kw => targetText.includes(kw));
             });
         }
 
-        // 정렬 및 요약 업데이트
+        // ... 이후 정렬 및 렌더링 로직은 동일합니다 ...
         res.sort((a, b) => a.session.localeCompare(b.session, undefined, {numeric:true}) || a.number - b.number);
         
         const summary = [];
