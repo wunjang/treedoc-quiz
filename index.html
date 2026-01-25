@@ -130,7 +130,8 @@
                 <span class="label">📘 과목 (OR)</span>
                 <div id="subjectGroup" class="tag-group"></div>
             </div>
-            <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
+            <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+                <button onclick="toggleHelp(true)" style="padding: 8px 15px; background: #64748b; color: white; border: none; border-radius: 6px; cursor: pointer;">도움</button>
                 <button onclick="resetAll()" style="padding: 8px 15px; background: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer;">초기화</button>
             </div>
         </div>
@@ -293,5 +294,21 @@
 
     loadData();
 </script>
+<div id="helpModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: white; padding: 25px; border-radius: 16px; max-width: 90%; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+        <h3 style="margin-top: 0; color: var(--primary);">🌳 이용 안내</h3>
+        <ul style="padding-left: 20px; line-height: 1.8; font-size: 0.95em;">
+            <li><b>필터링:</b> 회차와 과목을 선택해 원하는 문제만 모아볼 수 있습니다.</li>
+            <li><b>정답 확인:</b> 버튼을 누르면 정답과 해설이 나타납니다.</li>
+            <li><b>최신 데이터:</b> 기출문제는 지속적으로 업데이트됩니다.</li>
+        </ul>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+        <p style="font-size: 0.9em; color: #64748b;">
+            문의 사항이나 오류 제보는 아래 메일로 보내주세요.<br>
+            📧 <a href="mailto:support@treedoc-quiz.work.gd" style="color: var(--primary); text-decoration: none; font-weight: bold;">support@treedoc-quiz.work.gd</a>
+        </p>
+        <button onclick="toggleHelp(false)" style="width: 100%; padding: 10px; margin-top: 10px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">닫기</button>
+    </div>
+</div>
 </body>
 </html>
