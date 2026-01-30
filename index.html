@@ -229,14 +229,15 @@
 <button id="btnTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">TOP</button>
 
 <div id="helpModal" onclick="toggleHelp(event, false)" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
-    <div style="background: white; padding: 25px; border-radius: 16px; max-width: 90%; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);" onclick="event.stopPropagation()">
+    <div style="background: var(--card-bg); color: var(--text); padding: 25px; border-radius: 16px; max-width: 90%; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); transition: background 0.3s, color 0.3s;" onclick="event.stopPropagation()">
         <h3 style="margin-top: 0; color: var(--primary);">🌳 이용 안내</h3>
         <ul style="padding-left: 20px; line-height: 1.8; font-size: 0.95em;">
             <li><b>TREEDOC-QUIZ</b>는 나무의사 기출문제 학습 도구입니다.</li>
+            <li><b>검색어:</b> 검색어가 포함된 문제만 볼 수 있습니다. 공백으로 구분하여 여러 단어를 검색하세요.</li>
             <li><b>필터링:</b> 회차와 과목을 선택해 문제를 모아볼 수 있습니다.</li>
             <li><b>다크모드:</b> 야간 학습 시 눈을 보호하기 위해 🌙 버튼을 누르세요.</li>
         </ul>
-        <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+        <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
         <p style="font-size: 0.9em; color: #64748b;">
             문의: <span onclick="copyEmail(this)" style="color: var(--primary); text-decoration: underline; cursor: pointer; font-weight: bold;">treedocquiz@gmail.com</span>
             <br><small id="copyMessage" style="color: #10b981; display: none;">✅ 주소가 복사되었습니다!</small>
@@ -339,6 +340,14 @@
         }
 
         res.sort((a, b) => a.session.localeCompare(b.session, undefined, {numeric:true}) || a.number - b.number);
+        res.sort((a, b) => a.session.localeCompare(b.session, undefined, {numeric:true}) || a.number - b.number);
+        
+        const summary = [];
+        if (selectedSessions.size) summary.push(`회차 ${selectedSessions.size}`);
+        if (selectedSubjects.size) summary.push(`과목 ${selectedSubjects.size}`);
+        if (keywords.length) summary.push(`검색어 ${keywords.length}`);
+        
+        document.getElementById('filterSummary').innerText = summary.length ? summary.join(', ') : '전체 보기';
         document.getElementById('headerResultCount').innerText = `(${res.length}건)`;
         renderQuestions(res, keywords);
     }
