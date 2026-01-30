@@ -14,13 +14,32 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌳</text></svg>">
     <style>
         * { box-sizing: border-box; }
-        :root { --primary: #3b82f6; --secondary: #10b981; --accent: #f59e0b; --bg: #f1f5f9; }
-        body { font-family: 'Pretendard', sans-serif; background: var(--bg); padding: 15px; margin: 0; color: #1e293b; }
+        :root { 
+            --primary: #3b82f6; 
+            --secondary: #10b981; 
+            --accent: #f59e0b; 
+            --bg: #f1f5f9; 
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+            --inner-box-bg: #f9f9f9;
+        }
+
+        /* 다크 모드 변수 정의 */
+        body.dark-mode {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f1f5f9;
+            --border: #334155;
+            --inner-box-bg: #2d3748;
+        }
+
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg); padding: 15px; margin: 0; color: var(--text); transition: background 0.3s, color 0.3s; }
         .container { max-width: 800px; margin: 0 auto; }
 
         /* 필터 패널 스타일 */
         .filter-panel { 
-            background: white; 
+            background: var(--card-bg); 
             border-radius: 16px; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
             margin-bottom: 20px; 
@@ -28,7 +47,7 @@
             top: 10px; 
             z-index: 100;
             overflow: hidden;
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--border);
         }
 
         .filter-header {
@@ -37,7 +56,7 @@
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            background: #fff;
+            background: var(--card-bg);
             user-select: none;
         }
         .filter-header h2 { margin: 0; font-size: 1.1em; display: flex; align-items: center; gap: 8px; }
@@ -46,9 +65,7 @@
         .filter-content {
             padding: 0 20px 20px 20px;
             max-height: 500px; 
-            transition: max-height 0.3s ease-in-out, 
-                        padding 0.3s ease-in-out, 
-                        opacity 0.2s ease-in-out;
+            transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out, opacity 0.2s ease-in-out;
             opacity: 1;
             overflow: hidden;
         }
@@ -64,32 +81,35 @@
         .filter-row { margin-top: 15px; }
         .label { font-weight: bold; display: block; margin-bottom: 8px; color: #64748b; font-size: 0.85em; }
         .tag-group { display: flex; flex-wrap: wrap; gap: 6px; }
-        .tag { padding: 6px 12px; background: #f8fafc; border-radius: 50px; cursor: pointer; font-size: 0.8em; border: 1px solid #e2e8f0; transition: 0.2s; }
+        .tag { padding: 6px 12px; background: var(--bg); border-radius: 50px; cursor: pointer; font-size: 0.8em; border: 1px solid var(--border); transition: 0.2s; color: var(--text); }
         .tag.active.session { background: var(--secondary); color: white; border-color: var(--secondary); }
         .tag.active.subject { background: var(--primary); color: white; border-color: var(--primary); }
 
+        #searchInput { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.95em; outline: none; background: var(--card-bg); color: var(--text); }
+
         /* 문제 카드 */
-        .q-card { content-visibility: auto; background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #e2e8f0; }
-        .btn-ans { width: 100%; margin-top: 15px; padding: 12px; cursor: pointer; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; font-weight: bold; }
+        .q-card { content-visibility: auto; background: var(--card-bg); padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border); }
+        .btn-ans { width: 100%; margin-top: 15px; padding: 12px; cursor: pointer; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; font-weight: bold; color: var(--text); }
         .ans-section { display: none; margin-top: 10px; padding: 15px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #22c55e; }
+        body.dark-mode .ans-section { background: #064e3b; border-color: #10b981; }
+        body.dark-mode .ans-section div { color: #d1fae5 !important; }
 
         .arrow { transition: transform 0.3s; }
         .collapsed .arrow { transform: rotate(-180deg); }
 
         .inner-box {
-            background-color: #f9f9f9;
+            background-color: var(--inner-box-bg);
             border: 1px dashed #555;
             padding: 15px;
             margin: 15px 0;
             font-size: 0.95em;
             line-height: 1.8;
             border-radius: 6px;
-            color: #333;
+            color: var(--text);
             width: 100%;
             box-sizing: border-box;
             word-break: break-all;
         }
-        .inner-box b { color: #3b82f6; display: block; margin-bottom: 5px; }
 
         /* TOP 버튼 */
         #btnTop {
@@ -110,13 +130,55 @@
         }
 
         .quiz-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 14px; }
-        .quiz-table th, .quiz-table td { border: 1px solid #ccc; padding: 6px 2px; text-align: center; }
-        .quiz-table th { background-color: #f9f9f9; font-weight: bold; }
+        .quiz-table th, .quiz-table td { border: 1px solid var(--border); padding: 6px 2px; text-align: center; }
+        .quiz-table th { background-color: var(--inner-box-bg); font-weight: bold; }
 
-        mark {
-            border-radius: 3px;
-            color: black; /* 글자색 고정 */
+        mark { border-radius: 3px; color: black; }
+        
+        /* 다크모드/도움말 모달 내부 텍스트 수정 */
+        body.dark-mode #helpModal > div { background: var(--card-bg); color: var(--text); }
+
+        /* 토글 스위치 디자인 */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+            vertical-align: middle;
         }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px; width: 18px;
+            left: 4px; bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--primary); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        /* 다크모드 시 토글 내부 아이콘 처리 (선택사항) */
+        .slider-icon {
+            position: absolute;
+            top: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            transition: .4s;
+        }
+        .sun { right: 6px; color: #f59e0b; }
+        .moon { left: 8px; color: #f1f5f9; opacity: 0; }
+        input:checked ~ .sun { opacity: 0; }
+        input:checked ~ .moon { opacity: 1; }
     </style>
 </head>
 <body>
@@ -134,9 +196,7 @@
         <div class="filter-content">
             <div class="filter-row">
                 <span class="label">🔍 검색어 (AND)</span>
-                <input type="text" id="searchInput" placeholder="검색어를 입력하세요"
-                    oninput="processAndRender()"
-                    style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 0.95em; outline: none;">
+                <input type="text" id="searchInput" placeholder="검색어를 입력하세요" oninput="processAndRender()">
             </div>
             <div class="filter-row">
                 <span class="label">📅 회차 (OR)</span>
@@ -146,7 +206,17 @@
                 <span class="label">📘 과목 (OR)</span>
                 <div id="subjectGroup" class="tag-group"></div>
             </div>
-            <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+            <div style="margin-top: 20px; display: flex; justify-content: flex-end; align-items: center; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 0.8em; color: #64748b;">다크 모드</span>
+                    <label class="switch">
+                        <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
+                        <span class="slider"></span>
+                        <span class="slider-icon moon">🌙</span>
+                        <span class="slider-icon sun">☀️</span>
+                    </label>
+                </div>
+                
                 <button onclick="toggleHelp(event, true)" style="padding: 8px 15px; background: #64748b; color: white; border: none; border-radius: 6px; cursor: pointer;">도움말</button>
                 <button onclick="resetAll()" style="padding: 8px 15px; background: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer;">초기화</button>
             </div>
@@ -158,13 +228,51 @@
 
 <button id="btnTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">TOP</button>
 
+<div id="helpModal" onclick="toggleHelp(event, false)" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: white; padding: 25px; border-radius: 16px; max-width: 90%; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);" onclick="event.stopPropagation()">
+        <h3 style="margin-top: 0; color: var(--primary);">🌳 이용 안내</h3>
+        <ul style="padding-left: 20px; line-height: 1.8; font-size: 0.95em;">
+            <li><b>TREEDOC-QUIZ</b>는 나무의사 기출문제 학습 도구입니다.</li>
+            <li><b>필터링:</b> 회차와 과목을 선택해 문제를 모아볼 수 있습니다.</li>
+            <li><b>다크모드:</b> 야간 학습 시 눈을 보호하기 위해 🌙 버튼을 누르세요.</li>
+        </ul>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+        <p style="font-size: 0.9em; color: #64748b;">
+            문의: <span onclick="copyEmail(this)" style="color: var(--primary); text-decoration: underline; cursor: pointer; font-weight: bold;">treedocquiz@gmail.com</span>
+            <br><small id="copyMessage" style="color: #10b981; display: none;">✅ 주소가 복사되었습니다!</small>
+        </p>
+        <button onclick="toggleHelp(event, false)" style="width: 100%; padding: 10px; margin-top: 10px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">닫기</button>
+    </div>
+</div>
+
+
+
 <script>
     let questions = [];
     let selectedSessions = new Set();
     let selectedSubjects = new Set();
-
-    // 과목 정렬 순서 정의
     const subjectOrder = ["수목병리학", "수목해충학", "수목생리학", "산림토양학", "수목관리학"];
+
+    // 다크 모드 토글 함수
+    function toggleDarkMode() {
+        const isChecked = document.getElementById('darkModeToggle').checked;
+        const isDark = document.body.classList.toggle('dark-mode', isChecked);
+        localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+    }
+
+    function updateDarkModeIcon(isDark) {
+        document.getElementById('darkModeBtn').innerText = isDark ? '☀️' : '🌙';
+    }
+
+    // 초기 로드 시 다크 모드 설정 확인
+    window.addEventListener('DOMContentLoaded', () => {
+        const darkModeStatus = localStorage.getItem('darkMode');
+        const toggle = document.getElementById('darkModeToggle');
+        if (darkModeStatus === 'enabled') {
+            document.body.classList.add('dark-mode');
+            if(toggle) toggle.checked = true;
+        }
+    });
 
     async function loadData() {
         try {
@@ -179,104 +287,59 @@
     }
 
     function initFilters() {
-        // 1. 회차 정렬 (숫자 포함 자연어 정렬: 5회 -> 10회 순)
         const sessions = [...new Set(questions.map(q => q.session))].sort((a, b) => 
             a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
         );
-
-        // 2. 과목 정렬 (지정된 순서 기준)
         const subjects = [...new Set(questions.map(q => q.subject))].sort((a, b) => {
-            let idxA = subjectOrder.indexOf(a);
-            let idxB = subjectOrder.indexOf(b);
-            if (idxA === -1) idxA = 99; // 목록에 없는 경우 뒤로 보냄
-            if (idxB === -1) idxB = 99;
-            return idxA - idxB;
+            let idxA = subjectOrder.indexOf(a), idxB = subjectOrder.indexOf(b);
+            return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
         });
-
         document.getElementById('sessionGroup').innerHTML = sessions.map(s => `<div class="tag session" onclick="toggleFilter('session', '${s}', this)">${s}</div>`).join('');
         document.getElementById('subjectGroup').innerHTML = subjects.map(s => `<div class="tag subject" onclick="toggleFilter('subject', '${s}', this)">${s}</div>`).join('');
     }
 
-    function togglePanel(e) {
-        e.stopPropagation(); // 이벤트 전파 방지
-        document.getElementById('filterPanel').classList.toggle('collapsed');
-    }
-
-    // 필터 외부 클릭 시 닫기 기능
+    function togglePanel(e) { e.stopPropagation(); document.getElementById('filterPanel').classList.toggle('collapsed'); }
+    
     window.addEventListener('click', function(e) {
         const panel = document.getElementById('filterPanel');
-        if (!panel.contains(e.target)) {
-            panel.classList.add('collapsed');
-        }
+        if (panel && !panel.contains(e.target)) panel.classList.add('collapsed');
     });
 
     function toggleFilter(type, value, el) {
         const set = type === 'session' ? selectedSessions : selectedSubjects;
-        if (set.has(value)) set.delete(value); else set.add(value);
+        set.has(value) ? set.delete(value) : set.add(value);
         el.classList.toggle('active');
         processAndRender();
     }
 
-    // 하이라이트에 사용할 색상 배열
-    const highlightColors = ['#ffeb3b', '#81c784', '#64b5f6', '#ffb74d', '#ba68c8'];
-
-    // 텍스트에서 키워드를 찾아 색상별로 <mark> 태그를 입히는 함수
     function highlightText(text, keywords) {
         if (!keywords || keywords.length === 0 || !text) return text;
-        
         let highlighted = text;
-        keywords.forEach((word, index) => {
+        keywords.forEach(word => {
             if (!word) return;
-            // 특수문자 이스케이프 및 정규식 생성 (대소문자 구분 없음)
             const regex = new RegExp(`(${word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
-            const color = highlightColors[0];
-            
-            // 이미 하이라이트된 <mark> 태그 내부를 건드리지 않기 위해 주의가 필요하지만, 
-            // 간단한 구현을 위해 순차적으로 치환합니다.
-            highlighted = highlighted.replace(regex, `<mark style="background-color: ${color}">$1</mark>`);
+            highlighted = highlighted.replace(regex, `<mark style="background-color: #ffeb3b">$1</mark>`);
         });
         return highlighted;
     }
 
     function processAndRender() {
         let res = questions;
-
-        // 1. 회차 필터
         if (selectedSessions.size) res = res.filter(q => selectedSessions.has(q.session));
-        
-        // 2. 과목 필터
         if (selectedSubjects.size) res = res.filter(q => selectedSubjects.has(q.subject));
 
-        // 3. 검색어 필터 (공백 기준으로 분리) - 수정된 부분
         const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
-        
-        // 정규식 /\s+/ 를 사용하면 공백이 여러 칸이어도 하나로 인식해 분리합니다.
         const keywords = searchVal ? searchVal.split(/\s+/).filter(kw => kw !== '') : [];
 
         if (keywords.length > 0) {
             res = res.filter(q => {
-                const targetText = (
-                    q.question + 
-                    q.options.join(' ') + 
-                    (q.box || '')
-                ).toLowerCase();
-                
-                // 모든 키워드가 포함되었는지 확인 (AND 검색)
+                const targetText = (q.question + q.options.join(' ') + (q.box || '')).toLowerCase();
                 return keywords.every(kw => targetText.includes(kw));
             });
         }
 
-        // ... 이후 정렬 및 렌더링 로직은 동일합니다 ...
         res.sort((a, b) => a.session.localeCompare(b.session, undefined, {numeric:true}) || a.number - b.number);
-        
-        const summary = [];
-        if (selectedSessions.size) summary.push(`회차 ${selectedSessions.size}`);
-        if (selectedSubjects.size) summary.push(`과목 ${selectedSubjects.size}`);
-        if (keywords.length) summary.push(`검색어 ${keywords.length}`);
-        
-        document.getElementById('filterSummary').innerText = summary.length ? summary.join(', ') : '전체 보기';
         document.getElementById('headerResultCount').innerText = `(${res.length}건)`;
-
         renderQuestions(res, keywords);
     }
 
@@ -288,7 +351,6 @@
         }
 
         listEl.innerHTML = data.map(q => {
-            // 문제, 박스, 보기에 하이라이트 적용
             const displayQuestion = highlightText(q.question, keywords);
             const displayBox = q.box ? highlightText(q.box, keywords) : '';
             const displayOptions = q.options.map(opt => highlightText(opt, keywords));
@@ -296,44 +358,19 @@
             return `
                 <div class="q-card">
                     <small style="color:#64748b">${q.session} | ${q.subject} | ${q.number}번</small>
-                    
-                    <div class="q-title" style="font-weight:bold; margin: 15px 0; font-size:1.1em; line-height:1.6;">
-                        ${displayQuestion}
-                    </div>
-
+                    <div class="q-title" style="font-weight:bold; margin: 15px 0; font-size:1.1em; line-height:1.6;">${displayQuestion}</div>
                     ${q.box ? `<div class="inner-box">${displayBox}</div>` : ''}
-
                     ${q.tableData ? `
                         <table class="quiz-table">
-                            ${q.tableData.map((row, rowIndex) => `
-                                <tr>
-                                    ${row.map(cell => `
-                                        <${rowIndex === 0 ? 'th' : 'td'}>
-                                            ${cell}
-                                        </${rowIndex === 0 ? 'th' : 'td'}>
-                                    `).join('')}
-                                </tr>
-                            `).join('')}
+                            ${q.tableData.map((row, idx) => `<tr>${row.map(cell => `<${idx === 0 ? 'th' : 'td'}>${cell}</${idx === 0 ? 'th' : 'td'}>`).join('')}</tr>`).join('')}
                         </table>
                     ` : ''}
-                    
                     ${q.image ? `<img src="images/${q.image}" style="max-width:100%; border-radius:8px; margin-bottom:15px; display:block;">` : ''}
-                    
                     <div class="options-list" style="display:grid; gap:8px; margin: 20px 0;">
-                        ${displayOptions.map((opt, i) => `
-                            <div style="padding:12px; border:1px solid #f1f5f9; border-radius:8px; background:#fafafa; font-size:0.95em;">
-                                <span style="font-weight:bold; margin-right:5px;">${i + 1}.</span> ${opt}
-                            </div>
-                        `).join('')}
+                        ${displayOptions.map((opt, i) => `<div style="padding:12px; border:1px solid var(--border); border-radius:8px; background:rgba(0,0,0,0.02); font-size:0.95em;"><span style="font-weight:bold; margin-right:5px;">${i + 1}.</span> ${opt}</div>`).join('')}
                     </div>
-
-                    <button class="btn-ans" 
                     <button class="btn-ans" onclick="toggleAns(this)">정답 확인</button>
-                    </button>
-                    
-                    <div class="ans-section">
-                        <div style="font-weight:bold; color:#166534; font-size:1.1em;">정답: ${q.answer}</div>
-                    </div>
+                    <div class="ans-section"><div style="font-weight:bold; color:#166534; font-size:1.1em;">정답: ${q.answer}</div></div>
                 </div>
             `;
         }).join('');
@@ -345,81 +382,31 @@
     }
 
     function resetAll() {
-        selectedSessions.clear(); 
-        selectedSubjects.clear();
-        document.getElementById('searchInput').value = ''; // 검색창 초기화
+        selectedSessions.clear(); selectedSubjects.clear();
+        document.getElementById('searchInput').value = '';
         document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
         processAndRender();
     }
 
-    // 스크롤 시 TOP 버튼 표시 제어
     window.onscroll = function() {
         const btn = document.getElementById("btnTop");
-        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-            btn.style.display = "block";
-        } else {
-            btn.style.display = "none";
-        }
+        btn.style.display = (window.scrollY > 200) ? "block" : "none";
     };
 
-    // 도움말 팝업 열기/닫기 함수
     function toggleHelp(event, show) {
-        if (event) event.stopPropagation(); // 이벤트가 부모 요소(window)로 퍼지는 것을 막음
-        const modal = document.getElementById('helpModal');
-        if (modal) {
-            modal.style.display = show ? 'flex' : 'none';
-        }
+        if (event) event.stopPropagation();
+        document.getElementById('helpModal').style.display = show ? 'flex' : 'none';
     }
 
-    // 팝업 바깥쪽 검은 배경 클릭 시 닫기 기능
-    window.addEventListener('click', function(e) {
-        const modal = document.getElementById('helpModal');
-        if (e.target === modal) {
-            toggleHelp(event, false);
-        }
-    });
-
     function copyEmail(el) {
-        const email = el.innerText.trim();
-        const message = document.getElementById('copyMessage');
-
-        // 클립보드 복사 실행
-        navigator.clipboard.writeText(email).then(() => {
-            // 복사 성공 시 메시지 표시
-            message.style.display = 'inline';
-            
-            // 2초 뒤에 메시지 다시 숨기기
-            setTimeout(() => {
-                message.style.display = 'none';
-            }, 2000);
-        }).catch(err => {
-            console.error('복사 실패:', err);
+        navigator.clipboard.writeText(el.innerText.trim()).then(() => {
+            const msg = document.getElementById('copyMessage');
+            msg.style.display = 'inline';
+            setTimeout(() => msg.style.display = 'none', 2000);
         });
     }
 
     loadData();
 </script>
-<div id="helpModal" onclick="event.stopPropagation()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
-    <div style="background: white; padding: 25px; border-radius: 16px; max-width: 90%; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
-        <h3 style="margin-top: 0; color: var(--primary);">🌳 이용 안내</h3>
-        <ul style="padding-left: 20px; line-height: 1.8; font-size: 0.95em;">
-            <li><b>TREEDOC-QUIZ</b>는 여러분의 나무의사 시험 합격을 돕기 위한 기출문제 학습 도구입니다.</li>
-            <li><b>필터링:</b> 회차와 과목을 선택해 문제를 모아볼 수 있습니다.</li>
-            <li><b>정답 확인:</b> 버튼을 누르면 정답이 나타납니다.</li>
-        </ul>
-        <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
-        <p style="font-size: 0.9em; color: #64748b;">
-            문의 사항이나 오류 제보는 아래 메일로 보내주세요.<br> 
-            ✉️ <span onclick="copyEmail(this)" 
-                style="color: var(--primary); text-decoration: underline; cursor: pointer; font-weight: bold;"
-                title="클릭하여 주소 복사">
-            treedocquiz@gmail.com
-            </span>
-            <br>
-            <small id="copyMessage" style="color: #10b981; display: none;">✅ 주소가 복사되었습니다!</small>
-        </p>
-        <button onclick="toggleHelp(event, false)" style="width: 100%; padding: 10px; margin-top: 10px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">닫기</button>
-    </div>
-</div>
 </body>
 </html>
