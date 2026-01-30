@@ -339,6 +339,15 @@
         }
 
         res.sort((a, b) => a.session.localeCompare(b.session, undefined, {numeric:true}) || a.number - b.number);
+        // 정렬 및 요약 업데이트
+        res.sort((a, b) => a.session.localeCompare(b.session, undefined, {numeric:true}) || a.number - b.number);
+        
+        const summary = [];
+        if (selectedSessions.size) summary.push(`회차 ${selectedSessions.size}`);
+        if (selectedSubjects.size) summary.push(`과목 ${selectedSubjects.size}`);
+        if (keywords.length) summary.push(`검색어 ${keywords.length}`);
+        
+        document.getElementById('filterSummary').innerText = summary.length ? summary.join(', ') : '전체 보기';
         document.getElementById('headerResultCount').innerText = `(${res.length}건)`;
         renderQuestions(res, keywords);
     }
