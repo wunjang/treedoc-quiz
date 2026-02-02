@@ -179,24 +179,6 @@
         .moon { left: 8px; color: #f1f5f9; opacity: 0; }
         input:checked ~ .sun { opacity: 0; }
         input:checked ~ .moon { opacity: 1; }
-
-        #clearSearch {
-            display: none;
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #94a3b8; 
-            font-size: 1.5em;
-            line-height: 1;
-            user-select: none;
-            transition: color 0.2s;
-        }
-
-        #clearSearch:hover {
-            color: #fb7185 !important;
-        }
     </style>
 </head>
 <body>
@@ -214,13 +196,7 @@
         <div class="filter-content">
             <div class="filter-row">
                 <span class="label">🔍 검색어 (AND)</span>
-                <div style="position: relative; width: 100%;">
-                    <input type="text" id="searchInput" placeholder="검색어를 입력하세요" oninput="handleSearchInput()">
-                    <span id="clearSearch" onclick="clearSearchInput()" 
-                        style="display: none; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #94a3b8; font-size: 1.5em; line-height: 1; user-select: none;">
-                        &times;
-                    </span>
-                </div>
+                <input type="text" id="searchInput" placeholder="검색어를 입력하세요" oninput="processAndRender()">
             </div>
             <div class="filter-row">
                 <span class="label">📅 회차 (OR)</span>
@@ -437,37 +413,6 @@
             msg.style.display = 'inline';
             setTimeout(() => msg.style.display = 'none', 2000);
         });
-    }
-
-    // 입력 상태에 따라 X 버튼 표시 제어
-    function handleSearchInput() {
-        const input = document.getElementById('searchInput');
-        const clearBtn = document.getElementById('clearSearch');
-        
-        clearBtn.style.display = input.value.length > 0 ? 'block' : 'none';
-        processAndRender(); // 검색 결과 즉시 반영
-    }
-
-    // 검색어 초기화 함수
-    function clearSearchInput() {
-        const input = document.getElementById('searchInput');
-        const clearBtn = document.getElementById('clearSearch');
-        
-        input.value = '';
-        clearBtn.style.display = 'none';
-        input.focus(); // 삭제 후 바로 입력할 수 있도록 포커스
-        processAndRender(); // 검색 결과 초기화 반영
-    }
-
-    // 기존 resetAll 함수에도 반영
-    function resetAll() {
-        selectedSessions.clear(); 
-        selectedSubjects.clear();
-        const input = document.getElementById('searchInput');
-        input.value = '';
-        document.getElementById('clearSearch').style.display = 'none';
-        document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
-        processAndRender();
     }
 
     loadData();
