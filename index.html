@@ -233,9 +233,10 @@
         <h3 style="margin-top: 0; color: var(--primary);">🌳 이용 안내</h3>
         <ul style="padding-left: 20px; line-height: 1.8; font-size: 0.95em;">
             <li><b>TREEDOC-QUIZ</b>는 나무의사 기출문제 학습 도구입니다.</li>
-            <li><b>검색어:</b> 검색어가 포함된 문제만 볼 수 있습니다. 공백으로 구분하여 여러 단어를 검색하세요.</li>
-            <li><b>필터링:</b> 회차와 과목을 선택해 문제를 모아볼 수 있습니다.</li>
-            <li><b>다크모드:</b> 야간 학습 시 눈을 보호하기 위해 🌙 버튼을 누르세요.</li>
+            <li><b>🔎검색어:</b> 검색어가 포함된 문제만 볼 수 있습니다. 공백으로 구분하여 여러 단어를 검색하세요.</li>
+            <li><b>🔀랜덤모드:</b> 검색어로 '랜덤'을 입력해 문제 순서를 뒤섞을 수 있습니다.</li>
+            <li><b>📅필터링:</b> 회차와 과목을 선택해 문제를 모아볼 수 있습니다.</li>
+            <li><b>🌙다크모드:</b> 야간 학습 시 눈을 보호하기 위해 다크모드를 사용하세요.</li>
         </ul>
         <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
         <p style="font-size: 0.9em; color: #64748b;">
@@ -326,30 +327,51 @@
 
     function processAndRender() {
         let res = questions;
+        
+        // 1. 세션 및 과목 필터링
         if (selectedSessions.size) res = res.filter(q => selectedSessions.has(q.session));
         if (selectedSubjects.size) res = res.filter(q => selectedSubjects.has(q.subject));
 
+        // 2. 검색어 처리 및 이스터 에그 키워드 분리
         const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
-        const keywords = searchVal ? searchVal.split(/\s+/).filter(kw => kw !== '') : [];
+        const rawKeywords = searchVal ? searchVal.split(/\s+/).filter(kw => kw !== '') : [];
+        
+        // 랜덤 트리거 단어 정의
+        const randomTriggers = ["rand", "random", "랜덤", "무작위"];
+        const hasRandomTrigger = rawKeywords.some(kw => randomTriggers.includes(kw));
+        
+        // 실제 검색에 사용할 키워드 (랜덤 트리거 단어는 제외)
+        const searchKeywords = rawKeywords.filter(kw => !randomTriggers.includes(kw));
 
-        if (keywords.length > 0) {
+        // 3. 텍스트 검색 필터링
+        if (searchKeywords.length > 0) {
             res = res.filter(q => {
                 const targetText = (q.question + q.options.join(' ') + (q.box || '')).toLowerCase();
-                return keywords.every(kw => targetText.includes(kw));
+                return searchKeywords.every(kw => targetText.includes(kw));
             });
         }
 
-        res.sort((a, b) => a.session.localeCompare(b.session, undefined, {numeric:true}) || a.number - b.number);
-        res.sort((a, b) => a.session.localeCompare(b.session, undefined, {numeric:true}) || a.number - b.number);
+        // 4. 정렬 로직 (이스터 에그 적용)
+        if (hasRandomTrigger) {
+            // 랜덤 정렬 (Fisher-Yates 알고리즘 방식의 간이 구현)
+            res = res.sort(() => Math.random() - 0.5);
+        } else {
+            // 기본 정렬: 회차 순 -> 번호 순
+            res.sort((a, b) => a.session.localeCompare(b.session, undefined, {numeric:true}) || a.number - b.number);
+        }
         
+        // 5. UI 업데이트
         const summary = [];
         if (selectedSessions.size) summary.push(`회차 ${selectedSessions.size}`);
         if (selectedSubjects.size) summary.push(`과목 ${selectedSubjects.size}`);
-        if (keywords.length) summary.push(`검색어 ${keywords.length}`);
+        if (searchKeywords.length) summary.push(`검색어 ${searchKeywords.length}`);
+        if (hasRandomTrigger) summary.push(`🔀 랜덤 모드`);
         
         document.getElementById('filterSummary').innerText = summary.length ? summary.join(', ') : '전체 보기';
         document.getElementById('headerResultCount').innerText = `(${res.length}건)`;
-        renderQuestions(res, keywords);
+        
+        // 하이라이트 처리를 위해 검색 키워드만 전달
+        renderQuestions(res, searchKeywords);
     }
 
     function renderQuestions(data, keywords = []) {
