@@ -437,6 +437,29 @@
         });
     }
 
+    document.addEventListener('keydown', function(e) {
+        // 1. 엔터 키인지 확인 (input이나 textarea에서 줄바꿈이 필요한 경우는 제외할 수 있으나, 현재 구조상 전체 적용)
+        if (e.key === 'Enter') {
+            const filterPanel = document.getElementById('filterPanel');
+            const searchInput = document.getElementById('searchInput');
+
+            // 2. 필터 패널이 닫혀있는 경우 (collapsed 클래스가 있음)
+            if (filterPanel.classList.contains('collapsed')) {
+                filterPanel.classList.remove('collapsed'); // 패널 열기
+                
+                // 패널이 열리는 애니메이션 시간을 고려하여 포커스 처리
+                setTimeout(() => {
+                    searchInput.focus();
+                }, 100);
+            } 
+            // 3. 필터 패널이 이미 열려있는 경우
+            else {
+                filterPanel.classList.add('collapsed'); // 패널 닫기
+                searchInput.blur(); // 검색창 포커스 해제
+            }
+        }
+    });
+
     loadData();
 </script>
 </body>
