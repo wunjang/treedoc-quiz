@@ -437,28 +437,71 @@
         });
     }
 
-    document.addEventListener('keydown', function(e) {
-        // 1. 엔터 키인지 확인 (input이나 textarea에서 줄바꿈이 필요한 경우는 제외할 수 있으나, 현재 구조상 전체 적용)
-        if (e.key === 'Enter') {
-            const filterPanel = document.getElementById('filterPanel');
-            const searchInput = document.getElementById('searchInput');
+    // 상태 관리를 위한 변수
+    let currentFocusIndex = -1;
+    let lastMoveTime = 0; // 마지막 이동 시간 기록
 
-            // 2. 필터 패널이 닫혀있는 경우 (collapsed 클래스가 있음)
+    document.addEventListener('keydown', function(e) {
+        const searchInput = document.getElementById('searchInput');
+        const filterPanel = document.getElementById('filterPanel');
+        const cards = document.querySelectorAll('.q-card');
+
+        // 1. 검색창 포커스 시 화살표 이동 제외
+        if (document.activeElement === searchInput && e.key !== 'Enter') {
+            return;
+        }
+
+        // 2. 엔터 키: 필터 토글
+        if (e.key === 'Enter') {
             if (filterPanel.classList.contains('collapsed')) {
-                filterPanel.classList.remove('collapsed'); // 패널 열기
-                
-                // 패널이 열리는 애니메이션 시간을 고려하여 포커스 처리
-                setTimeout(() => {
-                    searchInput.focus();
-                }, 100);
-            } 
-            // 3. 필터 패널이 이미 열려있는 경우
-            else {
-                filterPanel.classList.add('collapsed'); // 패널 닫기
-                searchInput.blur(); // 검색창 포커스 해제
+                filterPanel.classList.remove('collapsed');
+                setTimeout(() => searchInput.focus(), 100);
+            } else {
+                filterPanel.classList.add('collapsed');
+                searchInput.blur();
             }
+            return;
+        }
+
+        // 3. 화살표 좌/우 키 (스로틀링 적용)
+        if (cards.length > 0 && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
+            const now = Date.now();
+            // 150ms(0.15초) 이내에 다시 누른 경우는 무시 (꾹 눌렀을 때 과부하 방지)
+            if (now - lastMoveTime < 150) {
+                e.preventDefault();
+                return;
+            }
+            lastMoveTime = now;
+
+            e.preventDefault(); // 스크롤 기본 동작 방지
+
+            // 인덱스 계산
+            if (e.key === 'ArrowRight') {
+                currentFocusIndex = (currentFocusIndex + 1 < cards.length) ? currentFocusIndex + 1 : currentFocusIndex;
+            } else if (e.key === 'ArrowLeft') {
+                currentFocusIndex = (currentFocusIndex - 1 >= 0) ? currentFocusIndex - 1 : currentFocusIndex;
+            }
+
+            // 해당 카드로 이동
+            cards[currentFocusIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // 시각적 강조 효과
+            cards.forEach(c => {
+                c.style.borderColor = 'var(--border)';
+                c.style.boxShadow = 'none';
+            });
+            const activeCard = cards[currentFocusIndex];
+            activeCard.style.borderColor = 'var(--primary)';
+            activeCard.style.boxShadow = '0 0 10px rgba(59, 130, 246, 0.3)';
         }
     });
+
+    // 검색/필터 변경 시 포커스 초기화 (기존 함수 확장)
+    const originalProcessAndRender = processAndRender;
+    processAndRender = function() {
+        originalProcessAndRender();
+        currentFocusIndex = -1; 
+    };
 
     loadData();
 </script>
