@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>TREEDOC-QUIZ - 나무의사 기출문제 모아보기</title>
-    
+
     <meta name="description" content="나무의사 필기 시험 기출문제를 회차별, 과목별로 편리하게 찾아보세요.">
     <meta property="og:title" content="TREEDOC-QUIZ - 나무의사 기출문제">
     <meta property="og:description" content="나무의사 합격을 위한 기출문제 서비스">
     <meta property="og:url" content="https://treedoc-quiz.work.gd/">
 
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌳</text></svg>">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌳</text></svg>">
     <style>
-        * { box-sizing: border-box; }
-        :root { 
-            --primary: #3b82f6; 
-            --secondary: #10b981; 
-            --accent: #f59e0b; 
-            --bg: #f1f5f9; 
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --bg: #f1f5f9;
             --card-bg: #ffffff;
             --text: #1e293b;
             --border: #e2e8f0;
@@ -34,17 +39,28 @@
             --inner-box-bg: #2d3748;
         }
 
-        body { font-family: 'Pretendard', sans-serif; background: var(--bg); padding: 15px; margin: 0; color: var(--text); transition: background 0.3s, color 0.3s; }
-        .container { max-width: 800px; margin: 0 auto; }
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background: var(--bg);
+            padding: 15px;
+            margin: 0;
+            color: var(--text);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
         /* 필터 패널 스타일 */
-        .filter-panel { 
-            background: var(--card-bg); 
-            border-radius: 16px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
-            margin-bottom: 20px; 
-            position: sticky; 
-            top: 10px; 
+        .filter-panel {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            position: sticky;
+            top: 10px;
             z-index: 100;
             overflow: hidden;
             border: 1px solid var(--border);
@@ -59,12 +75,24 @@
             background: var(--card-bg);
             user-select: none;
         }
-        .filter-header h2 { margin: 0; font-size: 1.1em; display: flex; align-items: center; gap: 8px; }
-        .filter-summary { font-size: 0.85em; color: var(--primary); font-weight: bold; }
+
+        .filter-header h2 {
+            margin: 0;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-summary {
+            font-size: 0.85em;
+            color: var(--primary);
+            font-weight: bold;
+        }
 
         .filter-content {
             padding: 0 20px 20px 20px;
-            max-height: 500px; 
+            max-height: 500px;
             transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out, opacity 0.2s ease-in-out;
             opacity: 1;
             overflow: hidden;
@@ -78,24 +106,105 @@
             pointer-events: none;
         }
 
-        .filter-row { margin-top: 15px; }
-        .label { font-weight: bold; display: block; margin-bottom: 8px; color: #64748b; font-size: 0.85em; }
-        .tag-group { display: flex; flex-wrap: wrap; gap: 6px; }
-        .tag { padding: 6px 12px; background: var(--bg); border-radius: 50px; cursor: pointer; font-size: 0.8em; border: 1px solid var(--border); transition: 0.2s; color: var(--text); }
-        .tag.active.session { background: var(--secondary); color: white; border-color: var(--secondary); }
-        .tag.active.subject { background: var(--primary); color: white; border-color: var(--primary); }
+        .filter-row {
+            margin-top: 15px;
+        }
 
-        #searchInput { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.95em; outline: none; background: var(--card-bg); color: var(--text); }
+        .label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            color: #64748b;
+            font-size: 0.85em;
+        }
+
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            padding: 6px 12px;
+            background: var(--bg);
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.8em;
+            border: 1px solid var(--border);
+            transition: 0.2s;
+            color: var(--text);
+        }
+
+        .tag.active.session {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .tag.active.subject {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.95em;
+            outline: none;
+            background: var(--card-bg);
+            color: var(--text);
+        }
 
         /* 문제 카드 */
-        .q-card { content-visibility: auto; background: var(--card-bg); padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border); }
-        .btn-ans { width: 100%; margin-top: 15px; padding: 12px; cursor: pointer; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; font-weight: bold; color: var(--text); }
-        .ans-section { display: none; margin-top: 10px; padding: 15px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #22c55e; }
-        body.dark-mode .ans-section { background: #064e3b; border-color: #10b981; }
-        body.dark-mode .ans-section div { color: #d1fae5 !important; }
+        .q-card {
+            content-visibility: auto;
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border);
+        }
 
-        .arrow { transition: transform 0.3s; }
-        .collapsed .arrow { transform: rotate(-180deg); }
+        .btn-ans {
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            cursor: pointer;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        .ans-section {
+            display: none;
+            margin-top: 10px;
+            padding: 15px;
+            background: #f0fdf4;
+            border-radius: 8px;
+            border-left: 4px solid #22c55e;
+        }
+
+        body.dark-mode .ans-section {
+            background: #064e3b;
+            border-color: #10b981;
+        }
+
+        body.dark-mode .ans-section div {
+            color: #d1fae5 !important;
+        }
+
+        .arrow {
+            transition: transform 0.3s;
+        }
+
+        .collapsed .arrow {
+            transform: rotate(-180deg);
+        }
 
         .inner-box {
             background-color: var(--inner-box-bg);
@@ -125,18 +234,39 @@
             border-radius: 50%;
             cursor: pointer;
             display: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             font-weight: bold;
         }
 
-        .quiz-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 14px; }
-        .quiz-table th, .quiz-table td { border: 1px solid var(--border); padding: 6px 2px; text-align: center; }
-        .quiz-table th { background-color: var(--inner-box-bg); font-weight: bold; }
+        .quiz-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 14px;
+        }
 
-        mark { border-radius: 3px; color: black; }
-        
+        .quiz-table th,
+        .quiz-table td {
+            border: 1px solid var(--border);
+            padding: 6px 2px;
+            text-align: center;
+        }
+
+        .quiz-table th {
+            background-color: var(--inner-box-bg);
+            font-weight: bold;
+        }
+
+        mark {
+            border-radius: 3px;
+            color: black;
+        }
+
         /* 다크모드/도움말 모달 내부 텍스트 수정 */
-        body.dark-mode #helpModal > div { background: var(--card-bg); color: var(--text); }
+        body.dark-mode #helpModal>div {
+            background: var(--card-bg);
+            color: var(--text);
+        }
 
         /* 토글 스위치 디자인 */
         .switch {
@@ -146,26 +276,44 @@
             height: 26px;
             vertical-align: middle;
         }
-        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
         .slider {
             position: absolute;
             cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background-color: #ccc;
             transition: .4s;
             border-radius: 34px;
         }
+
         .slider:before {
             position: absolute;
             content: "";
-            height: 18px; width: 18px;
-            left: 4px; bottom: 4px;
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
             background-color: white;
             transition: .4s;
             border-radius: 50%;
         }
-        input:checked + .slider { background-color: var(--primary); }
-        input:checked + .slider:before { transform: translateX(24px); }
+
+        input:checked+.slider {
+            background-color: var(--primary);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(24px);
+        }
 
         /* 다크모드 시 토글 내부 아이콘 처리 (선택사항) */
         .slider-icon {
@@ -175,222 +323,246 @@
             pointer-events: none;
             transition: .4s;
         }
-        .sun { right: 6px; color: #f59e0b; }
-        .moon { left: 8px; color: #f1f5f9; opacity: 0; }
-        input:checked ~ .sun { opacity: 0; }
-        input:checked ~ .moon { opacity: 1; }
+
+        .sun {
+            right: 6px;
+            color: #f59e0b;
+        }
+
+        .moon {
+            left: 8px;
+            color: #f1f5f9;
+            opacity: 0;
+        }
+
+        input:checked~.sun {
+            opacity: 0;
+        }
+
+        input:checked~.moon {
+            opacity: 1;
+        }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <div class="filter-panel collapsed" id="filterPanel">
-        <div class="filter-header" onclick="togglePanel(event)">
-            <h2>🔍 필터 설정 <span id="headerResultCount" style="font-size: 0.8em; color: #64748b;"></span></h2>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span class="filter-summary" id="filterSummary">전체 보기</span>
-                <span class="arrow">▼</span>
-            </div>
-        </div>
-        
-        <div class="filter-content">
-            <div class="filter-row">
-                <span class="label">🔍 검색어 (AND)</span>
-                <input type="search" id="searchInput" placeholder="검색어를 입력하세요" oninput="processAndRender()">
-            </div>
-            <div class="filter-row">
-                <span class="label">📅 회차 (OR)</span>
-                <div id="sessionGroup" class="tag-group"></div>
-            </div>
-            <div class="filter-row">
-                <span class="label">📘 과목 (OR)</span>
-                <div id="subjectGroup" class="tag-group"></div>
-            </div>
-            <div style="margin-top: 20px; display: flex; justify-content: flex-end; align-items: center; gap: 12px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 0.8em; color: #64748b;">다크 모드</span>
-                    <label class="switch">
-                        <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
-                        <span class="slider"></span>
-                        <span class="slider-icon moon">🌙</span>
-                        <span class="slider-icon sun">☀️</span>
-                    </label>
+    <div class="container">
+        <div class="filter-panel collapsed" id="filterPanel">
+            <div class="filter-header" onclick="togglePanel(event)">
+                <h2>🔍 필터 설정 <span id="headerResultCount" style="font-size: 0.8em; color: #64748b;"></span></h2>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="filter-summary" id="filterSummary">전체 보기</span>
+                    <span class="arrow">▼</span>
                 </div>
-                
-                <button onclick="toggleHelp(event, true)" style="padding: 8px 15px; background: #64748b; color: white; border: none; border-radius: 6px; cursor: pointer;">도움말</button>
-                <button onclick="resetAll()" style="padding: 8px 15px; background: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer;">초기화</button>
             </div>
+
+            <div class="filter-content">
+                <div class="filter-row">
+                    <span class="label">🔍 검색어 (AND)</span>
+                    <input type="search" id="searchInput" placeholder="검색어를 입력하세요" oninput="processAndRender()">
+                </div>
+                <div class="filter-row">
+                    <span class="label">📅 회차 (OR)</span>
+                    <div id="sessionGroup" class="tag-group"></div>
+                </div>
+                <div class="filter-row">
+                    <span class="label">📘 과목 (OR)</span>
+                    <div id="subjectGroup" class="tag-group"></div>
+                </div>
+                <div
+                    style="margin-top: 20px; display: flex; justify-content: flex-end; align-items: center; gap: 12px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 0.8em; color: #64748b;">다크 모드</span>
+                        <label class="switch">
+                            <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
+                            <span class="slider"></span>
+                            <span class="slider-icon moon">🌙</span>
+                            <span class="slider-icon sun">☀️</span>
+                        </label>
+                    </div>
+
+                    <button onclick="toggleHelp(event, true)"
+                        style="padding: 8px 15px; background: #64748b; color: white; border: none; border-radius: 6px; cursor: pointer;">도움말</button>
+                    <button onclick="resetAll()"
+                        style="padding: 8px 15px; background: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer;">초기화</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="questionList"></div>
+    </div>
+
+    <button id="btnTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">TOP</button>
+
+    <div id="helpModal" onclick="toggleHelp(event, false)"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: var(--card-bg); color: var(--text); padding: 25px; border-radius: 16px; max-width: 90%; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); transition: background 0.3s, color 0.3s;"
+            onclick="event.stopPropagation()">
+            <h3 style="margin-top: 0; color: var(--primary);">🌳 이용 안내</h3>
+            <ul style="padding-left: 20px; line-height: 1.8; font-size: 0.95em;">
+                <li><b>TREEDOC-QUIZ</b>는 나무의사 기출문제 학습 도구입니다.</li>
+                <li><b>🔎검색어:</b> 검색어가 포함된 문제만 볼 수 있습니다. 공백으로 구분하여 여러 단어를 검색하세요.</li>
+                <li><b>🔀랜덤모드:</b> 검색어로 '랜덤'을 입력해 문제 순서를 뒤섞을 수 있습니다.</li>
+                <li><b>📅필터링:</b> 회차와 과목을 선택해 문제를 모아볼 수 있습니다.</li>
+                <li><b>🌙다크모드:</b> 야간 학습 시 눈을 보호하기 위해 다크모드를 사용하세요.</li>
+                <hr style="border: 0; border-top: 1px dashed var(--border); margin: 10px 0;">
+                <li><b>⌨️ 단축키 안내:</b></li>
+                <li><b>Enter:</b> 필터 열기 및 검색창 이동 (다시 누르면 닫기)</li>
+                <li><b>← / → 화살표:</b> 이전/다음 문제로 이동</li>
+                <li><b>Space:</b> 선택된 문제의 정답 확인 토글</li>
+            </ul>
+            <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
+            <p style="font-size: 0.9em; color: #64748b;">
+                문의: <span onclick="copyEmail(this)"
+                    style="color: var(--primary); text-decoration: underline; cursor: pointer; font-weight: bold;">treedocquiz@gmail.com</span>
+                <br><small id="copyMessage" style="color: #10b981; display: none;">✅ 주소가 복사되었습니다!</small>
+            </p>
+            <button onclick="toggleHelp(event, false)"
+                style="width: 100%; padding: 10px; margin-top: 10px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">닫기</button>
         </div>
     </div>
 
-    <div id="questionList"></div>
-</div>
-
-<button id="btnTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">TOP</button>
-
-<div id="helpModal" onclick="toggleHelp(event, false)" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
-    <div style="background: var(--card-bg); color: var(--text); padding: 25px; border-radius: 16px; max-width: 90%; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); transition: background 0.3s, color 0.3s;" onclick="event.stopPropagation()">
-        <h3 style="margin-top: 0; color: var(--primary);">🌳 이용 안내</h3>
-        <ul style="padding-left: 20px; line-height: 1.8; font-size: 0.95em;">
-            <li><b>TREEDOC-QUIZ</b>는 나무의사 기출문제 학습 도구입니다.</li>
-            <li><b>🔎검색어:</b> 검색어가 포함된 문제만 볼 수 있습니다. 공백으로 구분하여 여러 단어를 검색하세요.</li>
-            <li><b>🔀랜덤모드:</b> 검색어로 '랜덤'을 입력해 문제 순서를 뒤섞을 수 있습니다.</li>
-            <li><b>📅필터링:</b> 회차와 과목을 선택해 문제를 모아볼 수 있습니다.</li>
-            <li><b>🌙다크모드:</b> 야간 학습 시 눈을 보호하기 위해 다크모드를 사용하세요.</li>
-            <hr style="border: 0; border-top: 1px dashed var(--border); margin: 10px 0;">
-            <li><b>⌨️ 단축키 안내:</b></li>
-            <li><b>Enter:</b> 필터 열기 및 검색창 이동 (다시 누르면 닫기)</li>
-            <li><b>← / → 화살표:</b> 이전/다음 문제로 이동</li>
-        </ul>
-        <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
-        <p style="font-size: 0.9em; color: #64748b;">
-            문의: <span onclick="copyEmail(this)" style="color: var(--primary); text-decoration: underline; cursor: pointer; font-weight: bold;">treedocquiz@gmail.com</span>
-            <br><small id="copyMessage" style="color: #10b981; display: none;">✅ 주소가 복사되었습니다!</small>
-        </p>
-        <button onclick="toggleHelp(event, false)" style="width: 100%; padding: 10px; margin-top: 10px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">닫기</button>
-    </div>
-</div>
 
 
+    <script>
+        let questions = [];
+        let selectedSessions = new Set();
+        let selectedSubjects = new Set();
+        const subjectOrder = ["수목병리학", "수목해충학", "수목생리학", "산림토양학", "수목관리학"];
 
-<script>
-    let questions = [];
-    let selectedSessions = new Set();
-    let selectedSubjects = new Set();
-    const subjectOrder = ["수목병리학", "수목해충학", "수목생리학", "산림토양학", "수목관리학"];
-
-    // 다크 모드 토글 함수
-    function toggleDarkMode() {
-        const isChecked = document.getElementById('darkModeToggle').checked;
-        const isDark = document.body.classList.toggle('dark-mode', isChecked);
-        localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
-    }
-
-    function updateDarkModeIcon(isDark) {
-        document.getElementById('darkModeBtn').innerText = isDark ? '☀️' : '🌙';
-    }
-
-    // 초기 로드 시 다크 모드 설정 확인
-    window.addEventListener('DOMContentLoaded', () => {
-        const darkModeStatus = localStorage.getItem('darkMode');
-        const toggle = document.getElementById('darkModeToggle');
-        if (darkModeStatus === 'enabled') {
-            document.body.classList.add('dark-mode');
-            if(toggle) toggle.checked = true;
+        // 다크 모드 토글 함수
+        function toggleDarkMode() {
+            const isChecked = document.getElementById('darkModeToggle').checked;
+            const isDark = document.body.classList.toggle('dark-mode', isChecked);
+            localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
         }
-    });
 
-    async function loadData() {
-        try {
-            const response = await fetch('questions.json');
-            if (!response.ok) throw new Error('파일 로드 실패');
-            questions = await response.json();
-            initFilters();
-            processAndRender();
-        } catch (e) {
-            document.getElementById('questionList').innerHTML = `<p style="color:red; text-align:center;">데이터를 불러올 수 없습니다 (questions.json 확인 필요)</p>`;
+        function updateDarkModeIcon(isDark) {
+            document.getElementById('darkModeBtn').innerText = isDark ? '☀️' : '🌙';
         }
-    }
 
-    function initFilters() {
-        const sessions = [...new Set(questions.map(q => q.session))].sort((a, b) => 
-            a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
-        );
-        const subjects = [...new Set(questions.map(q => q.subject))].sort((a, b) => {
-            let idxA = subjectOrder.indexOf(a), idxB = subjectOrder.indexOf(b);
-            return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
+        // 초기 로드 시 다크 모드 설정 확인
+        window.addEventListener('DOMContentLoaded', () => {
+            const darkModeStatus = localStorage.getItem('darkMode');
+            const toggle = document.getElementById('darkModeToggle');
+            if (darkModeStatus === 'enabled') {
+                document.body.classList.add('dark-mode');
+                if (toggle) toggle.checked = true;
+            }
         });
-        document.getElementById('sessionGroup').innerHTML = sessions.map(s => `<div class="tag session" onclick="toggleFilter('session', '${s}', this)">${s}</div>`).join('');
-        document.getElementById('subjectGroup').innerHTML = subjects.map(s => `<div class="tag subject" onclick="toggleFilter('subject', '${s}', this)">${s}</div>`).join('');
-    }
 
-    function togglePanel(e) { e.stopPropagation(); document.getElementById('filterPanel').classList.toggle('collapsed'); }
-    
-    window.addEventListener('click', function(e) {
-        const panel = document.getElementById('filterPanel');
-        if (panel && !panel.contains(e.target)) panel.classList.add('collapsed');
-    });
+        async function loadData() {
+            try {
+                const response = await fetch('questions.json');
+                if (!response.ok) throw new Error('파일 로드 실패');
+                questions = await response.json();
+                initFilters();
+                processAndRender();
+            } catch (e) {
+                document.getElementById('questionList').innerHTML = `<p style="color:red; text-align:center;">데이터를 불러올 수 없습니다 (questions.json 확인 필요)</p>`;
+            }
+        }
 
-    function toggleFilter(type, value, el) {
-        const set = type === 'session' ? selectedSessions : selectedSubjects;
-        set.has(value) ? set.delete(value) : set.add(value);
-        el.classList.toggle('active');
-        processAndRender();
-    }
-
-    function highlightText(text, keywords) {
-        if (!keywords || keywords.length === 0 || !text) return text;
-        let highlighted = text;
-        keywords.forEach(word => {
-            if (!word) return;
-            const regex = new RegExp(`(${word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
-            highlighted = highlighted.replace(regex, `<mark style="background-color: #ffeb3b">$1</mark>`);
-        });
-        return highlighted;
-    }
-
-    function processAndRender() {
-        let res = questions;
-        
-        // 1. 세션 및 과목 필터링
-        if (selectedSessions.size) res = res.filter(q => selectedSessions.has(q.session));
-        if (selectedSubjects.size) res = res.filter(q => selectedSubjects.has(q.subject));
-
-        // 2. 검색어 처리 및 이스터 에그 키워드 분리
-        const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
-        const rawKeywords = searchVal ? searchVal.split(/\s+/).filter(kw => kw !== '') : [];
-        
-        // 랜덤 트리거 단어 정의
-        const randomTriggers = ["rand", "random", "랜덤", "무작위"];
-        const hasRandomTrigger = rawKeywords.some(kw => randomTriggers.includes(kw));
-        
-        // 실제 검색에 사용할 키워드 (랜덤 트리거 단어는 제외)
-        const searchKeywords = rawKeywords.filter(kw => !randomTriggers.includes(kw));
-
-        // 3. 텍스트 검색 필터링
-        if (searchKeywords.length > 0) {
-            res = res.filter(q => {
-                const targetText = (q.question + q.options.join(' ') + (q.box || '')).toLowerCase();
-                return searchKeywords.every(kw => targetText.includes(kw));
+        function initFilters() {
+            const sessions = [...new Set(questions.map(q => q.session))].sort((a, b) =>
+                a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
+            );
+            const subjects = [...new Set(questions.map(q => q.subject))].sort((a, b) => {
+                let idxA = subjectOrder.indexOf(a), idxB = subjectOrder.indexOf(b);
+                return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
             });
+            document.getElementById('sessionGroup').innerHTML = sessions.map(s => `<div class="tag session" onclick="toggleFilter('session', '${s}', this)">${s}</div>`).join('');
+            document.getElementById('subjectGroup').innerHTML = subjects.map(s => `<div class="tag subject" onclick="toggleFilter('subject', '${s}', this)">${s}</div>`).join('');
         }
 
-        // 4. 정렬 로직 (이스터 에그 적용)
-        if (hasRandomTrigger) {
-            // 랜덤 정렬 (Fisher-Yates 알고리즘 방식의 간이 구현)
-            res = res.sort(() => Math.random() - 0.5);
-        } else {
-            // 기본 정렬: 회차 순 -> 번호 순
-            res.sort((a, b) => a.session.localeCompare(b.session, undefined, {numeric:true}) || a.number - b.number);
-        }
-        
-        // 5. UI 업데이트
-        const summary = [];
-        if (selectedSessions.size) summary.push(`회차 ${selectedSessions.size}`);
-        if (selectedSubjects.size) summary.push(`과목 ${selectedSubjects.size}`);
-        if (searchKeywords.length) summary.push(`검색어 ${searchKeywords.length}`);
-        if (hasRandomTrigger) summary.push(`🔀 랜덤 모드`);
-        
-        document.getElementById('filterSummary').innerText = summary.length ? summary.join(', ') : '전체 보기';
-        document.getElementById('headerResultCount').innerText = `(${res.length}건)`;
-        
-        // 하이라이트 처리를 위해 검색 키워드만 전달
-        renderQuestions(res, searchKeywords);
-    }
+        function togglePanel(e) { e.stopPropagation(); document.getElementById('filterPanel').classList.toggle('collapsed'); }
 
-    function renderQuestions(data, keywords = []) {
-        const listEl = document.getElementById('questionList');
-        if (data.length === 0) {
-            listEl.innerHTML = '<p style="text-align:center; padding:50px; color:#64748b;">조건에 맞는 문제가 없습니다.</p>';
-            return;
+        window.addEventListener('click', function (e) {
+            const panel = document.getElementById('filterPanel');
+            if (panel && !panel.contains(e.target)) panel.classList.add('collapsed');
+        });
+
+        function toggleFilter(type, value, el) {
+            const set = type === 'session' ? selectedSessions : selectedSubjects;
+            set.has(value) ? set.delete(value) : set.add(value);
+            el.classList.toggle('active');
+            processAndRender();
         }
 
-        listEl.innerHTML = data.map(q => {
-            const displayQuestion = highlightText(q.question, keywords);
-            const displayBox = q.box ? highlightText(q.box, keywords) : '';
-            const displayOptions = q.options.map(opt => highlightText(opt, keywords));
+        function highlightText(text, keywords) {
+            if (!keywords || keywords.length === 0 || !text) return text;
+            let highlighted = text;
+            keywords.forEach(word => {
+                if (!word) return;
+                const regex = new RegExp(`(${word.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
+                highlighted = highlighted.replace(regex, `<mark style="background-color: #ffeb3b">$1</mark>`);
+            });
+            return highlighted;
+        }
 
-            return `
+        function processAndRender() {
+            let res = questions;
+
+            // 1. 세션 및 과목 필터링
+            if (selectedSessions.size) res = res.filter(q => selectedSessions.has(q.session));
+            if (selectedSubjects.size) res = res.filter(q => selectedSubjects.has(q.subject));
+
+            // 2. 검색어 처리 및 이스터 에그 키워드 분리
+            const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
+            const rawKeywords = searchVal ? searchVal.split(/\s+/).filter(kw => kw !== '') : [];
+
+            // 랜덤 트리거 단어 정의
+            const randomTriggers = ["rand", "random", "랜덤", "무작위"];
+            const hasRandomTrigger = rawKeywords.some(kw => randomTriggers.includes(kw));
+
+            // 실제 검색에 사용할 키워드 (랜덤 트리거 단어는 제외)
+            const searchKeywords = rawKeywords.filter(kw => !randomTriggers.includes(kw));
+
+            // 3. 텍스트 검색 필터링
+            if (searchKeywords.length > 0) {
+                res = res.filter(q => {
+                    const targetText = (q.question + q.options.join(' ') + (q.box || '')).toLowerCase();
+                    return searchKeywords.every(kw => targetText.includes(kw));
+                });
+            }
+
+            // 4. 정렬 로직 (이스터 에그 적용)
+            if (hasRandomTrigger) {
+                // 랜덤 정렬 (Fisher-Yates 알고리즘 방식의 간이 구현)
+                res = res.sort(() => Math.random() - 0.5);
+            } else {
+                // 기본 정렬: 회차 순 -> 번호 순
+                res.sort((a, b) => a.session.localeCompare(b.session, undefined, { numeric: true }) || a.number - b.number);
+            }
+
+            // 5. UI 업데이트
+            const summary = [];
+            if (selectedSessions.size) summary.push(`회차 ${selectedSessions.size}`);
+            if (selectedSubjects.size) summary.push(`과목 ${selectedSubjects.size}`);
+            if (searchKeywords.length) summary.push(`검색어 ${searchKeywords.length}`);
+            if (hasRandomTrigger) summary.push(`🔀 랜덤 모드`);
+
+            document.getElementById('filterSummary').innerText = summary.length ? summary.join(', ') : '전체 보기';
+            document.getElementById('headerResultCount').innerText = `(${res.length}건)`;
+
+            // 하이라이트 처리를 위해 검색 키워드만 전달
+            renderQuestions(res, searchKeywords);
+        }
+
+        function renderQuestions(data, keywords = []) {
+            const listEl = document.getElementById('questionList');
+            if (data.length === 0) {
+                listEl.innerHTML = '<p style="text-align:center; padding:50px; color:#64748b;">조건에 맞는 문제가 없습니다.</p>';
+                return;
+            }
+
+            listEl.innerHTML = data.map(q => {
+                const displayQuestion = highlightText(q.question, keywords);
+                const displayBox = q.box ? highlightText(q.box, keywords) : '';
+                const displayOptions = q.options.map(opt => highlightText(opt, keywords));
+
+                return `
                 <div class="q-card">
                     <small style="color:#64748b">${q.session} | ${q.subject} | ${q.number}번</small>
                     <div class="q-title" style="font-weight:bold; margin: 15px 0; font-size:1.1em; line-height:1.6;">${displayQuestion}</div>
@@ -408,117 +580,128 @@
                     <div class="ans-section"><div style="font-weight:bold; color:#166534; font-size:1.1em;">정답: ${q.answer}</div></div>
                 </div>
             `;
-        }).join('');
-    }
-
-    function toggleAns(btn) {
-        const target = btn.nextElementSibling;
-        target.style.display = (target.style.display === 'block') ? 'none' : 'block';
-    }
-
-    function resetAll() {
-        selectedSessions.clear(); selectedSubjects.clear();
-        document.getElementById('searchInput').value = '';
-        document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
-        processAndRender();
-    }
-
-    window.onscroll = function() {
-        const btn = document.getElementById("btnTop");
-        btn.style.display = (window.scrollY > 200) ? "block" : "none";
-    };
-
-    function toggleHelp(event, show) {
-        if (event) event.stopPropagation();
-        document.getElementById('helpModal').style.display = show ? 'flex' : 'none';
-    }
-
-    function copyEmail(el) {
-        navigator.clipboard.writeText(el.innerText.trim()).then(() => {
-            const msg = document.getElementById('copyMessage');
-            msg.style.display = 'inline';
-            setTimeout(() => msg.style.display = 'none', 2000);
-        });
-    }
-
-    // 상태 관리를 위한 변수
-    let currentFocusIndex = -1;
-    let lastMoveTime = 0;
-
-    document.addEventListener('keydown', function(e) {
-        const searchInput = document.getElementById('searchInput');
-        const filterPanel = document.getElementById('filterPanel');
-        const cards = document.querySelectorAll('.q-card');
-
-        if (document.activeElement === searchInput && e.key !== 'Enter') return;
-
-        if (e.key === 'Enter') {
-            if (filterPanel.classList.contains('collapsed')) {
-                filterPanel.classList.remove('collapsed');
-                setTimeout(() => searchInput.focus(), 100);
-            } else {
-                filterPanel.classList.add('collapsed');
-                searchInput.blur();
-            }
-            return;
+            }).join('');
         }
 
-        if (cards.length > 0 && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
-            const now = Date.now();
-            if (now - lastMoveTime < 150) {
-                e.preventDefault();
+        function toggleAns(btn) {
+            const target = btn.nextElementSibling;
+            target.style.display = (target.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function resetAll() {
+            selectedSessions.clear(); selectedSubjects.clear();
+            document.getElementById('searchInput').value = '';
+            document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+            processAndRender();
+        }
+
+        window.onscroll = function () {
+            const btn = document.getElementById("btnTop");
+            btn.style.display = (window.scrollY > 200) ? "block" : "none";
+        };
+
+        function toggleHelp(event, show) {
+            if (event) event.stopPropagation();
+            document.getElementById('helpModal').style.display = show ? 'flex' : 'none';
+        }
+
+        function copyEmail(el) {
+            navigator.clipboard.writeText(el.innerText.trim()).then(() => {
+                const msg = document.getElementById('copyMessage');
+                msg.style.display = 'inline';
+                setTimeout(() => msg.style.display = 'none', 2000);
+            });
+        }
+
+        // 상태 관리를 위한 변수
+        let currentFocusIndex = -1;
+        let lastMoveTime = 0;
+
+        document.addEventListener('keydown', function (e) {
+            const searchInput = document.getElementById('searchInput');
+            const filterPanel = document.getElementById('filterPanel');
+            const cards = document.querySelectorAll('.q-card');
+
+            if (document.activeElement === searchInput && e.key !== 'Enter') return;
+
+            if (e.key === 'Enter') {
+                if (filterPanel.classList.contains('collapsed')) {
+                    filterPanel.classList.remove('collapsed');
+                    setTimeout(() => searchInput.focus(), 100);
+                } else {
+                    filterPanel.classList.add('collapsed');
+                    searchInput.blur();
+                }
                 return;
             }
-            lastMoveTime = now;
-            e.preventDefault();
 
-            // --- 핵심 수정 부분: 현재 화면 중앙에 가장 가까운 카드 찾기 ---
-            if (currentFocusIndex === -1) {
-                let closestIdx = 0;
-                let minDistance = Infinity;
-                const centerY = window.innerHeight / 2;
+            if (cards.length > 0 && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
+                const now = Date.now();
+                if (now - lastMoveTime < 150) {
+                    e.preventDefault();
+                    return;
+                }
+                lastMoveTime = now;
+                e.preventDefault();
 
-                cards.forEach((card, idx) => {
-                    const rect = card.getBoundingClientRect();
-                    const cardCenter = rect.top + rect.height / 2;
-                    const distance = Math.abs(centerY - cardCenter);
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        closestIdx = idx;
+                // --- 핵심 수정 부분: 현재 화면 중앙에 가장 가까운 카드 찾기 ---
+                if (currentFocusIndex === -1) {
+                    let closestIdx = 0;
+                    let minDistance = Infinity;
+                    const centerY = window.innerHeight / 2;
+
+                    cards.forEach((card, idx) => {
+                        const rect = card.getBoundingClientRect();
+                        const cardCenter = rect.top + rect.height / 2;
+                        const distance = Math.abs(centerY - cardCenter);
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            closestIdx = idx;
+                        }
+                    });
+                    currentFocusIndex = closestIdx;
+                } else {
+                    // 이미 포커스가 있는 상태에서 이동
+                    if (e.key === 'ArrowRight') {
+                        currentFocusIndex = Math.min(currentFocusIndex + 1, cards.length - 1);
+                    } else if (e.key === 'ArrowLeft') {
+                        currentFocusIndex = Math.max(currentFocusIndex - 1, 0);
                     }
+                }
+                // -------------------------------------------------------
+
+                cards[currentFocusIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                cards.forEach(c => {
+                    c.style.borderColor = 'var(--border)';
+                    c.style.boxShadow = 'none';
                 });
-                currentFocusIndex = closestIdx;
-            } else {
-                // 이미 포커스가 있는 상태에서 이동
-                if (e.key === 'ArrowRight') {
-                    currentFocusIndex = Math.min(currentFocusIndex + 1, cards.length - 1);
-                } else if (e.key === 'ArrowLeft') {
-                    currentFocusIndex = Math.max(currentFocusIndex - 1, 0);
+                const activeCard = cards[currentFocusIndex];
+                activeCard.style.borderColor = 'var(--primary)';
+                activeCard.style.boxShadow = '0 0 10px rgba(59, 130, 246, 0.3)';
+            }
+
+            if (e.key === ' ' && currentFocusIndex >= 0) {
+                e.preventDefault();
+                const cards = document.querySelectorAll('.q-card');
+                const activeCard = cards[currentFocusIndex];
+                if (activeCard) {
+                    const btn = activeCard.querySelector('.btn-ans');
+                    if (btn) toggleAns(btn);
                 }
             }
-            // -------------------------------------------------------
+        });
 
-            cards[currentFocusIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
-            cards.forEach(c => {
-                c.style.borderColor = 'var(--border)';
-                c.style.boxShadow = 'none';
-            });
-            const activeCard = cards[currentFocusIndex];
-            activeCard.style.borderColor = 'var(--primary)';
-            activeCard.style.boxShadow = '0 0 10px rgba(59, 130, 246, 0.3)';
-        }
-    });
+        // 사용자가 직접 스크롤을 할 경우, 기존의 포커스 인덱스를 초기화하여 
+        // 다음 화살표 입력 시 화면 기준 탐색이 다시 작동하게 합니다.
+        window.addEventListener('scroll', () => {
+            if (Date.now() - lastMoveTime > 1000) { // 화살표 이동 중이 아닐 때만
+                currentFocusIndex = -1;
+            }
+        }, { passive: true });
 
-    // 사용자가 직접 스크롤을 할 경우, 기존의 포커스 인덱스를 초기화하여 
-    // 다음 화살표 입력 시 화면 기준 탐색이 다시 작동하게 합니다.
-    window.addEventListener('scroll', () => {
-        if (Date.now() - lastMoveTime > 1000) { // 화살표 이동 중이 아닐 때만
-            currentFocusIndex = -1;
-        }
-    }, { passive: true });
-    
-    loadData();
-</script>
+        loadData();
+    </script>
 </body>
+
 </html>
