@@ -147,6 +147,12 @@
             border-color: var(--primary);
         }
 
+        .tag.active.subsubject {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
         #searchInput {
             width: 100%;
             padding: 12px;
@@ -370,6 +376,10 @@
                     <span class="label">📘 과목 (OR)</span>
                     <div id="subjectGroup" class="tag-group"></div>
                 </div>
+                <div class="filter-row" id="subsubjectRow" style="display:none;">
+                    <span class="label">📗 수목관리학 부과목 (OR)</span>
+                    <div id="subsubjectGroup" class="tag-group"></div>
+                </div>
                 <div
                     style="margin-top: 20px; display: flex; justify-content: flex-end; align-items: center; gap: 12px;">
                     <div style="display: flex; align-items: center; gap: 8px;">
@@ -429,7 +439,9 @@
         let questions = [];
         let selectedSessions = new Set();
         let selectedSubjects = new Set();
+        let selectedSubsubjects = new Set();
         const subjectOrder = ["수목병리학", "수목해충학", "수목생리학", "산림토양학", "수목관리학"];
+        const managementSubsubjects = ["수목관리학", "농약학", "비생물적 피해", "정책 및 법규"];
 
         // 다크 모드 토글 함수
         function toggleDarkMode() {
@@ -474,6 +486,20 @@
             });
             document.getElementById('sessionGroup').innerHTML = sessions.map(s => `<div class="tag session" onclick="toggleFilter('session', '${s}', this)">${s}</div>`).join('');
             document.getElementById('subjectGroup').innerHTML = subjects.map(s => `<div class="tag subject" onclick="toggleFilter('subject', '${s}', this)">${s}</div>`).join('');
+            document.getElementById('subsubjectGroup').innerHTML = managementSubsubjects.map(s => `<div class="tag subsubject" onclick="toggleFilter('subsubject', '${s}', this)">${s}</div>`).join('');
+            updateSubsubjectVisibility();
+        }
+
+        function updateSubsubjectVisibility() {
+            const row = document.getElementById('subsubjectRow');
+            const shouldShow = selectedSubjects.has('수목관리학');
+            row.style.display = shouldShow ? 'block' : 'none';
+
+            // 수목관리학 과목이 해제되면 부과목 선택도 초기화
+            if (!shouldShow && selectedSubsubjects.size) {
+                selectedSubsubjects.clear();
+                document.querySelectorAll('#subsubjectGroup .tag').forEach(t => t.classList.remove('active'));
+            }
         }
 
         function togglePanel(e) { e.stopPropagation(); document.getElementById('filterPanel').classList.toggle('collapsed'); }
@@ -484,9 +510,12 @@
         });
 
         function toggleFilter(type, value, el) {
-            const set = type === 'session' ? selectedSessions : selectedSubjects;
+            const set = type === 'session'
+                ? selectedSessions
+                : (type === 'subject' ? selectedSubjects : selectedSubsubjects);
             set.has(value) ? set.delete(value) : set.add(value);
             el.classList.toggle('active');
+            if (type === 'subject') updateSubsubjectVisibility();
             processAndRender();
         }
 
@@ -507,6 +536,13 @@
             // 1. 세션 및 과목 필터링
             if (selectedSessions.size) res = res.filter(q => selectedSessions.has(q.session));
             if (selectedSubjects.size) res = res.filter(q => selectedSubjects.has(q.subject));
+            if (selectedSubsubjects.size) {
+                res = res.filter(q =>
+                    q.subject === '수목관리학' &&
+                    Array.isArray(q.tags) &&
+                    [...selectedSubsubjects].some(tag => q.tags.includes(tag))
+                );
+            }
 
             // 2. 검색어 처리 및 이스터 에그 키워드 분리
             const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
@@ -540,6 +576,7 @@
             const summary = [];
             if (selectedSessions.size) summary.push(`회차 ${selectedSessions.size}`);
             if (selectedSubjects.size) summary.push(`과목 ${selectedSubjects.size}`);
+            if (selectedSubsubjects.size) summary.push(`부과목 ${selectedSubsubjects.size}`);
             if (searchKeywords.length) summary.push(`검색어 ${searchKeywords.length}`);
             if (hasRandomTrigger) summary.push(`🔀 랜덤 모드`);
 
@@ -589,9 +626,10 @@
         }
 
         function resetAll() {
-            selectedSessions.clear(); selectedSubjects.clear();
+            selectedSessions.clear(); selectedSubjects.clear(); selectedSubsubjects.clear();
             document.getElementById('searchInput').value = '';
             document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+            updateSubsubjectVisibility();
             processAndRender();
         }
 

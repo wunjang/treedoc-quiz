@@ -510,7 +510,9 @@
     "session": "제5회",
     "number": 101,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "비생물적 피해"
+    ],
     "question": "수목 식재지 토양의 답압피해 현상 으로 옳지 않은 것은?",
     "image": null,
     "options": [
@@ -530,7 +532,9 @@
     "session": "제5회",
     "number": 102,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "수목관리학"
+    ],
     "question": "수피 상처치료 방법 중 피해 부위가 위아래로 넓을 때 사용하는 교접방법에 관한 설명 중 옳은 것은?",
     "image": null,
     "options": [
@@ -550,7 +554,9 @@
     "session": "제5회",
     "number": 103,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "수목관리학"
+    ],
     "question": "수목관리의 원칙으로 옳지 않은 것은?",
     "image": null,
     "options": [
@@ -570,7 +576,9 @@
     "session": "제5회",
     "number": 104,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "수목관리학"
+    ],
     "question": "가지의 하중을 지탱하기 위하여 가지 밑에 생기는 불룩한 조직으로, 목질부를 보호하기 위한 화학적 보호층을 가지고 있는 조직은?",
     "image": null,
     "options": [
@@ -590,7 +598,9 @@
     "session": "제5회",
     "number": 105,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "수목관리학"
+    ],
     "question": "방풍용 수목의 기준에 대한 설명 중 옳은 것은?",
     "image": null,
     "options": [
@@ -610,7 +620,9 @@
     "session": "제5회",
     "number": 106,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "수목관리학"
+    ],
     "question": "수목 진료와 관련된 용어 설명 중 옳지 않은 것은?",
     "image": null,
     "options": [
@@ -630,7 +642,9 @@
     "session": "제5회",
     "number": 107,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "수목관리학"
+    ],
     "question": "수목 외과수술의 순서로 맞는 것은? <div class='inner-box'>ㄱ. 방수처리<br>ㄴ. 살균처리<br>ㄷ. 방부처리<br>ㄹ. 공동충전<br>ㅁ. 인공수피처리<br>ㅂ. 살충처리<br>ㅅ. 부후부제거</div>",
     "image": null,
     "options": [
@@ -650,7 +664,9 @@
     "session": "제5회",
     "number": 108,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "수목관리학"
+    ],
     "question": "수목의 이식에 대한 설명으로 옳지 않은 것은?",
     "image": null,
     "options": [
@@ -670,7 +686,9 @@
     "session": "제5회",
     "number": 109,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "수목관리학"
+    ],
     "question": "식재 후 수목관리에 대한 설명으로 옳지 않은 것은?",
     "image": null,
     "options": [
@@ -690,7 +708,9 @@
     "session": "제5회",
     "number": 110,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "수목관리학"
+    ],
     "question": "식재수목의 선정에 대한 설명으로 옳지 않은 것은?",
     "image": null,
     "options": [
@@ -711,7 +731,9 @@
     "session": "제5회",
     "number": 111,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "수목관리학"
+    ],
     "question": "수목에 의한 구조물 손상에 대처하는 대안으로 옳지 않은 것은?",
     "image": null,
     "options": [
@@ -731,7 +753,9 @@
     "session": "제5회",
     "number": 112,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "수목관리학"
+    ],
     "question": "침엽수에서 지나치게 자란 가지의 신장을 억제하기 위해 신초의 마디 간 길이를 줄여 수관이 치밀해지도록 전정하는 작업은?",
     "image": null,
     "options": [
@@ -751,7 +775,9 @@
     "session": "제5회",
     "number": 113,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "수목관리학"
+    ],
     "question": "위험 수목의 부후를 탐지하는 방법에 사용되는 장비가 아닌 것은?",
     "image": null,
     "options": [
@@ -771,7 +797,9 @@
     "session": "제5회",
     "number": 114,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "비생물적 피해"
+    ],
     "question": "결핍증상이 수목의 어린잎에서 먼저 나타나는 원소들은?",
     "image": null,
     "options": [
@@ -792,8 +820,8 @@
     "number": 115,
     "subject": "수목관리학",
     "tags": [
-      "비생물적피해",
-      "대기오염"
+      "대기오염",
+      "비생물적 피해"
     ],
     "question": "대기오염물질이 광반응으로 새롭게 형성된 것으로만 나열된 것은?",
     "image": null,
@@ -815,7 +843,7 @@
     "number": 116,
     "subject": "수목관리학",
     "tags": [
-      "비생물적피해"
+      "비생물적 피해"
     ],
     "question": "조경수에 비생물적 피해가 흔히 발생 하는 원인으로 옳지 않은 것은?",
     "image": null,
@@ -836,7 +864,9 @@
     "session": "제5회",
     "number": 117,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "비생물적 피해"
+    ],
     "question": "만상(晩霜)의 피해에 관한 설명으로 옳은 것은?",
     "image": null,
     "options": [
@@ -856,7 +886,9 @@
     "session": "제5회",
     "number": 118,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "비생물적 피해"
+    ],
     "question": "절토(切土)에 의한 수목피해에 대한 설명으로 옳지 않은 것은?",
     "image": null,
     "options": [
@@ -876,7 +908,9 @@
     "session": "제5회",
     "number": 119,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "비생물적 피해"
+    ],
     "question": "볕데기(피소, 皮燒)에 대한 설명이 옳지 않은 것은?",
     "image": null,
     "options": [
@@ -896,7 +930,9 @@
     "session": "제5회",
     "number": 120,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "비생물적 피해"
+    ],
     "question": "수분부족에 의한 수목피해에 대한 설명으로 옳지 않은 것은?",
     "image": null,
     "options": [
@@ -916,7 +952,9 @@
     "session": "제5회",
     "number": 121,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "비생물적 피해"
+    ],
     "question": "저온에 의한 수목피해에 대한 설명 으로 옳지 않은 것은?",
     "image": null,
     "options": [
@@ -936,7 +974,9 @@
     "session": "제5회",
     "number": 122,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "비생물적 피해"
+    ],
     "question": "제초제에 의한 수목피해에 대한 설명으로 옳지 않은 것은?",
     "image": null,
     "options": [
@@ -956,7 +996,9 @@
     "session": "제5회",
     "number": 123,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "비생물적 피해"
+    ],
     "question": "대기오염물질과 피해증상을 옳게 나타낸 것은? <div class='inner-box'>ㄱ. 오존<br>ㄴ. PAN<br>ㄷ. 이산화황<br>ㄹ. 질소산화물<br>a. 잎 표면의 광택화<br>b. 잎맥 사이의 괴사<br>c. 잎 전체의 작은 반점<br>d. 잎 끝, 가장자리의 변색</div>",
     "image": null,
     "options": [
@@ -977,7 +1019,9 @@
     "session": "제5회",
     "number": 124,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "비생물적 피해"
+    ],
     "question": "염류에 의한 수목피해에 대한 설명으로 옳은 것은?",
     "image": null,
     "options": [
@@ -997,7 +1041,9 @@
     "session": "제5회",
     "number": 125,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "수목관리학"
+    ],
     "question": "휘감는 뿌리에 의한 수목피해에 대 한 설명으로 옳지 않은 것은?",
     "image": null,
     "options": [
@@ -1017,7 +1063,9 @@
     "session": "제5회",
     "number": 126,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "정책 및 법규"
+    ],
     "question": "한국의 농약관리법에서 규정하고 있는 농약에 해당되지 않는 것은?",
     "image": null,
     "options": [
@@ -1037,7 +1085,9 @@
     "session": "제5회",
     "number": 127,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "농약학"
+    ],
     "question": "농약의 보조제 중 그 자체만으로는 약효가 없으나, 혼용하였을 때 농약 유효성분의 약효를 상승시키는 작용을 하는 것은?",
     "image": null,
     "options": [
@@ -1080,8 +1130,8 @@
     "number": 129,
     "subject": "수목관리학",
     "tags": [
-      "농약학",
-      "살충제"
+      "살충제",
+      "농약학"
     ],
     "question": "곤충의 키틴 합성을 저해하여 탈피, 용화가 불가능하게 하므로 살충 효과를 나타내는 계통은?",
     "image": null,
@@ -1147,8 +1197,8 @@
     "number": 132,
     "subject": "수목관리학",
     "tags": [
-      "농약학",
-      "살충제"
+      "살충제",
+      "농약학"
     ],
     "question": "농약에 대한 저항성 해충의 관리 방안으로 옳지 않은 것은?",
     "image": null,
@@ -1213,7 +1263,9 @@
     "session": "제5회",
     "number": 135,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "농약학"
+    ],
     "question": "아세페이트 캡슐제의 작용기작으로 표시된 1b의 의미는?",
     "image": null,
     "options": [
@@ -1233,7 +1285,9 @@
     "session": "제5회",
     "number": 136,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "농약학"
+    ],
     "question": "생물체 내에 침투된 무극성의 지용성 농약은 Phase Ⅰ 및 Phase Ⅱ 반응을 받아 수용성으로 변환되어 해독되고 배설된다. Phase Ⅰ반응에 해당되지 않은 것은?",
     "image": null,
     "options": [
@@ -1253,7 +1307,9 @@
     "session": "제5회",
     "number": 137,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "농약학"
+    ],
     "question": "산림병해충 방제용 드론과 관련된 설명 중 옳지 않은 것은?",
     "image": null,
     "options": [
@@ -1274,7 +1330,9 @@
     "session": "제5회",
     "number": 138,
     "subject": "수목관리학",
-    "tags": [],
+    "tags": [
+      "농약학"
+    ],
     "question": "농약이 생태계에 잔류되어 생물체 내에 축적되는 생물농축 현상과 이를 계수로 나타낸 생물농축계수(Bioconcentration factor, BCF)에 대한 설명 중 옳지 않은 것은?",
     "image": null,
     "options": [
@@ -1295,7 +1353,7 @@
     "number": 139,
     "subject": "수목관리학",
     "tags": [
-      "정책및법규"
+      "정책 및 법규"
     ],
     "question": "「산림보호법」나무의사의 자격취소 및 정지에 관한 행정처분의 기준으로 옳지 않은 것은?",
     "image": null,
@@ -1317,7 +1375,7 @@
     "number": 140,
     "subject": "수목관리학",
     "tags": [
-      "정책및법규"
+      "정책 및 법규"
     ],
     "question": "「2021년 산림병해충 예찰·방제계획」 소나무림 보호지역 별 소나무재선충병 예방나무주사 우선순위(1-2-3-4순위)가 바르게 배열된 것은?",
     "image": null,
@@ -3305,7 +3363,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "6-102",
@@ -3323,7 +3384,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "6-103",
@@ -3341,7 +3405,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "6-104",
@@ -3359,7 +3426,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "6-105",
@@ -3377,7 +3447,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "6-106",
@@ -3395,7 +3468,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "6-107",
@@ -3413,7 +3489,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "6-108",
@@ -3431,7 +3510,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "6-109",
@@ -3453,7 +3535,10 @@
       4,
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "6-110",
@@ -3471,7 +3556,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "6-111",
@@ -3489,7 +3577,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "6-112",
@@ -3507,7 +3598,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "6-113",
@@ -3525,7 +3619,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "6-114",
@@ -3543,7 +3640,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "6-115",
@@ -3561,7 +3661,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "6-116",
@@ -3579,7 +3682,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "6-117",
@@ -3597,7 +3703,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "6-118",
@@ -3615,7 +3724,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "6-119",
@@ -3633,7 +3745,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "6-120",
@@ -3651,7 +3766,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "6-121",
@@ -3669,7 +3787,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "6-122",
@@ -3687,7 +3808,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "6-123",
@@ -3705,7 +3829,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "6-124",
@@ -3723,7 +3850,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "6-125",
@@ -3741,7 +3871,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "6-126",
@@ -3759,7 +3892,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "6-127",
@@ -3777,7 +3913,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "6-128",
@@ -3795,7 +3934,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "6-129",
@@ -3813,7 +3955,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "6-130",
@@ -3831,7 +3976,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "6-131",
@@ -3849,7 +3997,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "6-132",
@@ -3867,7 +4018,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "6-133",
@@ -3885,7 +4039,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "6-134",
@@ -3903,7 +4060,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "6-135",
@@ -3921,7 +4081,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "6-136",
@@ -3939,7 +4102,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "6-137",
@@ -3957,7 +4123,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "6-138",
@@ -3975,7 +4144,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "6-139",
@@ -3993,7 +4165,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "6-140",
@@ -4011,7 +4186,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "6-1",
@@ -7207,7 +7385,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "7-102",
@@ -7225,7 +7406,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "7-103",
@@ -7243,7 +7427,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "7-104",
@@ -7261,7 +7448,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "7-105",
@@ -7279,7 +7469,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "7-106",
@@ -7297,7 +7490,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "7-107",
@@ -7315,7 +7511,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "7-108",
@@ -7333,7 +7532,10 @@
     "answer": [
       2
     ],
-    "explanation": "<del>ㄴ.이식 성공은 이식 전 수준으로의 생장률 회복 여부로 판단한다.</del><br>ㄹ. 온대지방 수목 중 낙엽활엽수는 낙엽 이후 초겨울, 침엽수는 초가을이나 늦봄, 야자나무류는 이른 봄이 이식 적기이다. (이식의 적기는 휴지기이다. --> 늦가을~이른봄)"
+    "explanation": "<del>ㄴ.이식 성공은 이식 전 수준으로의 생장률 회복 여부로 판단한다.</del><br>ㄹ. 온대지방 수목 중 낙엽활엽수는 낙엽 이후 초겨울, 침엽수는 초가을이나 늦봄, 야자나무류는 이른 봄이 이식 적기이다. (이식의 적기는 휴지기이다. --> 늦가을~이른봄)",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "7-109",
@@ -7351,7 +7553,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "7-110",
@@ -7369,7 +7574,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "7-111",
@@ -7387,7 +7595,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "7-112",
@@ -7405,7 +7616,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "7-113",
@@ -7423,7 +7637,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "7-114",
@@ -7441,7 +7658,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "7-115",
@@ -7459,7 +7679,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "7-116",
@@ -7477,7 +7700,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "7-117",
@@ -7499,7 +7725,10 @@
       4,
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "7-118",
@@ -7517,7 +7746,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "7-119",
@@ -7535,7 +7767,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "7-120",
@@ -7553,7 +7788,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "7-121",
@@ -7571,7 +7809,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "7-122",
@@ -7589,7 +7830,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "7-123",
@@ -7607,7 +7851,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "7-124",
@@ -7625,7 +7872,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "7-125",
@@ -7643,7 +7893,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "7-126",
@@ -7661,7 +7914,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "7-127",
@@ -7679,7 +7935,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "7-128",
@@ -7697,7 +7956,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "7-129",
@@ -7715,7 +7977,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "7-130",
@@ -7733,7 +7998,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "7-131",
@@ -7751,7 +8019,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "7-132",
@@ -7769,7 +8040,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "7-133",
@@ -7787,7 +8061,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "7-134",
@@ -7805,7 +8082,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "7-135",
@@ -7823,7 +8103,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "7-136",
@@ -7841,7 +8124,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "7-137",
@@ -7859,7 +8145,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "7-138",
@@ -7877,7 +8166,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "7-139",
@@ -7895,7 +8187,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "7-140",
@@ -7913,7 +8208,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "8-1",
@@ -9735,7 +10033,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "8-102",
@@ -9753,7 +10054,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "8-103",
@@ -9771,7 +10075,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "8-104",
@@ -9789,7 +10096,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "8-105",
@@ -9807,7 +10117,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "8-106",
@@ -9825,7 +10138,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "8-107",
@@ -9843,7 +10159,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "8-108",
@@ -9861,7 +10180,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "8-109",
@@ -9879,7 +10201,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "8-110",
@@ -9897,7 +10222,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "8-111",
@@ -9915,7 +10243,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "8-112",
@@ -9933,7 +10264,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "8-113",
@@ -9951,7 +10285,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "8-114",
@@ -9969,7 +10306,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "8-115",
@@ -9987,7 +10327,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "8-116",
@@ -10005,7 +10348,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "8-117",
@@ -10023,7 +10369,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "8-118",
@@ -10041,7 +10390,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "8-119",
@@ -10059,7 +10411,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "8-120",
@@ -10077,7 +10432,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "8-121",
@@ -10095,7 +10453,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "8-122",
@@ -10113,7 +10474,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "8-123",
@@ -10131,7 +10495,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "8-124",
@@ -10149,7 +10516,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "8-125",
@@ -10167,7 +10537,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "9-1",
@@ -11985,7 +12358,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "9-102",
@@ -12003,7 +12379,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "9-103",
@@ -12021,7 +12400,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "9-104",
@@ -12039,7 +12421,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "9-105",
@@ -12057,7 +12442,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "9-106",
@@ -12075,7 +12463,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "9-107",
@@ -12093,7 +12484,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "9-108",
@@ -12111,7 +12505,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "9-109",
@@ -12129,7 +12526,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "9-110",
@@ -12147,7 +12547,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "9-111",
@@ -12165,7 +12568,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "9-112",
@@ -12183,7 +12589,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "9-113",
@@ -12201,7 +12610,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "9-114",
@@ -12245,7 +12657,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "9-115",
@@ -12263,7 +12678,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "9-116",
@@ -12281,7 +12699,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "9-117",
@@ -12299,7 +12720,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "9-118",
@@ -12317,7 +12741,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "9-119",
@@ -12335,7 +12762,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "9-120",
@@ -12353,7 +12783,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "9-121",
@@ -12371,7 +12804,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "9-122",
@@ -12389,7 +12825,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "9-123",
@@ -12407,7 +12846,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "9-124",
@@ -12425,7 +12867,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "9-125",
@@ -12443,7 +12888,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "10-1",
@@ -14296,7 +14744,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "10-102",
@@ -14314,7 +14765,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "10-103",
@@ -14332,7 +14786,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "10-104",
@@ -14350,7 +14807,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "10-105",
@@ -14368,7 +14828,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "10-106",
@@ -14386,7 +14849,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "10-107",
@@ -14404,7 +14870,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "10-108",
@@ -14422,7 +14891,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "10-109",
@@ -14440,7 +14912,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "10-110",
@@ -14458,7 +14933,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "10-111",
@@ -14476,7 +14954,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "10-112",
@@ -14494,7 +14975,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "10-113",
@@ -14512,7 +14996,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "10-114",
@@ -14530,7 +15017,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "10-115",
@@ -14549,7 +15039,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "10-116",
@@ -14567,7 +15060,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "10-117",
@@ -14585,7 +15081,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "10-118",
@@ -14604,7 +15103,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "10-119",
@@ -14622,7 +15124,10 @@
     "answer": [
       5
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "10-120",
@@ -14640,7 +15145,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "10-121",
@@ -14658,7 +15166,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "10-122",
@@ -14676,7 +15187,10 @@
     "answer": [
       4
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "10-123",
@@ -14694,7 +15208,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "10-124",
@@ -14712,7 +15229,10 @@
     "answer": [
       3
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "10-125",
@@ -14730,7 +15250,10 @@
     "answer": [
       1
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "11-1",
@@ -16609,7 +17132,10 @@
     "answer": [
       4
     ],
-    "explanation": "느티나무, 개잎갈나무는 양수"
+    "explanation": "느티나무, 개잎갈나무는 양수",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "11-102",
@@ -16627,7 +17153,10 @@
     "answer": [
       4
     ],
-    "explanation": "도시의 토양은 주기적인 낙엽 제거로 산림토양에 비해 용적밀도는 낮고, 투수계수는 높다"
+    "explanation": "도시의 토양은 주기적인 낙엽 제거로 산림토양에 비해 용적밀도는 낮고, 투수계수는 높다",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "11-103",
@@ -16645,7 +17174,10 @@
     "answer": [
       5
     ],
-    "explanation": "해안매립지 식재지반에는 점토질 토양을 갯벌 바닥에 40cm 이상의 두께로 포설하여 염분차단층을 설치한다."
+    "explanation": "해안매립지 식재지반에는 점토질 토양을 갯벌 바닥에 40cm 이상의 두께로 포설하여 염분차단층을 설치한다.",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "11-104",
@@ -16663,7 +17195,10 @@
     "answer": [
       2
     ],
-    "explanation": ""
+    "explanation": "",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "11-105",
@@ -16682,7 +17217,10 @@
     "answer": [
       5
     ],
-    "explanation": "⑤ 1/6<br>「ANSI A300」 기준을 모두 공부할 수는 없겠지만, 기본서로 불리우는 책들에는 아래와 같이 기술되어 있음."
+    "explanation": "⑤ 1/6<br>「ANSI A300」 기준을 모두 공부할 수는 없겠지만, 기본서로 불리우는 책들에는 아래와 같이 기술되어 있음.",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "11-106",
@@ -16700,7 +17238,10 @@
     "answer": [
       3
     ],
-    "explanation": "상처리료 (수목관리학)<br>①<br>구획화된 상처조직에 건전한 수피를 이식<br>한다.<br>(구획화[CODIT]가 진행된 상처조직에는 외과적인 수술을 해서는 안됨)<br>② 치료가 끝난 상처는 즉시<br>햇빛에 노출<br>시킨다.<br>(녹화마대나 색깔있는 테이프 등으로 가려줌)<br>③ 들뜬 수피는 즉시 제자리에 밀착시키고 작은 못이나 테이프로 고정한다.<br>④ 상처부위를 깨끗하게 손질한 다음 상처도포제를<br>여러 번 두껍게<br>바른다.<br>(얇게 바르되, 마른 다음 반복해서 발라줌)<br>⑤<br>상처 가장자리는 건전조직을 일부 제거하더라도 보기 좋은 모양으로 다듬어<br>준다.<br>(상처부위를 둥글게 혹은 방추형으로 가다듬는 것은 상처의 폭을 넓히기 때문에 해서는 안된다.)"
+    "explanation": "상처리료 (수목관리학)<br>①<br>구획화된 상처조직에 건전한 수피를 이식<br>한다.<br>(구획화[CODIT]가 진행된 상처조직에는 외과적인 수술을 해서는 안됨)<br>② 치료가 끝난 상처는 즉시<br>햇빛에 노출<br>시킨다.<br>(녹화마대나 색깔있는 테이프 등으로 가려줌)<br>③ 들뜬 수피는 즉시 제자리에 밀착시키고 작은 못이나 테이프로 고정한다.<br>④ 상처부위를 깨끗하게 손질한 다음 상처도포제를<br>여러 번 두껍게<br>바른다.<br>(얇게 바르되, 마른 다음 반복해서 발라줌)<br>⑤<br>상처 가장자리는 건전조직을 일부 제거하더라도 보기 좋은 모양으로 다듬어<br>준다.<br>(상처부위를 둥글게 혹은 방추형으로 가다듬는 것은 상처의 폭을 넓히기 때문에 해서는 안된다.)",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "11-107",
@@ -16718,7 +17259,10 @@
     "answer": [
       4
     ],
-    "explanation": "④ 4.0 m      6.0 m<br>[줄당김 설치위치]<br>- 가지나 줄기를 지지할 때는, 철선 고정장치는 지지될 가지 길이의 2/3지점 부근에 설치(ANSI A300)<br>- 6.0m x 2/3 = 4m<br>- 9.0m x 2/3 = 6m"
+    "explanation": "④ 4.0 m      6.0 m<br>[줄당김 설치위치]<br>- 가지나 줄기를 지지할 때는, 철선 고정장치는 지지될 가지 길이의 2/3지점 부근에 설치(ANSI A300)<br>- 6.0m x 2/3 = 4m<br>- 9.0m x 2/3 = 6m",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "11-108",
@@ -16736,7 +17280,10 @@
     "answer": [
       5
     ],
-    "explanation": "①<br>사시나무, 자작나무, 오리나무는 동해를 자주 받는다<br>. ㅠ<br>* 내한성 강 :<br>자작나무<br>,<br>오리나무<br>,<br>사시나무<br>, 버드나무, 소나무, 잣나무, 전나무류, 주목<br>* 내한성 약 : 삼나무, 편백, 해송, 금송, 히말라야시다, 배롱, 줄사철, 대나무류, 사철, 가이즈카향나무, 능소화, 벽오동, 오동나무, 포플러<br>②<br>생육기간 중에 낮은 기온으로 나타나는 저온 피해를 의미<br>한다.<br>(생육기간 중에 빙점 전후 온도에서 나타나는 저온피해는 냉해이다.)<br>③ 고위도 생육 수종은 저위도 생육 수종보다<br>내한성이 약하다<br>.<br>(고위도 생육 수종은 내한성 강하다.)<br>④<br>피해를 받은 낙엽 활엽수의 어린가지를 이른 봄에 제거<br>한다.<br>[전정의 일반적인 시기]<br>- 수목이 휴면상태에 있는 늦가울이나 이른 봄 (한여름도 괜찮음) - 봄에 형성층의 세포분열이 왕성하므로<br>[피해를 받은 어린가지]<br>- 죽은가지, 부러진가지, 병든 가지 등은 연중 아무때나 전정할 수 있다.<br>[활엽수의 전정]<br>- 가을에 낙엽이 진 후 봄에 생장개시하기 전 휴면기간 중에는 아무때나 전정가능하다.<br>[침엽수의 전정]<br>- 이른 봄에 새 가지가 나오기 전에 실시하는 것이 좋다. (상처부위에 동해를 입을 수 있음)<br>⑤ 봄에 개화하고 열매가 다음 해에 익는 수종은 열매가 월동 중에 피해를 받을 수 있다."
+    "explanation": "①<br>사시나무, 자작나무, 오리나무는 동해를 자주 받는다<br>. ㅠ<br>* 내한성 강 :<br>자작나무<br>,<br>오리나무<br>,<br>사시나무<br>, 버드나무, 소나무, 잣나무, 전나무류, 주목<br>* 내한성 약 : 삼나무, 편백, 해송, 금송, 히말라야시다, 배롱, 줄사철, 대나무류, 사철, 가이즈카향나무, 능소화, 벽오동, 오동나무, 포플러<br>②<br>생육기간 중에 낮은 기온으로 나타나는 저온 피해를 의미<br>한다.<br>(생육기간 중에 빙점 전후 온도에서 나타나는 저온피해는 냉해이다.)<br>③ 고위도 생육 수종은 저위도 생육 수종보다<br>내한성이 약하다<br>.<br>(고위도 생육 수종은 내한성 강하다.)<br>④<br>피해를 받은 낙엽 활엽수의 어린가지를 이른 봄에 제거<br>한다.<br>[전정의 일반적인 시기]<br>- 수목이 휴면상태에 있는 늦가울이나 이른 봄 (한여름도 괜찮음) - 봄에 형성층의 세포분열이 왕성하므로<br>[피해를 받은 어린가지]<br>- 죽은가지, 부러진가지, 병든 가지 등은 연중 아무때나 전정할 수 있다.<br>[활엽수의 전정]<br>- 가을에 낙엽이 진 후 봄에 생장개시하기 전 휴면기간 중에는 아무때나 전정가능하다.<br>[침엽수의 전정]<br>- 이른 봄에 새 가지가 나오기 전에 실시하는 것이 좋다. (상처부위에 동해를 입을 수 있음)<br>⑤ 봄에 개화하고 열매가 다음 해에 익는 수종은 열매가 월동 중에 피해를 받을 수 있다.",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "11-109",
@@ -16754,7 +17301,10 @@
     "answer": [
       4
     ],
-    "explanation": "① 줄기의<br>신장이 촉진<br>된다.<br>(생장 둔화)<br>② 뿌리에서 다량의<br>옥신이 생성<br>된다.<br>(에틸렌 분비되어 엽병이 누렇게 변하고 잎이 탈락)<br>③<br>잎이 안으로 말리고 오래 붙어있다<br>.<br>(잎의 탈락)<br>④ 주목은 잎 아랫면에 과습돌기 (edema, 수종, 물혹)가 형성된다.<br>주목은 과습 피해를 받으면 잎에 물혹(edema)이 발생<br>⑤<br>벚나무, 층층나무는<br>침수 후 과습토양에서 큰 피해가 없다.<br>* 과습에 약한 수종<br>-<br>벚나무류, 단풍나무류(설탕, 노르웨이), 사시나무, 아까시나무, 자작나무류, 층층나무<br>* 과습에 강한 수종<br>- 낙우송, 단풍나무류(은단풍, 네군도, 루부룸), 물푸레나무, 미국느릅나무, 버드나무류, 버즘나무류, 오리나무류, 주엽나무, 포플러류"
+    "explanation": "① 줄기의<br>신장이 촉진<br>된다.<br>(생장 둔화)<br>② 뿌리에서 다량의<br>옥신이 생성<br>된다.<br>(에틸렌 분비되어 엽병이 누렇게 변하고 잎이 탈락)<br>③<br>잎이 안으로 말리고 오래 붙어있다<br>.<br>(잎의 탈락)<br>④ 주목은 잎 아랫면에 과습돌기 (edema, 수종, 물혹)가 형성된다.<br>주목은 과습 피해를 받으면 잎에 물혹(edema)이 발생<br>⑤<br>벚나무, 층층나무는<br>침수 후 과습토양에서 큰 피해가 없다.<br>* 과습에 약한 수종<br>-<br>벚나무류, 단풍나무류(설탕, 노르웨이), 사시나무, 아까시나무, 자작나무류, 층층나무<br>* 과습에 강한 수종<br>- 낙우송, 단풍나무류(은단풍, 네군도, 루부룸), 물푸레나무, 미국느릅나무, 버드나무류, 버즘나무류, 오리나무류, 주엽나무, 포플러류",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "11-110",
@@ -16772,7 +17322,10 @@
     "answer": [
       2
     ],
-    "explanation": "*볕뎀(볕데기) = (피소, 皮燒)<br>① 어두운 색깔의 수피를 가진 나무는<br>피해가 적다<br>.<br>(수피색이 짙으면 피소의 피해가 큼, 벚나무류는 수피색이 짙어 성목이 되어도 피소에 취약함)<br>② 햇볕에 노출된 토양의 온도가 상승하면 피해가 심해진다.<br>③ 햇볕에 노출된 줄기를<br>검은색 끈끈이롤트랩<br>으로 감싼다.<br>(예방법 : 해가림, 수목테이프나 녹화마대로 줄기감싸기, 줄기에 흰색 페인트나 도포제 바르기, 관수와 멀칭)<br>④ 줄기의<br>상단부에서 피해가 심하여<br>이 부분을 마대로 감싼다.<br>(줄기의 상단부가 아닌 지표면에 가까운 수피)<br>⑤<br>장마 후 고온 건조하면 묵은 잎보다 새잎에서 탈수 현상이 심하다<br>.<br>(7월 장마 이후 경화되지 않은 잎에서 받는 피해는 엽소이다.)"
+    "explanation": "*볕뎀(볕데기) = (피소, 皮燒)<br>① 어두운 색깔의 수피를 가진 나무는<br>피해가 적다<br>.<br>(수피색이 짙으면 피소의 피해가 큼, 벚나무류는 수피색이 짙어 성목이 되어도 피소에 취약함)<br>② 햇볕에 노출된 토양의 온도가 상승하면 피해가 심해진다.<br>③ 햇볕에 노출된 줄기를<br>검은색 끈끈이롤트랩<br>으로 감싼다.<br>(예방법 : 해가림, 수목테이프나 녹화마대로 줄기감싸기, 줄기에 흰색 페인트나 도포제 바르기, 관수와 멀칭)<br>④ 줄기의<br>상단부에서 피해가 심하여<br>이 부분을 마대로 감싼다.<br>(줄기의 상단부가 아닌 지표면에 가까운 수피)<br>⑤<br>장마 후 고온 건조하면 묵은 잎보다 새잎에서 탈수 현상이 심하다<br>.<br>(7월 장마 이후 경화되지 않은 잎에서 받는 피해는 엽소이다.)",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "11-111",
@@ -16790,7 +17343,10 @@
     "answer": [
       4
     ],
-    "explanation": "④ 활엽수에서는<br>수관의 아래에서 위로 가지 고사<br>가 진행된다.<br>(수관 꼭대기 잎부터 황화현상 및 잎이 작아짐, 수관이 엉성해지고 조기낙엽이나 맹아지나 도장지가 발생한다.)"
+    "explanation": "④ 활엽수에서는<br>수관의 아래에서 위로 가지 고사<br>가 진행된다.<br>(수관 꼭대기 잎부터 황화현상 및 잎이 작아짐, 수관이 엉성해지고 조기낙엽이나 맹아지나 도장지가 발생한다.)",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "11-112",
@@ -16808,7 +17364,10 @@
     "answer": [
       2
     ],
-    "explanation": "② 생석회, 소석회<br>배설물에 요산성분을 생석회 및 소석회처리를 하면 산성을 중화시킬 수 있음"
+    "explanation": "② 생석회, 소석회<br>배설물에 요산성분을 생석회 및 소석회처리를 하면 산성을 중화시킬 수 있음",
+    "tags": [
+      "수목관리학"
+    ]
   },
   {
     "id": "11-113",
@@ -16826,7 +17385,10 @@
     "answer": [
       4
     ],
-    "explanation": "* 이동이 쉬운 원소 암기법 : (암기법[인질칼마] : 질소(N), 인(P),<br>칼륨(K)<br>, 마그네슘(Mg) )<br>* 이동이 어려운 원소 암기법 : (암기법[카페베네] :<br>칼슘(Ca)<br>, 철(Fe), 붕소(B))"
+    "explanation": "* 이동이 쉬운 원소 암기법 : (암기법[인질칼마] : 질소(N), 인(P),<br>칼륨(K)<br>, 마그네슘(Mg) )<br>* 이동이 어려운 원소 암기법 : (암기법[카페베네] :<br>칼슘(Ca)<br>, 철(Fe), 붕소(B))",
+    "tags": [
+      "비생물적 피해"
+    ]
   },
   {
     "id": "11-114",
@@ -16844,7 +17406,10 @@
     "answer": [
       5
     ],
-    "explanation": "⑤ 약해가 발생하면 뿌리에서 지상부로 이동하는<br>옥신이 과다<br>해진다.<br>(디캄바는 IAA유사작용제로 옥신의 이동을 저해)<br>[디캄바]<br>- 작용기작 : 생장조절교란 (옥신(IAA) 기능교란)<br>- 색상 : 무색에 선택성 제초제<br>- 활엽수의 잎은 기형으로 자라면서 가지가 비대생장<br>- 소나무의 경우에는 새 가지의 끝이 굵어지면서 꼬부라지고, 잎이 붙어 있는 가지 끝이 비대생장"
+    "explanation": "⑤ 약해가 발생하면 뿌리에서 지상부로 이동하는<br>옥신이 과다<br>해진다.<br>(디캄바는 IAA유사작용제로 옥신의 이동을 저해)<br>[디캄바]<br>- 작용기작 : 생장조절교란 (옥신(IAA) 기능교란)<br>- 색상 : 무색에 선택성 제초제<br>- 활엽수의 잎은 기형으로 자라면서 가지가 비대생장<br>- 소나무의 경우에는 새 가지의 끝이 굵어지면서 꼬부라지고, 잎이 붙어 있는 가지 끝이 비대생장",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "11-115",
@@ -16862,7 +17427,10 @@
     "answer": [
       1
     ],
-    "explanation": "① Bacillus thuringiensis<br>- 그람(gram) 양성 박테리아의 일종<br>- 나비목, 파리목, 딱정벌레목에 병원성을 보임<br>- 나방류 중에서 명나방, 흰불나방, 매미나방 등의 구제에 사용됨<br>② Streptomyces avermitilis<br>- 유기살충제(유기합성살충제), 마크로라이드계 살충제<br>- 아바멕틴은 방선균인 Streptomyces avermitilis에서 분리한 물질<br>- 살비, 살충, 살선충 효과<br>- 아바멕틴, 에마멕틴벤조에이트, 밀베멕틴 등<br>③ Pseudomonas fluorescence<br>- Pseudomonas속이 일으키는 수목병 : 과수의 궤양병, 뽕나무 세균성오갈병, 칡세균점무늬병, 세균성잎마름병<br>- Pseudomonas fluorescence는 길항미생물<br>④ Saccharopolyspora spinosa<br>- 스피노신계 살충제로 미국흰불나방, 담배나방 방제<br>⑤ Lumbriconereis heteropod<br>- 환형동물문 > 다모강 > 털갯지렁이목 > 송곳갯지렁이과 > 송곳갯지렁이속 > Annelida > Polychaeta > Eunicida > Lumbrineridae > Lumbrineris"
+    "explanation": "① Bacillus thuringiensis<br>- 그람(gram) 양성 박테리아의 일종<br>- 나비목, 파리목, 딱정벌레목에 병원성을 보임<br>- 나방류 중에서 명나방, 흰불나방, 매미나방 등의 구제에 사용됨<br>② Streptomyces avermitilis<br>- 유기살충제(유기합성살충제), 마크로라이드계 살충제<br>- 아바멕틴은 방선균인 Streptomyces avermitilis에서 분리한 물질<br>- 살비, 살충, 살선충 효과<br>- 아바멕틴, 에마멕틴벤조에이트, 밀베멕틴 등<br>③ Pseudomonas fluorescence<br>- Pseudomonas속이 일으키는 수목병 : 과수의 궤양병, 뽕나무 세균성오갈병, 칡세균점무늬병, 세균성잎마름병<br>- Pseudomonas fluorescence는 길항미생물<br>④ Saccharopolyspora spinosa<br>- 스피노신계 살충제로 미국흰불나방, 담배나방 방제<br>⑤ Lumbriconereis heteropod<br>- 환형동물문 > 다모강 > 털갯지렁이목 > 송곳갯지렁이과 > 송곳갯지렁이속 > Annelida > Polychaeta > Eunicida > Lumbrineridae > Lumbrineris",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "11-116",
@@ -16880,7 +17448,10 @@
     "answer": [
       3
     ],
-    "explanation": "③ 인축과<br>꿀벌에 독성이 낮아<br>IPM에 활용된다.<br>(꿀벌에 대한 독성이 높다.)<br>[네오니코티노이드계 살충제(4a) - 신경전달물질 수용체 차단]<br>담배에서 추출한 니코틴, 노르니코틴, 아나바신 등의 화합물을 니코티노이드라고 함.<br>- 분해가 잘되어 잔효성이 짧음.<br>- 해충에 대한 침투력이 낮아서 접촉독제로만 이용.<br>- 아세틸콜린 수용체와 결합하여 신경전달을 저해.<br>- 접촉 및 소화중독 작용을 일으킴.<br>- 침투이행성이 강하여 노린재목의 흡즙성 해충방제에 사용.<br>- 선충과 응애에는 효과가 없음.<br>- 솔수염하늘소, 솔잎혹파리, 진딧물류,  나방류에 방제에 사용<br>-<br>포유류에는 독성이 낮음<br>-<br>이미다클로프리드, 아세타미프리드, 클로티아니딘, 디노테퓨란, 티아클로프리드, 티아메톡삼<br>등.<br>-<br>꿀벌의 집단붕괴현상의 원인으로 네오니코티노이드계 농약이 지목됨"
+    "explanation": "③ 인축과<br>꿀벌에 독성이 낮아<br>IPM에 활용된다.<br>(꿀벌에 대한 독성이 높다.)<br>[네오니코티노이드계 살충제(4a) - 신경전달물질 수용체 차단]<br>담배에서 추출한 니코틴, 노르니코틴, 아나바신 등의 화합물을 니코티노이드라고 함.<br>- 분해가 잘되어 잔효성이 짧음.<br>- 해충에 대한 침투력이 낮아서 접촉독제로만 이용.<br>- 아세틸콜린 수용체와 결합하여 신경전달을 저해.<br>- 접촉 및 소화중독 작용을 일으킴.<br>- 침투이행성이 강하여 노린재목의 흡즙성 해충방제에 사용.<br>- 선충과 응애에는 효과가 없음.<br>- 솔수염하늘소, 솔잎혹파리, 진딧물류,  나방류에 방제에 사용<br>-<br>포유류에는 독성이 낮음<br>-<br>이미다클로프리드, 아세타미프리드, 클로티아니딘, 디노테퓨란, 티아클로프리드, 티아메톡삼<br>등.<br>-<br>꿀벌의 집단붕괴현상의 원인으로 네오니코티노이드계 농약이 지목됨",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "11-117",
@@ -16898,7 +17469,10 @@
     "answer": [
       2
     ],
-    "explanation": "① 카탑<br>- 네레이스톡신계<br>- 작용기작 : 14 (<br>아세틸콜린 수용체 통로차단<br>)<br>- 바다갯지렁이 추출물(천연살충제)<br>- 방제 : 큰이십팔점박이무당벌레, 담배거세미나방 방제<br>② 노발루론<br>[벤조일유레아(Benzoylurea)계 살충제 (키틴생합성 저해)] - \"~주론\", \"~뮤론\"<br>- 곤충생장조절(IGR)계<br>- 곤충과 포유동물 사이에 높은 선택성<br>- 곤충의 표피를 구성하는 키틴합성 저해제<br>- 방제 :<br>유충단계에서 가해하는 나비목, 노린재목 방제에 사용<br>-노발루론, 디플루벤주론, 루페뉴론, 비스트리플루론, 클로르플루아주론, 테플루벤주론, 트리플루뮤론, 플루싸이크록수론, 클루페녹수론<br>③ 아바멕틴<br>- 마크로라이드계<br>- 작용기작: 6 (염소통로 활성화)<br>- 방제 : 솔나방, 소나무재선충, 미국흰불나방 방제)<br>④ 인독사카브<br>- 옥사디아진계<br>- 작용기작 :22a (전위 의존 Na 통로차단)<br>⑤ 테부페노자이드<br>- 디아실하이드라진계<br>- 작용기작 : 18 (<br>탈피호르몬 수용체 기능 활성화)"
+    "explanation": "① 카탑<br>- 네레이스톡신계<br>- 작용기작 : 14 (<br>아세틸콜린 수용체 통로차단<br>)<br>- 바다갯지렁이 추출물(천연살충제)<br>- 방제 : 큰이십팔점박이무당벌레, 담배거세미나방 방제<br>② 노발루론<br>[벤조일유레아(Benzoylurea)계 살충제 (키틴생합성 저해)] - \"~주론\", \"~뮤론\"<br>- 곤충생장조절(IGR)계<br>- 곤충과 포유동물 사이에 높은 선택성<br>- 곤충의 표피를 구성하는 키틴합성 저해제<br>- 방제 :<br>유충단계에서 가해하는 나비목, 노린재목 방제에 사용<br>-노발루론, 디플루벤주론, 루페뉴론, 비스트리플루론, 클로르플루아주론, 테플루벤주론, 트리플루뮤론, 플루싸이크록수론, 클루페녹수론<br>③ 아바멕틴<br>- 마크로라이드계<br>- 작용기작: 6 (염소통로 활성화)<br>- 방제 : 솔나방, 소나무재선충, 미국흰불나방 방제)<br>④ 인독사카브<br>- 옥사디아진계<br>- 작용기작 :22a (전위 의존 Na 통로차단)<br>⑤ 테부페노자이드<br>- 디아실하이드라진계<br>- 작용기작 : 18 (<br>탈피호르몬 수용체 기능 활성화)",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "11-118",
@@ -16916,7 +17490,10 @@
     "answer": [
       5
     ],
-    "explanation": "① 플라자설퓨론,<br>벤타존<br>[플라자설퓨론 - 아미노산 생합성 저해(분지형 아미노산 생합성 저해)]<br>- 작용기작 : H02<br>- 선택성<br>- 토양처리 및 경엽처리제<br>[벤타존 - 광합성 저해(광화학계 Ⅱ저해)]<br>- 작용기작 : H06<br>② 플라자설퓨론,<br>비페녹스<br>[플라자설퓨론 - 아미노산 생합성 저해(분지형 아미노산 생합성 저해)]<br>- 작용기작 : H02<br>- 선택성<br>- 토양처리 및 경엽처리제[벤타존 - 광화하계 Ⅱ저해]<br>- 작용기작 : H06<br>[비페녹스 - 색소 생합성 저해(엽록소 생합성 저해)]<br>- 작용기작 : H14<br>- 디페닐에테르계<br>- 선택성<br>- 토양흡착력이 강함<br>③ 글루포시네이트,<br>시메트린<br>[글루포시네이트 - 아미노산 생합성 저해(글루타민 합성효소 저해)]<br>- 작용기작 : H10<br>- 비선택성<br>- 경엽처리에 사용됨<br>④<br>티아페나실<br>, 글리포세이트<br>[티아페나실 - 엽록소 생성 억제]<br>- 피리미딘다이온계<br>[글루포시네이트 - 아미노산 생합성 저해(글루타민 합성효소 저해)]<br>- 작용기작 : H10<br>- 비선택성<br>- 경엽처리에 사용됨<br>⑤ 글루포시네이트, 글리포세이트<br>[글루포시네이트 -<br>아미노산 생합성저해(글루타민 합성효소 저해)<br>]<br>- 작용기작 : H10<br>- 비선택성<br>- 경엽처리에 사용됨<br>[글리포세이트 -<br>아모노산 생합성저해(방향족 아미노산 생합성 저해)<br>]<br>- 작용기작 : H09<br>- 유기인계<br>- 비선택성<br>- 경엽처리에 사용됨<br>- 토양에서는 미생물에 의해 쉽게 분해됨, 토양흡착력 강함.<br>- 글리포세이트, 글리포시네이트"
+    "explanation": "① 플라자설퓨론,<br>벤타존<br>[플라자설퓨론 - 아미노산 생합성 저해(분지형 아미노산 생합성 저해)]<br>- 작용기작 : H02<br>- 선택성<br>- 토양처리 및 경엽처리제<br>[벤타존 - 광합성 저해(광화학계 Ⅱ저해)]<br>- 작용기작 : H06<br>② 플라자설퓨론,<br>비페녹스<br>[플라자설퓨론 - 아미노산 생합성 저해(분지형 아미노산 생합성 저해)]<br>- 작용기작 : H02<br>- 선택성<br>- 토양처리 및 경엽처리제[벤타존 - 광화하계 Ⅱ저해]<br>- 작용기작 : H06<br>[비페녹스 - 색소 생합성 저해(엽록소 생합성 저해)]<br>- 작용기작 : H14<br>- 디페닐에테르계<br>- 선택성<br>- 토양흡착력이 강함<br>③ 글루포시네이트,<br>시메트린<br>[글루포시네이트 - 아미노산 생합성 저해(글루타민 합성효소 저해)]<br>- 작용기작 : H10<br>- 비선택성<br>- 경엽처리에 사용됨<br>④<br>티아페나실<br>, 글리포세이트<br>[티아페나실 - 엽록소 생성 억제]<br>- 피리미딘다이온계<br>[글루포시네이트 - 아미노산 생합성 저해(글루타민 합성효소 저해)]<br>- 작용기작 : H10<br>- 비선택성<br>- 경엽처리에 사용됨<br>⑤ 글루포시네이트, 글리포세이트<br>[글루포시네이트 -<br>아미노산 생합성저해(글루타민 합성효소 저해)<br>]<br>- 작용기작 : H10<br>- 비선택성<br>- 경엽처리에 사용됨<br>[글리포세이트 -<br>아모노산 생합성저해(방향족 아미노산 생합성 저해)<br>]<br>- 작용기작 : H09<br>- 유기인계<br>- 비선택성<br>- 경엽처리에 사용됨<br>- 토양에서는 미생물에 의해 쉽게 분해됨, 토양흡착력 강함.<br>- 글리포세이트, 글리포시네이트",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "11-119",
@@ -16934,7 +17511,10 @@
     "answer": [
       1
     ],
-    "explanation": "① 베노밀<br>- 세포분열의 저해<br>② 카복신<br>- 호흡저해 작용 : 전자전달계 저해 (작용점 : 복합체Ⅱ)<br>③ 보스칼리드<br>- 호흡저해 작용 : 전자전달계 저해 (작용점 : 복합체Ⅱ)<br>④ 크레속심-메틸<br>- 호흡저해 작용 : 전자전달계 저해 (작용점 : 복합체III - 산화효소 기능 저해)<br>⑤ 피라클로스트로빈<br>- 호흡저해 작용 : 전자전달계 저해 (작용점 :<br>복합체III -<br>산화효소 기능 저해)<br>[별표 8] 작용기작그룹 표시 분류기준 (제3조제2항 관련)(농약&cedil; 원제 및 농약활용기자재의 표시기준).pdf<br><br>0.32MB"
+    "explanation": "① 베노밀<br>- 세포분열의 저해<br>② 카복신<br>- 호흡저해 작용 : 전자전달계 저해 (작용점 : 복합체Ⅱ)<br>③ 보스칼리드<br>- 호흡저해 작용 : 전자전달계 저해 (작용점 : 복합체Ⅱ)<br>④ 크레속심-메틸<br>- 호흡저해 작용 : 전자전달계 저해 (작용점 : 복합체III - 산화효소 기능 저해)<br>⑤ 피라클로스트로빈<br>- 호흡저해 작용 : 전자전달계 저해 (작용점 :<br>복합체III -<br>산화효소 기능 저해)<br>[별표 8] 작용기작그룹 표시 분류기준 (제3조제2항 관련)(농약&cedil; 원제 및 농약활용기자재의 표시기준).pdf<br><br>0.32MB",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "11-120",
@@ -16952,7 +17532,10 @@
     "answer": [
       1
     ],
-    "explanation": "①<br>동일 품목 약제를 반복 사용<br>한다."
+    "explanation": "①<br>동일 품목 약제를 반복 사용<br>한다.",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "11-121",
@@ -16970,7 +17553,10 @@
     "answer": [
       2
     ],
-    "explanation": "* 입상수용제 : 수용성 원제와 수용성 보조제를 이용하여 입상화한 제제, 물에 희석 시 제제에 사용된 모든 성분이 용해됨. (바람에 날리는 문제가 해결됨)<br>= 100L / 2000배<br>= 100,000ml / 2000배<br>= 50ml<br>= 50g (중량으로 작성)"
+    "explanation": "* 입상수용제 : 수용성 원제와 수용성 보조제를 이용하여 입상화한 제제, 물에 희석 시 제제에 사용된 모든 성분이 용해됨. (바람에 날리는 문제가 해결됨)<br>= 100L / 2000배<br>= 100,000ml / 2000배<br>= 50ml<br>= 50g (중량으로 작성)",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "11-122",
@@ -16988,7 +17574,10 @@
     "answer": [
       3
     ],
-    "explanation": "③<br>어독성과 방제효과<br>농약등의 안전사용기준의 세부기준"
+    "explanation": "③<br>어독성과 방제효과<br>농약등의 안전사용기준의 세부기준",
+    "tags": [
+      "농약학"
+    ]
   },
   {
     "id": "11-123",
@@ -17006,7 +17595,10 @@
     "answer": [
       3
     ],
-    "explanation": "③ 1개 표준지 내 소나무류 중<br>20% 이상 고사한<br>경우이다.<br>소나무재선충병 방제지침 일부개정안의 내용에서 시험문제가 출제되었네요.<br>“<br>집단발생지<br>”<br>란 피해고사목과 기타고사목이 집단적으로 발생한 표준지가<br>1<br>년동안<br>25<br>개 이상 예찰<br>·<br>조사된 읍<br>·<br>면<br>·<br>동을 말한다<br>.<br>단<br>, 1<br>개 표준지의 크기는<br><br>0.04ha<br>(20mx20m)<br>로 하며<br>,<br>표준지 안에 소나무류 비율이<br>25%<br>이상이고<br>소나무류가<br>10%<br>이상 고사한 경우<br>로 한정한다<br>.<br>소나무재선충병 방제지침 일부개정안(전문, hwp).hwp<br><br>5.42MB<br>소나무재선충병 방제지침_2023.pdf<br><br>2.49MB"
+    "explanation": "③ 1개 표준지 내 소나무류 중<br>20% 이상 고사한<br>경우이다.<br>소나무재선충병 방제지침 일부개정안의 내용에서 시험문제가 출제되었네요.<br>“<br>집단발생지<br>”<br>란 피해고사목과 기타고사목이 집단적으로 발생한 표준지가<br>1<br>년동안<br>25<br>개 이상 예찰<br>·<br>조사된 읍<br>·<br>면<br>·<br>동을 말한다<br>.<br>단<br>, 1<br>개 표준지의 크기는<br><br>0.04ha<br>(20mx20m)<br>로 하며<br>,<br>표준지 안에 소나무류 비율이<br>25%<br>이상이고<br>소나무류가<br>10%<br>이상 고사한 경우<br>로 한정한다<br>.<br>소나무재선충병 방제지침 일부개정안(전문, hwp).hwp<br><br>5.42MB<br>소나무재선충병 방제지침_2023.pdf<br><br>2.49MB",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "11-124",
@@ -17024,7 +17616,10 @@
     "answer": [
       3
     ],
-    "explanation": "③ 북방수염하늘소 권역(경기ㆍ강원ㆍ충북)은<br>9월부터 이듬해 4월까지 방제<br>한다<br>(8월부터 ~ 이듬해 4월)<br>2025년도 산림병해충 예찰&middot;방제 계획★.pdf<br><br>4.37MB"
+    "explanation": "③ 북방수염하늘소 권역(경기ㆍ강원ㆍ충북)은<br>9월부터 이듬해 4월까지 방제<br>한다<br>(8월부터 ~ 이듬해 4월)<br>2025년도 산림병해충 예찰&middot;방제 계획★.pdf<br><br>4.37MB",
+    "tags": [
+      "정책 및 법규"
+    ]
   },
   {
     "id": "11-125",
@@ -17042,6 +17637,9 @@
     "answer": [
       4
     ],
-    "explanation": "④ 둘 이상의 처분기준이 같은 자격정지인 경우에<br>각 처분 기준일을 합산한 기간동안을 자격 정지하되 5년을 초과할 수 없다<br>.<br>(둘 이상의 처분기준이 같은 자격정지인 경우에는 각 처분기준을 합산한 기간 동안 자격을 정지하되 3년을 초과할 수 없다)<br>[별표 1의3] 나무의사 등의 자격취소 및 정지처분의 세부기준(제12조의7 관련)(산림보호법 시행령).pdf<br><br>0.09MB"
+    "explanation": "④ 둘 이상의 처분기준이 같은 자격정지인 경우에<br>각 처분 기준일을 합산한 기간동안을 자격 정지하되 5년을 초과할 수 없다<br>.<br>(둘 이상의 처분기준이 같은 자격정지인 경우에는 각 처분기준을 합산한 기간 동안 자격을 정지하되 3년을 초과할 수 없다)<br>[별표 1의3] 나무의사 등의 자격취소 및 정지처분의 세부기준(제12조의7 관련)(산림보호법 시행령).pdf<br><br>0.09MB",
+    "tags": [
+      "정책 및 법규"
+    ]
   }
 ]
