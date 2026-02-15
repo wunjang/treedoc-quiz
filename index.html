@@ -100,6 +100,33 @@
             position: relative;
         }
 
+        .feature-bubble {
+            position: absolute;
+            right: 42px;
+            top: -8px;
+            background: #0ea5e9;
+            color: white;
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            white-space: nowrap;
+            box-shadow: 0 6px 16px rgba(14, 165, 233, 0.35);
+            display: none;
+            cursor: pointer;
+            z-index: 320;
+        }
+
+        .feature-bubble::after {
+            content: "";
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 6px 0 6px 6px;
+            border-style: solid;
+            border-color: transparent transparent transparent #0ea5e9;
+        }
+
         .menu-btn {
             width: 34px;
             height: 34px;
@@ -480,6 +507,7 @@
                     <span class="filter-summary" id="filterSummary">전체 보기</span>
                     <span class="arrow">▼</span>
                     <div class="mode-menu-wrap" onclick="event.stopPropagation()">
+                        <div id="featureBubble" class="feature-bubble" onclick="dismissFeatureBubble(event)">모의고사 기능 추가!</div>
                         <button class="menu-btn" onclick="toggleModeMenu(event)">☰</button>
                         <div id="modeMenu" class="mode-menu">
                             <button id="modeNormalBtn" class="active" onclick="switchAppMode('normal', event)">기출문제 모드</button>
@@ -649,10 +677,29 @@
             document.getElementById('mockSubjectGroup').innerHTML = subjects.map(s => `<div class="tag subject active" onclick="toggleMockSubject('${s}', this)">${s}</div>`).join('');
             document.getElementById('mockCountPerSubject').addEventListener('input', updateMockHeaderSummary);
             updateSubsubjectVisibility();
+            initFeatureBubble();
+        }
+
+        function initFeatureBubble() {
+            const shown = localStorage.getItem('mockFeatureBubbleShown');
+            if (shown === '1') return;
+            const bubble = document.getElementById('featureBubble');
+            bubble.style.display = 'block';
+            localStorage.setItem('mockFeatureBubbleShown', '1');
+            setTimeout(() => {
+                bubble.style.display = 'none';
+            }, 8000);
+        }
+
+        function dismissFeatureBubble(e) {
+            if (e) e.stopPropagation();
+            const bubble = document.getElementById('featureBubble');
+            bubble.style.display = 'none';
         }
 
         function toggleModeMenu(e) {
             e.stopPropagation();
+            dismissFeatureBubble();
             const menu = document.getElementById('modeMenu');
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
         }
