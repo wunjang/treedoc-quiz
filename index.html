@@ -62,7 +62,7 @@
             position: sticky;
             top: 10px;
             z-index: 100;
-            overflow: hidden;
+            overflow: visible;
             border: 1px solid var(--border);
         }
 
@@ -87,6 +87,85 @@
         .filter-summary {
             font-size: 0.85em;
             color: var(--primary);
+            font-weight: bold;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mode-menu-wrap {
+            position: relative;
+        }
+
+        .feature-bubble {
+            position: absolute;
+            right: 42px;
+            top: -8px;
+            background: #0ea5e9;
+            color: white;
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            white-space: nowrap;
+            box-shadow: 0 6px 16px rgba(14, 165, 233, 0.35);
+            display: none;
+            cursor: pointer;
+            z-index: 320;
+        }
+
+        .feature-bubble::after {
+            content: "";
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 6px 0 6px 6px;
+            border-style: solid;
+            border-color: transparent transparent transparent #0ea5e9;
+        }
+
+        .menu-btn {
+            width: 34px;
+            height: 34px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+            color: var(--text);
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .mode-menu {
+            position: absolute;
+            right: 0;
+            top: 40px;
+            min-width: 150px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            padding: 6px;
+            display: none;
+            z-index: 300;
+        }
+
+        .mode-menu button {
+            width: 100%;
+            text-align: left;
+            border: none;
+            background: transparent;
+            color: var(--text);
+            padding: 8px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .mode-menu button.active {
+            background: var(--bg);
             font-weight: bold;
         }
 
@@ -145,6 +224,12 @@
             background: var(--primary);
             color: white;
             border-color: var(--primary);
+        }
+
+        .tag.active.subsubject {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
         }
 
         #searchInput {
@@ -257,6 +342,73 @@
             font-weight: bold;
         }
 
+        .mock-panel {
+            margin-top: 18px;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--bg);
+        }
+
+        .mock-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .mock-number-input {
+            width: 90px;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--text);
+        }
+
+        .mock-btn {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .mock-btn.start {
+            background: #0ea5e9;
+        }
+
+        .mock-btn.end {
+            background: #ef4444;
+        }
+
+        .mock-btn.pause {
+            background: #f59e0b;
+        }
+
+        .mock-timer {
+            margin-top: 10px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .mock-option.selected {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        .mock-option.correct {
+            border-color: #16a34a !important;
+            background: rgba(34, 197, 94, 0.15) !important;
+        }
+
+        .mock-option.wrong {
+            border-color: #dc2626 !important;
+            background: rgba(239, 68, 68, 0.15) !important;
+        }
+
         mark {
             border-radius: 3px;
             color: black;
@@ -350,25 +502,57 @@
     <div class="container">
         <div class="filter-panel collapsed" id="filterPanel">
             <div class="filter-header" onclick="togglePanel(event)">
-                <h2>🔍 필터 설정 <span id="headerResultCount" style="font-size: 0.8em; color: #64748b;"></span></h2>
-                <div style="display: flex; align-items: center; gap: 10px;">
+                <h2><span id="headerTitle">🔍 필터 설정</span> <span id="headerResultCount" style="font-size: 0.8em; color: #64748b;"></span></h2>
+                <div class="header-right">
                     <span class="filter-summary" id="filterSummary">전체 보기</span>
                     <span class="arrow">▼</span>
+                    <div class="mode-menu-wrap" onclick="event.stopPropagation()">
+                        <div id="featureBubble" class="feature-bubble" onclick="dismissFeatureBubble(event)">모의고사 기능 추가!</div>
+                        <button class="menu-btn" onclick="toggleModeMenu(event)">☰</button>
+                        <div id="modeMenu" class="mode-menu">
+                            <button id="modeNormalBtn" class="active" onclick="switchAppMode('normal', event)">기출문제 모드</button>
+                            <button id="modeMockBtn" onclick="switchAppMode('mock', event)">모의고사 모드</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="filter-content">
-                <div class="filter-row">
-                    <span class="label">🔍 검색어 (AND)</span>
-                    <input type="search" id="searchInput" placeholder="검색어를 입력하세요" oninput="processAndRender()">
+                <div id="normalFilterUI">
+                    <div class="filter-row">
+                        <span class="label">🔍 검색어 (AND)</span>
+                        <input type="search" id="searchInput" placeholder="검색어를 입력하세요" oninput="processAndRender()">
+                    </div>
+                    <div class="filter-row">
+                        <span class="label">📅 회차 (OR)</span>
+                        <div id="sessionGroup" class="tag-group"></div>
+                    </div>
+                    <div class="filter-row">
+                        <span class="label">📘 과목 (OR)</span>
+                        <div id="subjectGroup" class="tag-group"></div>
+                    </div>
+                    <div class="filter-row" id="subsubjectRow" style="display:none;">
+                        <span class="label">📗 수목관리학 부과목 (OR)</span>
+                        <div id="subsubjectGroup" class="tag-group"></div>
+                    </div>
                 </div>
-                <div class="filter-row">
-                    <span class="label">📅 회차 (OR)</span>
-                    <div id="sessionGroup" class="tag-group"></div>
-                </div>
-                <div class="filter-row">
-                    <span class="label">📘 과목 (OR)</span>
-                    <div id="subjectGroup" class="tag-group"></div>
+                <div class="mock-panel" id="mockPanel" style="display:none;">
+                    <span class="label">🧪 모의고사</span>
+                    <div style="font-size:0.85em; color:#64748b; margin-bottom:8px;">
+                        과목별 문제 수를 조절해 미니 모의고사를 만들 수 있습니다.
+                    </div>
+                    <div class="filter-row" style="margin-top:0;">
+                        <span class="label">과목 선택 (OR)</span>
+                        <div id="mockSubjectGroup" class="tag-group"></div>
+                    </div>
+                    <div class="mock-controls">
+                        <label for="mockCountPerSubject" style="font-size:0.85em; color:#64748b;">과목당 문제 수</label>
+                        <input id="mockCountPerSubject" class="mock-number-input" type="number" min="1" value="25">
+                        <button id="startMockBtn" class="mock-btn start" onclick="startMockExam()">모의고사 시작</button>
+                        <button id="pauseMockBtn" class="mock-btn pause" style="display:none;" onclick="togglePauseMockExam()">모의고사 일시정지</button>
+                        <button id="endMockBtn" class="mock-btn end" style="display:none;" onclick="finishMockExam(false)">모의고사 종료</button>
+                    </div>
+                    <div id="mockTimer" class="mock-timer" style="display:none;"></div>
                 </div>
                 <div
                     style="margin-top: 20px; display: flex; justify-content: flex-end; align-items: center; gap: 12px;">
@@ -429,17 +613,30 @@
         let questions = [];
         let selectedSessions = new Set();
         let selectedSubjects = new Set();
+        let selectedSubsubjects = new Set();
+        let selectedMockSubjects = new Set();
+        let mockQuestions = [];
+        let mockAnswers = {};
+        let isMockMode = false;
+        let isMockFinished = false;
+        let mockPaused = false;
+        let mockTimerId = null;
+        let mockTimeLeft = 0;
+        let appMode = 'normal';
         const subjectOrder = ["수목병리학", "수목해충학", "수목생리학", "산림토양학", "수목관리학"];
+        const managementSubsubjects = ["수목관리학", "농약학", "비생물적 피해", "정책 및 법규"];
+        const managementRatio = {
+            "수목관리학": 8,
+            "농약학": 6,
+            "비생물적 피해": 8,
+            "정책 및 법규": 3
+        };
 
         // 다크 모드 토글 함수
         function toggleDarkMode() {
             const isChecked = document.getElementById('darkModeToggle').checked;
             const isDark = document.body.classList.toggle('dark-mode', isChecked);
             localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
-        }
-
-        function updateDarkModeIcon(isDark) {
-            document.getElementById('darkModeBtn').innerText = isDark ? '☀️' : '🌙';
         }
 
         // 초기 로드 시 다크 모드 설정 확인
@@ -458,6 +655,7 @@
                 if (!response.ok) throw new Error('파일 로드 실패');
                 questions = await response.json();
                 initFilters();
+                switchAppMode('normal');
                 processAndRender();
             } catch (e) {
                 document.getElementById('questionList').innerHTML = `<p style="color:red; text-align:center;">데이터를 불러올 수 없습니다 (questions.json 확인 필요)</p>`;
@@ -474,20 +672,392 @@
             });
             document.getElementById('sessionGroup').innerHTML = sessions.map(s => `<div class="tag session" onclick="toggleFilter('session', '${s}', this)">${s}</div>`).join('');
             document.getElementById('subjectGroup').innerHTML = subjects.map(s => `<div class="tag subject" onclick="toggleFilter('subject', '${s}', this)">${s}</div>`).join('');
+            document.getElementById('subsubjectGroup').innerHTML = managementSubsubjects.map(s => `<div class="tag subsubject" onclick="toggleFilter('subsubject', '${s}', this)">${s}</div>`).join('');
+            selectedMockSubjects = new Set(subjects);
+            document.getElementById('mockSubjectGroup').innerHTML = subjects.map(s => `<div class="tag subject active" onclick="toggleMockSubject('${s}', this)">${s}</div>`).join('');
+            document.getElementById('mockCountPerSubject').addEventListener('input', updateMockHeaderSummary);
+            updateSubsubjectVisibility();
+            initFeatureBubble();
+        }
+
+        function initFeatureBubble() {
+            const shown = localStorage.getItem('mockFeatureBubbleShown');
+            if (shown === '1') return;
+            const bubble = document.getElementById('featureBubble');
+            bubble.style.display = 'block';
+            localStorage.setItem('mockFeatureBubbleShown', '1');
+            setTimeout(() => {
+                bubble.style.display = 'none';
+            }, 8000);
+        }
+
+        function dismissFeatureBubble(e) {
+            if (e) e.stopPropagation();
+            const bubble = document.getElementById('featureBubble');
+            bubble.style.display = 'none';
+        }
+
+        function toggleModeMenu(e) {
+            e.stopPropagation();
+            dismissFeatureBubble();
+            const menu = document.getElementById('modeMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function closeModeMenu() {
+            document.getElementById('modeMenu').style.display = 'none';
+        }
+
+        function switchAppMode(mode, e) {
+            if (e) e.stopPropagation();
+            appMode = mode;
+            document.getElementById('modeNormalBtn').classList.toggle('active', mode === 'normal');
+            document.getElementById('modeMockBtn').classList.toggle('active', mode === 'mock');
+            document.getElementById('normalFilterUI').style.display = mode === 'normal' ? 'block' : 'none';
+            document.getElementById('mockPanel').style.display = mode === 'mock' ? 'block' : 'none';
+            document.getElementById('headerTitle').innerText = mode === 'normal' ? '🔍 필터 설정' : '🧪 모의고사 설정';
+
+            if (mode === 'normal') {
+                resetMockState();
+            } else {
+                updateMockHeaderSummary();
+            }
+            closeModeMenu();
+            processAndRender();
+        }
+
+        function updateSubsubjectVisibility() {
+            const row = document.getElementById('subsubjectRow');
+            const shouldShow = selectedSubjects.has('수목관리학');
+            row.style.display = shouldShow ? 'block' : 'none';
+
+            // 수목관리학 과목이 해제되면 부과목 선택도 초기화
+            if (!shouldShow && selectedSubsubjects.size) {
+                selectedSubsubjects.clear();
+                document.querySelectorAll('#subsubjectGroup .tag').forEach(t => t.classList.remove('active'));
+            }
         }
 
         function togglePanel(e) { e.stopPropagation(); document.getElementById('filterPanel').classList.toggle('collapsed'); }
 
         window.addEventListener('click', function (e) {
+            if (appMode === 'mock') return;
             const panel = document.getElementById('filterPanel');
             if (panel && !panel.contains(e.target)) panel.classList.add('collapsed');
+            closeModeMenu();
         });
 
         function toggleFilter(type, value, el) {
-            const set = type === 'session' ? selectedSessions : selectedSubjects;
+            const set = type === 'session'
+                ? selectedSessions
+                : (type === 'subject' ? selectedSubjects : selectedSubsubjects);
             set.has(value) ? set.delete(value) : set.add(value);
             el.classList.toggle('active');
+            if (type === 'subject') updateSubsubjectVisibility();
             processAndRender();
+        }
+
+        function toggleMockSubject(value, el) {
+            selectedMockSubjects.has(value) ? selectedMockSubjects.delete(value) : selectedMockSubjects.add(value);
+            el.classList.toggle('active');
+            if (appMode === 'mock') updateMockHeaderSummary();
+        }
+
+        function shuffleArray(arr) {
+            const copy = [...arr];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        function pickRandom(arr, n) {
+            return shuffleArray(arr).slice(0, n);
+        }
+
+        function remapQuestionOptions(q) {
+            const optionWithOrigin = q.options.map((text, idx) => ({ text, originalIndex: idx + 1 }));
+            const shuffled = shuffleArray(optionWithOrigin);
+            const remappedAnswer = shuffled
+                .map((opt, idx) => ({ idx: idx + 1, originalIndex: opt.originalIndex }))
+                .filter(v => q.answer.includes(v.originalIndex))
+                .map(v => v.idx)
+                .sort((a, b) => a - b);
+
+            return {
+                ...q,
+                options: shuffled.map(v => v.text),
+                answer: remappedAnswer
+            };
+        }
+
+        function allocateByRatio(total, ratioObj) {
+            const entries = Object.entries(ratioObj);
+            const sum = entries.reduce((acc, [, w]) => acc + w, 0);
+            const raw = entries.map(([k, w]) => ({ key: k, value: (total * w) / sum }));
+            const result = {};
+            let assigned = 0;
+
+            raw.forEach(v => {
+                result[v.key] = Math.floor(v.value);
+                assigned += result[v.key];
+            });
+            raw.sort((a, b) => (b.value - Math.floor(b.value)) - (a.value - Math.floor(a.value)));
+            for (let i = 0; i < total - assigned; i++) {
+                result[raw[i % raw.length].key] += 1;
+            }
+            return result;
+        }
+
+        function pickManagementByRatio(pool, total) {
+            const ratioCounts = allocateByRatio(total, managementRatio);
+            const selected = [];
+            const selectedIds = new Set();
+            let shortage = 0;
+
+            for (const sub of managementSubsubjects) {
+                const subPool = pool.filter(q => Array.isArray(q.tags) && q.tags.includes(sub));
+                const needed = ratioCounts[sub] || 0;
+                const picked = pickRandom(subPool, Math.min(needed, subPool.length));
+                picked.forEach(q => { selected.push(q); selectedIds.add(q.id); });
+                if (picked.length < needed) shortage += (needed - picked.length);
+            }
+
+            if (shortage > 0) {
+                const remainPool = pool.filter(q => !selectedIds.has(q.id));
+                selected.push(...pickRandom(remainPool, Math.min(shortage, remainPool.length)));
+            }
+
+            return selected.slice(0, total);
+        }
+
+        function getUnansweredCount() {
+            return mockQuestions.filter(q => !(mockAnswers[q.mockId] && mockAnswers[q.mockId].length)).length;
+        }
+
+        function updateMockHeaderSummary() {
+            if (appMode !== 'mock') return;
+            const perSubject = parseInt(document.getElementById('mockCountPerSubject').value || '0', 10);
+            const selectedCount = selectedMockSubjects.size;
+            if (!isMockMode) {
+                const expected = Number.isInteger(perSubject) && perSubject > 0 ? selectedCount * perSubject : 0;
+                document.getElementById('filterSummary').innerText = `모의고사 설정`;
+                document.getElementById('headerResultCount').innerText = expected ? `(예상 ${expected}문항)` : '';
+                return;
+            }
+            const mm = String(Math.floor(mockTimeLeft / 60)).padStart(2, '0');
+            const ss = String(mockTimeLeft % 60).padStart(2, '0');
+            const remain = getUnansweredCount();
+            const pausedText = mockPaused ? '일시정지 | ' : '';
+            document.getElementById('filterSummary').innerText = `${pausedText}남은 ${remain}문항 | ${mm}:${ss}`;
+            document.getElementById('headerResultCount').innerText = `(${mockQuestions.length}문항)`;
+        }
+
+        function resetMockState() {
+            if (mockTimerId) {
+                clearInterval(mockTimerId);
+                mockTimerId = null;
+            }
+            isMockMode = false;
+            isMockFinished = false;
+            mockPaused = false;
+            mockQuestions = [];
+            mockAnswers = {};
+            mockTimeLeft = 0;
+            document.getElementById('mockTimer').style.display = 'none';
+            document.getElementById('startMockBtn').style.display = 'inline-block';
+            document.getElementById('pauseMockBtn').style.display = 'none';
+            document.getElementById('pauseMockBtn').innerText = '모의고사 일시정지';
+            document.getElementById('endMockBtn').style.display = 'none';
+        }
+
+        function startMockExam() {
+            if (appMode !== 'mock') return;
+            if (!questions.length) return;
+            const subjects = [...selectedMockSubjects];
+            if (subjects.length === 0) {
+                alert('모의고사 과목을 1개 이상 선택해 주세요.');
+                return;
+            }
+
+            const perSubject = parseInt(document.getElementById('mockCountPerSubject').value, 10);
+            if (!Number.isInteger(perSubject) || perSubject < 1) {
+                alert('과목당 문제 수는 1 이상 정수여야 합니다.');
+                return;
+            }
+
+            const generated = [];
+            for (const subject of subjects) {
+                const pool = questions.filter(q => q.subject === subject && Array.isArray(q.answer) && q.answer.length === 1);
+                const count = Math.min(perSubject, pool.length);
+                if (count < perSubject) {
+                    alert(`${subject} 과목은 단일정답 문항 ${pool.length}개만 있어 ${count}문항으로 출제합니다.`);
+                }
+                if (subject === '수목관리학') {
+                    generated.push(...pickManagementByRatio(pool, count).map(remapQuestionOptions));
+                } else {
+                    generated.push(...pickRandom(pool, count).map(remapQuestionOptions));
+                }
+            }
+
+            mockQuestions = generated
+                .map(q => ({ ...q, _mockRand: Math.random() }))
+                .sort((a, b) => {
+                    const ai = subjectOrder.indexOf(a.subject);
+                    const bi = subjectOrder.indexOf(b.subject);
+                    if (ai !== bi) return ai - bi;
+                    return a._mockRand - b._mockRand;
+                })
+                .map(({ _mockRand, ...q }, idx) => ({
+                    ...q,
+                    mockId: `${q.id}-${idx}`
+                }));
+            mockAnswers = {};
+            isMockMode = true;
+            isMockFinished = false;
+            mockPaused = false;
+
+            document.getElementById('startMockBtn').style.display = 'none';
+            document.getElementById('pauseMockBtn').style.display = 'inline-block';
+            document.getElementById('endMockBtn').style.display = 'inline-block';
+            startMockTimer(mockQuestions.length * 60);
+            document.getElementById('filterPanel').classList.add('collapsed');
+            closeModeMenu();
+            renderMockExam();
+        }
+
+        function updateMockTimerText() {
+            const mm = String(Math.floor(mockTimeLeft / 60)).padStart(2, '0');
+            const ss = String(mockTimeLeft % 60).padStart(2, '0');
+            document.getElementById('mockTimer').innerText = `남은 시간 (문항당 1분 기준): ${mm}:${ss}`;
+            updateMockHeaderSummary();
+        }
+
+        function startMockTimer(seconds) {
+            if (mockTimerId) clearInterval(mockTimerId);
+            mockTimeLeft = seconds;
+            const timerEl = document.getElementById('mockTimer');
+            timerEl.style.display = 'block';
+            updateMockTimerText();
+
+            mockTimerId = setInterval(() => {
+                if (mockPaused) return;
+                mockTimeLeft -= 1;
+                if (mockTimeLeft <= 0) {
+                    finishMockExam(true);
+                    return;
+                }
+                updateMockTimerText();
+            }, 1000);
+        }
+
+        function togglePauseMockExam() {
+            if (!isMockMode || isMockFinished) return;
+            mockPaused = !mockPaused;
+            const pauseBtn = document.getElementById('pauseMockBtn');
+            pauseBtn.innerText = mockPaused ? '모의고사 재개' : '모의고사 일시정지';
+            if (mockPaused) {
+                document.getElementById('mockTimer').innerText += ' (일시정지)';
+            } else {
+                updateMockTimerText();
+            }
+            updateMockHeaderSummary();
+        }
+
+        function finishMockExam(isAutoSubmit) {
+            if (!isMockMode || isMockFinished) return;
+            if (mockTimerId) {
+                clearInterval(mockTimerId);
+                mockTimerId = null;
+            }
+            isMockFinished = true;
+            mockPaused = false;
+            document.getElementById('pauseMockBtn').style.display = 'none';
+            document.getElementById('endMockBtn').style.display = 'none';
+            document.getElementById('startMockBtn').style.display = 'inline-block';
+            if (isAutoSubmit) {
+                document.getElementById('mockTimer').innerText = '시간이 종료되어 자동으로 모의고사가 제출되었습니다.';
+            }
+            updateMockHeaderSummary();
+            renderMockExam();
+        }
+
+        function toggleMockOption(mockId, optionIndex) {
+            if (!isMockMode || isMockFinished || mockPaused) return;
+            mockAnswers[mockId] = [optionIndex];
+            const cardEl = document.getElementById(`mock-card-${mockId}`);
+            if (cardEl) {
+                cardEl.querySelectorAll('.mock-option').forEach(el => el.classList.remove('selected'));
+                const target = cardEl.querySelector(`.mock-option[data-option-index="${optionIndex}"]`);
+                if (target) target.classList.add('selected');
+            }
+            updateMockHeaderSummary();
+        }
+
+        function isSameAnswer(a, b) {
+            if (!Array.isArray(a) || !Array.isArray(b)) return false;
+            if (a.length !== b.length) return false;
+            const s1 = [...a].sort((x, y) => x - y);
+            const s2 = [...b].sort((x, y) => x - y);
+            for (let i = 0; i < s1.length; i++) {
+                if (s1[i] !== s2[i]) return false;
+            }
+            return true;
+        }
+
+        function renderMockExam() {
+            if (!isMockMode) return;
+            const listEl = document.getElementById('questionList');
+            if (mockQuestions.length === 0) {
+                listEl.innerHTML = '<p style="text-align:center; padding:50px; color:#64748b;">출제된 문제가 없습니다.</p>';
+                updateMockHeaderSummary();
+                return;
+            }
+
+            let correctCount = 0;
+            listEl.innerHTML = mockQuestions.map((q, idx) => {
+                const selected = mockAnswers[q.mockId] || [];
+                const correct = isSameAnswer(selected, q.answer);
+                if (isMockFinished && correct) correctCount++;
+                const answerSet = new Set(q.answer);
+                const selectedSet = new Set(selected);
+
+                const optionsHtml = q.options.map((opt, i) => {
+                    const optionNo = i + 1;
+                    const classes = ['mock-option'];
+                    if (selectedSet.has(optionNo)) classes.push('selected');
+                    if (isMockFinished && answerSet.has(optionNo)) classes.push('correct');
+                    if (isMockFinished && selectedSet.has(optionNo) && !answerSet.has(optionNo)) classes.push('wrong');
+                    return `<div class="${classes.join(' ')}" data-option-index="${optionNo}" onclick="toggleMockOption('${q.mockId}', ${optionNo})" style="padding:12px; border:1px solid var(--border); border-radius:8px; background:rgba(0,0,0,0.02); font-size:0.95em; cursor:${(isMockFinished || mockPaused) ? 'default' : 'pointer'};"><span style="font-weight:bold; margin-right:5px;">${optionNo}.</span> ${opt}</div>`;
+                }).join('');
+
+                return `
+                <div class="q-card" id="mock-card-${q.mockId}">
+                    <small style="color:#64748b">${idx + 1}번 | ${q.session} | ${q.subject} | 원문항 ${q.number}번</small>
+                    <div class="q-title" style="font-weight:bold; margin: 15px 0; font-size:1.1em; line-height:1.6;">${q.question}</div>
+                    ${q.box ? `<div class="inner-box">${q.box}</div>` : ''}
+                    ${q.tableData ? `
+                        <table class="quiz-table">
+                            ${q.tableData.map((row, rowIdx) => `<tr>${row.map(cell => `<${rowIdx === 0 ? 'th' : 'td'}>${cell}</${rowIdx === 0 ? 'th' : 'td'}>`).join('')}</tr>`).join('')}
+                        </table>
+                    ` : ''}
+                    ${q.image ? `<img src="images/${q.image}" style="max-width:100%; border-radius:8px; margin-bottom:15px; display:block;">` : ''}
+                    <div class="options-list" style="display:grid; gap:8px; margin: 20px 0;">
+                        ${optionsHtml}
+                    </div>
+                    ${isMockFinished ? `<div style="font-weight:bold; color:${correct ? '#166534' : '#b91c1c'};">${correct ? '정답' : `오답 (정답: ${q.answer.join(', ')})`}</div>` : ''}
+                </div>
+            `;
+            }).join('');
+
+            if (isMockFinished) {
+                const scoreEl = document.createElement('div');
+                scoreEl.className = 'q-card';
+                scoreEl.innerHTML = `<div style="font-size:1.1em; font-weight:bold;">모의고사 결과: ${correctCount} / ${mockQuestions.length}</div>`;
+                listEl.prepend(scoreEl);
+            }
+            updateMockHeaderSummary();
         }
 
         function highlightText(text, keywords) {
@@ -502,11 +1072,27 @@
         }
 
         function processAndRender() {
+            if (appMode === 'mock') {
+                if (isMockMode) {
+                    renderMockExam();
+                } else {
+                    document.getElementById('questionList').innerHTML = '<p style="text-align:center; padding:40px; color:#64748b;">모의고사 설정 후 시작 버튼을 눌러 주세요.</p>';
+                    updateMockHeaderSummary();
+                }
+                return;
+            }
             let res = questions;
 
             // 1. 세션 및 과목 필터링
             if (selectedSessions.size) res = res.filter(q => selectedSessions.has(q.session));
             if (selectedSubjects.size) res = res.filter(q => selectedSubjects.has(q.subject));
+            if (selectedSubsubjects.size) {
+                res = res.filter(q =>
+                    q.subject === '수목관리학' &&
+                    Array.isArray(q.tags) &&
+                    [...selectedSubsubjects].some(tag => q.tags.includes(tag))
+                );
+            }
 
             // 2. 검색어 처리 및 이스터 에그 키워드 분리
             const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
@@ -540,6 +1126,7 @@
             const summary = [];
             if (selectedSessions.size) summary.push(`회차 ${selectedSessions.size}`);
             if (selectedSubjects.size) summary.push(`과목 ${selectedSubjects.size}`);
+            if (selectedSubsubjects.size) summary.push(`부과목 ${selectedSubsubjects.size}`);
             if (searchKeywords.length) summary.push(`검색어 ${searchKeywords.length}`);
             if (hasRandomTrigger) summary.push(`🔀 랜덤 모드`);
 
@@ -589,10 +1176,22 @@
         }
 
         function resetAll() {
-            selectedSessions.clear(); selectedSubjects.clear();
+            selectedSessions.clear(); selectedSubjects.clear(); selectedSubsubjects.clear();
             document.getElementById('searchInput').value = '';
-            document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
-            processAndRender();
+            document.querySelectorAll('#sessionGroup .tag, #subjectGroup .tag, #subsubjectGroup .tag').forEach(t => t.classList.remove('active'));
+            updateSubsubjectVisibility();
+
+            resetMockState();
+            selectedMockSubjects = new Set();
+            document.querySelectorAll('#mockSubjectGroup .tag').forEach(t => t.classList.add('active'));
+            document.querySelectorAll('#mockSubjectGroup .tag').forEach(t => selectedMockSubjects.add(t.innerText.trim()));
+
+            if (appMode === 'mock') {
+                document.getElementById('questionList').innerHTML = '<p style="text-align:center; padding:40px; color:#64748b;">모의고사 설정 후 시작 버튼을 눌러 주세요.</p>';
+                updateMockHeaderSummary();
+            } else {
+                processAndRender();
+            }
         }
 
         window.onscroll = function () {
@@ -622,15 +1221,17 @@
             const filterPanel = document.getElementById('filterPanel');
             const cards = document.querySelectorAll('.q-card');
 
-            if (document.activeElement === searchInput && e.key !== 'Enter') return;
+            if (appMode === 'normal' && document.activeElement === searchInput && e.key !== 'Enter') return;
 
             if (e.key === 'Enter') {
                 if (filterPanel.classList.contains('collapsed')) {
                     filterPanel.classList.remove('collapsed');
-                    setTimeout(() => searchInput.focus(), 100);
+                    if (appMode === 'normal') {
+                        setTimeout(() => searchInput.focus(), 100);
+                    }
                 } else {
                     filterPanel.classList.add('collapsed');
-                    searchInput.blur();
+                    if (searchInput) searchInput.blur();
                 }
                 return;
             }
