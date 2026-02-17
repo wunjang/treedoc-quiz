@@ -44,7 +44,9 @@
                 if (!response.ok) throw new Error('파일 로드 실패');
                 questions = await response.json();
                 initFilters();
-                switchAppMode('normal');
+                const modeParam = new URLSearchParams(window.location.search).get('mode');
+                const initialMode = (modeParam && modeParam.toLowerCase() === 'mock') ? 'mock' : 'normal';
+                switchAppMode(initialMode);
                 processAndRender();
             } catch (e) {
                 document.getElementById('questionList').innerHTML = `<p style="color:red; text-align:center;">데이터를 불러올 수 없습니다 (questions.json 확인 필요)</p>`;
