@@ -114,6 +114,7 @@
                 <li><b>📝문제 메모:</b> 문제 카드 오른쪽 위 메모 아이콘을 눌러 메모를 작성할 수 있습니다.</li>
                 <li><b>✅정답 확인:</b> 정답 확인 버튼을 누르면 정답과 함께 저장한 메모가 표시됩니다.</li>
                 <li><b>🌙다크모드:</b> 야간 학습 시 눈을 보호하기 위해 다크모드를 사용하세요.</li>
+                <li><b>🔗데이터 내보내기:</b> 도움말 하단 `데이터 내보내기` 버튼으로 URL을 복사해 다른 기기에서 열면 메모/즐겨찾기/다크모드가 복원됩니다. 기존 데이터가 있으면 덮어쓰기 여부를 확인합니다.</li>
                 <hr style="border: 0; border-top: 1px dashed var(--border); margin: 10px 0;">
                 <li><b>⌨️ 단축키 안내:</b></li>
                 <li><b>Enter:</b> 필터 열기 및 검색창 이동 (다시 누르면 닫기)</li>
@@ -126,6 +127,8 @@
                     style="color: var(--primary); text-decoration: underline; cursor: pointer; font-weight: bold;">treedocquiz@gmail.com</span>
                 <br><small id="copyMessage" style="color: #10b981; display: none;">✅ 주소가 복사되었습니다!</small>
             </p>
+            <button id="exportDataBtn" onclick="exportDataToUrl()"
+                style="width: 100%; padding: 10px; margin-top: 8px; background: #0f766e; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">데이터 내보내기</button>
             <button onclick="toggleHelp(event, false)"
                 style="width: 100%; padding: 10px; margin-top: 10px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">닫기</button>
         </div>
