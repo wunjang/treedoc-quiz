@@ -14,6 +14,7 @@
         let appMode = 'normal';
         let hasAutoOpenedMockMenu = false;
         let questionMemos = {};
+        const SHARE_QUERY_KEY = 'data';
         const subjectOrder = ["수목병리학", "수목해충학", "수목생리학", "산림토양학", "수목관리학"];
         const managementSubsubjects = ["수목관리학", "농약학", "비생물적 피해", "정책 및 법규"];
         const managementRatio = {
@@ -22,6 +23,133 @@
             "비생물적 피해": 8,
             "정책 및 법규": 3
         };
+
+        function parseStoredObject(key) {
+            try {
+                const parsed = JSON.parse(localStorage.getItem(key) || '{}');
+                return parsed && typeof parsed === 'object' ? parsed : {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function getPortableDataSnapshot() {
+            return {
+                version: 1,
+                data: {
+                    questionMemos: parseStoredObject('questionMemos'),
+                    favoriteQuestions: parseStoredObject('favoriteQuestions'),
+                    darkMode: localStorage.getItem('darkMode') === 'enabled' ? 'enabled' : 'disabled'
+                }
+            };
+        }
+
+        function encodePortablePayload(payload) {
+            const json = JSON.stringify(payload);
+            let binary = '';
+            if (typeof TextEncoder !== 'undefined') {
+                const bytes = new TextEncoder().encode(json);
+                for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+            } else {
+                binary = unescape(encodeURIComponent(json));
+            }
+            return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+        }
+
+        function decodePortablePayload(encoded) {
+            if (!encoded) return null;
+            const normalized = encoded.replace(/-/g, '+').replace(/_/g, '/');
+            const padLength = (4 - (normalized.length % 4)) % 4;
+            const padded = normalized + '='.repeat(padLength);
+            const binary = atob(padded);
+            let json = '';
+            if (typeof TextDecoder !== 'undefined') {
+                const bytes = new Uint8Array(binary.length);
+                for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+                json = new TextDecoder().decode(bytes);
+            } else {
+                json = decodeURIComponent(escape(binary));
+            }
+            const payload = JSON.parse(json);
+            if (!payload || typeof payload !== 'object' || !payload.data || typeof payload.data !== 'object') {
+                throw new Error('invalid payload');
+            }
+            return payload;
+        }
+
+        function clearShareParamFromUrl() {
+            const currentUrl = new URL(window.location.href);
+            if (!currentUrl.searchParams.has(SHARE_QUERY_KEY)) return;
+            currentUrl.searchParams.delete(SHARE_QUERY_KEY);
+            history.replaceState(null, '', currentUrl.toString());
+        }
+
+        function hasExistingLocalStudyData() {
+            const memoCount = Object.keys(parseStoredObject('questionMemos')).length;
+            const favoriteCount = Object.keys(parseStoredObject('favoriteQuestions')).length;
+            const hasDarkMode = localStorage.getItem('darkMode') === 'enabled';
+            return memoCount > 0 || favoriteCount > 0 || hasDarkMode;
+        }
+
+        function applyPortableDataSnapshot(payload) {
+            const data = payload && payload.data ? payload.data : {};
+            const nextMemos = (data.questionMemos && typeof data.questionMemos === 'object') ? data.questionMemos : {};
+            const nextFavorites = (data.favoriteQuestions && typeof data.favoriteQuestions === 'object') ? data.favoriteQuestions : {};
+            const nextDarkMode = data.darkMode === 'enabled' ? 'enabled' : 'disabled';
+
+            localStorage.setItem('questionMemos', JSON.stringify(nextMemos));
+            localStorage.setItem('favoriteQuestions', JSON.stringify(nextFavorites));
+            localStorage.setItem('darkMode', nextDarkMode);
+
+            questionMemos = nextMemos;
+            const isDark = nextDarkMode === 'enabled';
+            document.body.classList.toggle('dark-mode', isDark);
+            const toggle = document.getElementById('darkModeToggle');
+            if (toggle) toggle.checked = isDark;
+        }
+
+        function maybeImportDataFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const encoded = params.get(SHARE_QUERY_KEY);
+            if (!encoded) return;
+
+            let payload = null;
+            try {
+                payload = decodePortablePayload(encoded);
+            } catch (e) {
+                clearShareParamFromUrl();
+                alert('공유 URL 데이터 해석에 실패했습니다.');
+                return;
+            }
+
+            if (hasExistingLocalStudyData()) {
+                const shouldOverwrite = confirm('이 기기에 이미 저장된 데이터가 있습니다. 공유 데이터로 덮어쓸까요?');
+                if (!shouldOverwrite) {
+                    clearShareParamFromUrl();
+                    return;
+                }
+            }
+
+            applyPortableDataSnapshot(payload);
+            clearShareParamFromUrl();
+            alert('공유 데이터를 이 기기의 로컬 저장소에 적용했습니다.');
+            window.location.reload();
+        }
+
+        async function exportDataToUrl() {
+            const payload = getPortableDataSnapshot();
+            const encoded = encodePortablePayload(payload);
+            const exportUrl = new URL(window.location.href);
+            exportUrl.searchParams.set(SHARE_QUERY_KEY, encoded);
+            const shareUrl = exportUrl.toString();
+
+            try {
+                await navigator.clipboard.writeText(shareUrl);
+                alert('데이터 URL이 복사되었습니다.');
+            } catch (e) {
+                window.prompt('아래 URL을 복사해 다른 기기에서 열어 주세요.', shareUrl);
+            }
+        }
 
         // 다크 모드 토글 함수
         function toggleDarkMode() {
@@ -32,6 +160,7 @@
 
         // 초기 로드 시 다크 모드 설정 확인
         window.addEventListener('DOMContentLoaded', () => {
+            maybeImportDataFromUrl();
             const darkModeStatus = localStorage.getItem('darkMode');
             const toggle = document.getElementById('darkModeToggle');
             try {
