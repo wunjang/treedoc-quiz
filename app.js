@@ -13,6 +13,7 @@
         let mockTimeLeft = 0;
         let appMode = 'normal';
         let hasAutoOpenedMockMenu = false;
+        let questionMemos = {};
         const subjectOrder = ["수목병리학", "수목해충학", "수목생리학", "산림토양학", "수목관리학"];
         const managementSubsubjects = ["수목관리학", "농약학", "비생물적 피해", "정책 및 법규"];
         const managementRatio = {
@@ -33,6 +34,11 @@
         window.addEventListener('DOMContentLoaded', () => {
             const darkModeStatus = localStorage.getItem('darkMode');
             const toggle = document.getElementById('darkModeToggle');
+            try {
+                questionMemos = JSON.parse(localStorage.getItem('questionMemos') || '{}');
+            } catch (e) {
+                questionMemos = {};
+            }
             if (darkModeStatus === 'enabled') {
                 document.body.classList.add('dark-mode');
                 if (toggle) toggle.checked = true;
@@ -420,6 +426,9 @@
                 if (isMockFinished && correct) correctCount++;
                 const answerSet = new Set(q.answer);
                 const selectedSet = new Set(selected);
+                const memoKey = getQuestionMemoKey(q);
+                const memoText = getQuestionMemo(q);
+                const memoHtml = memoText ? `<div class="memo-preview"><div class="memo-preview-title">📝 내 메모</div><div>${renderMemoText(memoText)}</div></div>` : '';
 
                 const optionsHtml = q.options.map((opt, i) => {
                     const optionNo = i + 1;
@@ -432,7 +441,15 @@
 
                 return `
                 <div class="q-card" id="mock-card-${q.mockId}">
-                    <small style="color:#64748b">${idx + 1}번 | ${q.session} | ${q.subject} | 원문항 ${q.number}번</small>
+                    <div class="q-header">
+                        <small style="color:#64748b">${idx + 1}번 | ${q.session} | ${q.subject} | 원문항 ${q.number}번</small>
+                        ${isMockFinished ? `<button class="memo-icon-btn" type="button" onclick="toggleMemoEditor(this)" title="메모 입력" aria-label="메모 입력">📝</button>` : ''}
+                    </div>
+                    ${isMockFinished ? `
+                    <div class="memo-editor" data-memo-key="${memoKey}" style="display:none;">
+                        <textarea class="memo-textarea" placeholder="이 문제에 대한 메모를 입력하세요..." oninput="saveMemo(this)">${escapeHtml(memoText)}</textarea>
+                    </div>
+                    ` : ''}
                     <div class="q-title" style="font-weight:bold; margin: 15px 0; font-size:1.1em; line-height:1.6;">${q.question}</div>
                     ${q.box ? `<div class="inner-box">${q.box}</div>` : ''}
                     ${q.tableData ? `
@@ -444,7 +461,7 @@
                     <div class="options-list" style="display:grid; gap:8px; margin: 20px 0;">
                         ${optionsHtml}
                     </div>
-                    ${isMockFinished ? `<div style="font-weight:bold; color:${correct ? '#166534' : '#b91c1c'};">${correct ? '정답' : `오답 (정답: ${q.answer.join(', ')})`}</div>` : ''}
+                    ${isMockFinished ? `<div style="font-weight:bold; color:${correct ? '#166534' : '#b91c1c'};">${correct ? '정답' : `오답 (정답: ${q.answer.join(', ')})`}</div><div class="memo-preview-target">${memoHtml}</div>` : ''}
                 </div>
             `;
             }).join('');
@@ -467,6 +484,28 @@
                 highlighted = highlighted.replace(regex, `<mark style="background-color: #ffeb3b">$1</mark>`);
             });
             return highlighted;
+        }
+
+        function getQuestionMemoKey(q) {
+            return q.id || `${q.session}|${q.subject}|${q.number}`;
+        }
+
+        function getQuestionMemo(q) {
+            const key = getQuestionMemoKey(q);
+            return (questionMemos[key] || '').trim();
+        }
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function renderMemoText(text) {
+            return escapeHtml(text).replace(/\n/g, '<br>');
         }
 
         function processAndRender() {
@@ -546,10 +585,19 @@
                 const displayQuestion = highlightText(q.question, keywords);
                 const displayBox = q.box ? highlightText(q.box, keywords) : '';
                 const displayOptions = q.options.map(opt => highlightText(opt, keywords));
+                const memoKey = getQuestionMemoKey(q);
+                const memoText = getQuestionMemo(q);
+                const memoHtml = memoText ? `<div class="memo-preview"><div class="memo-preview-title">📝 내 메모</div><div>${renderMemoText(memoText)}</div></div>` : '';
 
                 return `
                 <div class="q-card">
-                    <small style="color:#64748b">${q.session} | ${q.subject} | ${q.number}번</small>
+                    <div class="q-header">
+                        <small style="color:#64748b">${q.session} | ${q.subject} | ${q.number}번</small>
+                        <button class="memo-icon-btn" type="button" onclick="toggleMemoEditor(this)" title="메모 입력" aria-label="메모 입력">📝</button>
+                    </div>
+                    <div class="memo-editor" data-memo-key="${memoKey}" style="display:none;">
+                        <textarea class="memo-textarea" placeholder="이 문제에 대한 메모를 입력하세요..." oninput="saveMemo(this)">${escapeHtml(memoText)}</textarea>
+                    </div>
                     <div class="q-title" style="font-weight:bold; margin: 15px 0; font-size:1.1em; line-height:1.6;">${displayQuestion}</div>
                     ${q.box ? `<div class="inner-box">${displayBox}</div>` : ''}
                     ${q.tableData ? `
@@ -562,7 +610,10 @@
                         ${displayOptions.map((opt, i) => `<div style="padding:12px; border:1px solid var(--border); border-radius:8px; background:rgba(0,0,0,0.02); font-size:0.95em;"><span style="font-weight:bold; margin-right:5px;">${i + 1}.</span> ${opt}</div>`).join('')}
                     </div>
                     <button class="btn-ans" onclick="toggleAns(this)">정답 확인</button>
-                    <div class="ans-section"><div style="font-weight:bold; color:#166534; font-size:1.1em;">정답: ${q.answer}</div></div>
+                    <div class="ans-section">
+                        <div style="font-weight:bold; color:#166534; font-size:1.1em;">정답: ${q.answer}</div>
+                        ${memoHtml}
+                    </div>
                 </div>
             `;
             }).join('');
@@ -571,6 +622,50 @@
         function toggleAns(btn) {
             const target = btn.nextElementSibling;
             target.style.display = (target.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function toggleMemoEditor(btn) {
+            const card = btn.closest('.q-card');
+            if (!card) return;
+            const editor = card.querySelector('.memo-editor');
+            if (!editor) return;
+            const isOpen = editor.style.display === 'block';
+            editor.style.display = isOpen ? 'none' : 'block';
+            if (!isOpen) {
+                const ta = editor.querySelector('.memo-textarea');
+                if (ta) ta.focus();
+            }
+        }
+
+        function saveMemo(textarea) {
+            const editor = textarea.closest('.memo-editor');
+            const card = textarea.closest('.q-card');
+            if (!editor || !card) return;
+            const key = editor.dataset.memoKey;
+            if (!key) return;
+            const value = textarea.value || '';
+            if (value.trim()) {
+                questionMemos[key] = value.trim();
+            } else {
+                delete questionMemos[key];
+            }
+            localStorage.setItem('questionMemos', JSON.stringify(questionMemos));
+
+            const previewTarget = card.querySelector('.ans-section') || card.querySelector('.memo-preview-target');
+            if (!previewTarget) return;
+            const existingPreview = previewTarget.querySelector('.memo-preview');
+            const memoText = (questionMemos[key] || '').trim();
+
+            if (memoText) {
+                const html = `<div class="memo-preview"><div class="memo-preview-title">📝 내 메모</div><div>${renderMemoText(memoText)}</div></div>`;
+                if (existingPreview) {
+                    existingPreview.outerHTML = html;
+                } else {
+                    previewTarget.insertAdjacentHTML('beforeend', html);
+                }
+            } else if (existingPreview) {
+                existingPreview.remove();
+            }
         }
 
         function resetAll() {
