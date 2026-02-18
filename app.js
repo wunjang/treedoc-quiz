@@ -713,6 +713,9 @@
             const searchInput = document.getElementById('searchInput');
             const filterPanel = document.getElementById('filterPanel');
             const cards = document.querySelectorAll('.q-card');
+            const activeEl = document.activeElement;
+
+            if (activeEl && activeEl.classList && activeEl.classList.contains('memo-textarea')) return;
 
             if (appMode === 'normal' && document.activeElement === searchInput && e.key !== 'Enter') return;
 

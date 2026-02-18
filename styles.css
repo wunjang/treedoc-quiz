@@ -58,6 +58,7 @@
             cursor: pointer;
             background: var(--card-bg);
             user-select: none;
+            border-radius: 16px 16px 0 0;
         }
 
         .filter-header h2 {
@@ -169,6 +170,10 @@
             pointer-events: none;
         }
 
+        .filter-panel.collapsed .filter-header {
+            border-radius: 16px;
+        }
+
         .filter-row {
             margin-top: 15px;
         }
@@ -244,20 +249,61 @@
             gap: 10px;
         }
 
+        .q-action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         .memo-icon-btn {
             width: 32px;
             height: 32px;
             border: 1px solid var(--border);
             border-radius: 8px;
-            background: var(--bg);
+            background: transparent;
             color: var(--text);
             cursor: pointer;
             font-size: 16px;
             line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            filter: grayscale(1);
+            opacity: 0.75;
             flex-shrink: 0;
         }
 
         .memo-icon-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .memo-icon-btn.active {
+            filter: grayscale(0);
+            opacity: 1;
+        }
+
+        .favorite-icon-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: transparent;
+            color: #eab308;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+            filter: grayscale(1);
+            opacity: 0.75;
+            flex-shrink: 0;
+        }
+
+        .favorite-icon-btn.active {
+            filter: grayscale(0);
+            opacity: 1;
+        }
+
+        .favorite-icon-btn:hover {
             border-color: var(--primary);
         }
 
