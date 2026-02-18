@@ -12,6 +12,7 @@
         let mockTimerId = null;
         let mockTimeLeft = 0;
         let appMode = 'normal';
+        let hasAutoOpenedMockMenu = false;
         const subjectOrder = ["수목병리학", "수목해충학", "수목생리학", "산림토양학", "수목관리학"];
         const managementSubsubjects = ["수목관리학", "농약학", "비생물적 피해", "정책 및 법규"];
         const managementRatio = {
@@ -102,6 +103,8 @@
         function switchAppMode(mode, e) {
             if (e) e.stopPropagation();
             appMode = mode;
+            const shouldAutoOpenModeMenu = mode === 'mock' && !hasAutoOpenedMockMenu;
+            if (shouldAutoOpenModeMenu) hasAutoOpenedMockMenu = true;
             document.getElementById('modeNormalBtn').classList.toggle('active', mode === 'normal');
             document.getElementById('modeMockBtn').classList.toggle('active', mode === 'mock');
             document.getElementById('normalFilterUI').style.display = mode === 'normal' ? 'block' : 'none';
@@ -113,7 +116,11 @@
             } else {
                 updateMockHeaderSummary();
             }
-            closeModeMenu();
+            if (shouldAutoOpenModeMenu) {
+                document.getElementById('modeMenu').style.display = 'block';
+            } else {
+                closeModeMenu();
+            }
             processAndRender();
         }
 
@@ -283,7 +290,7 @@
                 const pool = questions.filter(q => q.subject === subject && Array.isArray(q.answer) && q.answer.length === 1);
                 const count = Math.min(perSubject, pool.length);
                 if (count < perSubject) {
-                    alert(`${subject} 과목은 단일정답 문항 ${pool.length}개만 있어 ${count}문항으로 출제합니다.`);
+                    alert(`${subject} 과목은 출제 가능한 문항이 ${pool.length}개여서 ${count}문항으로 출제합니다.`);
                 }
                 if (subject === '수목관리학') {
                     generated.push(...pickManagementByRatio(pool, count).map(remapQuestionOptions));
