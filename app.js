@@ -14,6 +14,7 @@
         let appMode = 'normal';
         let hasAutoOpenedMockMenu = false;
         let questionMemos = {};
+        let headerTitleResizeTimer = null;
         const SHARE_QUERY_KEY = 'data';
         const subjectOrder = ["수목병리학", "수목해충학", "수목생리학", "산림토양학", "수목관리학"];
         const managementSubsubjects = ["수목관리학", "농약학", "비생물적 피해", "정책 및 법규"];
@@ -158,6 +159,37 @@
             localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
         }
 
+        function getHeaderTitleBaseText() {
+            return appMode === 'normal' ? '🔍 필터 설정' : '🧪 모의고사 설정';
+        }
+
+        function updateHeaderTitleForWrap() {
+            const filterHeaderEl = document.querySelector('.filter-header');
+            const headerTitleEl = document.getElementById('headerTitle');
+            const filterSummaryEl = document.getElementById('filterSummary');
+            if (!filterHeaderEl || !headerTitleEl) return;
+            const titleWrapEl = headerTitleEl.parentElement;
+            if (!titleWrapEl) return;
+
+            headerTitleEl.innerText = getHeaderTitleBaseText();
+            if (appMode !== 'normal') return;
+
+            const prevTitleWrapWhiteSpace = titleWrapEl.style.whiteSpace;
+            const prevSummaryWhiteSpace = filterSummaryEl ? filterSummaryEl.style.whiteSpace : '';
+            titleWrapEl.style.whiteSpace = 'nowrap';
+            if (filterSummaryEl) filterSummaryEl.style.whiteSpace = 'nowrap';
+            const singleLineHeight = Math.ceil(filterHeaderEl.getBoundingClientRect().height);
+            titleWrapEl.style.whiteSpace = prevTitleWrapWhiteSpace;
+            if (filterSummaryEl) filterSummaryEl.style.whiteSpace = prevSummaryWhiteSpace;
+
+            const wrappedHeight = Math.ceil(filterHeaderEl.getBoundingClientRect().height);
+            if (wrappedHeight > singleLineHeight + 1) headerTitleEl.innerText = '🔍';
+        }
+
+        function scheduleHeaderTitleLayout() {
+            window.requestAnimationFrame(updateHeaderTitleForWrap);
+        }
+
         // 초기 로드 시 다크 모드 설정 확인
         window.addEventListener('DOMContentLoaded', () => {
             maybeImportDataFromUrl();
@@ -172,6 +204,12 @@
                 document.body.classList.add('dark-mode');
                 if (toggle) toggle.checked = true;
             }
+            scheduleHeaderTitleLayout();
+        });
+
+        window.addEventListener('resize', () => {
+            clearTimeout(headerTitleResizeTimer);
+            headerTitleResizeTimer = setTimeout(scheduleHeaderTitleLayout, 80);
         });
 
         async function loadData() {
@@ -244,7 +282,7 @@
             document.getElementById('modeMockBtn').classList.toggle('active', mode === 'mock');
             document.getElementById('normalFilterUI').style.display = mode === 'normal' ? 'block' : 'none';
             document.getElementById('mockPanel').style.display = mode === 'mock' ? 'block' : 'none';
-            document.getElementById('headerTitle').innerText = mode === 'normal' ? '🔍 필터 설정' : '🧪 모의고사 설정';
+            scheduleHeaderTitleLayout();
 
             if (mode === 'normal') {
                 resetMockState();
@@ -377,6 +415,7 @@
                 const expected = Number.isInteger(perSubject) && perSubject > 0 ? selectedCount * perSubject : 0;
                 document.getElementById('filterSummary').innerText = `모의고사 설정`;
                 document.getElementById('headerResultCount').innerText = expected ? `(예상 ${expected}문항)` : '';
+                scheduleHeaderTitleLayout();
                 return;
             }
             const mm = String(Math.floor(mockTimeLeft / 60)).padStart(2, '0');
@@ -385,6 +424,7 @@
             const pausedText = mockPaused ? '일시정지 | ' : '';
             document.getElementById('filterSummary').innerText = `${pausedText}남은 ${remain}문항 | ${mm}:${ss}`;
             document.getElementById('headerResultCount').innerText = `(${mockQuestions.length}문항)`;
+            scheduleHeaderTitleLayout();
         }
 
         function resetMockState() {
@@ -698,6 +738,7 @@
 
             document.getElementById('filterSummary').innerText = summary.length ? summary.join(', ') : '전체 보기';
             document.getElementById('headerResultCount').innerText = `(${res.length}건)`;
+            scheduleHeaderTitleLayout();
 
             // 하이라이트 처리를 위해 검색 키워드만 전달
             renderQuestions(res, searchKeywords);
