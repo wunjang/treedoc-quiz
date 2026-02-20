@@ -18,7 +18,9 @@
         const SHARE_QUERY_KEY = 'data';
         const GOOGLE_SHEET_ID = '1jpI5fgLIYUQjyHXV3n4IbxOfAl9xLcaHmOAeVf5CECQ';
         const GOOGLE_SHEET_GID = '0';
-        const GOOGLE_SHEET_GVIZ_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&gid=${GOOGLE_SHEET_GID}`;
+        const GOOGLE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv&gid=${GOOGLE_SHEET_GID}`;
+        const GOOGLE_SHEET_GVIZ_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&gid=${GOOGLE_SHEET_GID}&headers=1`;
+        const ENABLE_JSON_FALLBACK = true;
         const subjectOrder = ["수목병리학", "수목해충학", "수목생리학", "산림토양학", "수목관리학"];
         const managementSubsubjects = ["수목관리학", "농약학", "비생물적 피해", "정책 및 법규"];
         const managementRatio = {
@@ -218,31 +220,102 @@
         async function loadData() {
             try {
                 questions = await loadQuestionsFromRemote();
+                console.info(`[quiz] data source: ${window.__QUIZ_DATA_SOURCE || 'unknown'}`);
                 initFilters();
                 const modeParam = new URLSearchParams(window.location.search).get('mode');
                 const initialMode = (modeParam && modeParam.toLowerCase() === 'mock') ? 'mock' : 'normal';
                 switchAppMode(initialMode);
                 processAndRender();
             } catch (e) {
-                document.getElementById('questionList').innerHTML = `<p style="color:red; text-align:center;">데이터를 불러올 수 없습니다 (구글 시트/JSON 확인 필요)</p>`;
+                const message = (e && e.message) ? e.message : '알 수 없는 오류';
+                document.getElementById('questionList').innerHTML = `<p style="color:red; text-align:center;">데이터를 불러올 수 없습니다<br><small>${message}</small></p>`;
             }
         }
 
         async function loadQuestionsFromRemote() {
+            const cacheBust = `cb=${Date.now()}`;
             try {
-                const response = await fetch(GOOGLE_SHEET_GVIZ_URL, { cache: 'no-store' });
-                if (!response.ok) throw new Error(`구글 시트 로드 실패: ${response.status}`);
+                const response = await fetch(`${GOOGLE_SHEET_GVIZ_URL}&${cacheBust}`, { cache: 'no-store' });
+                if (!response.ok) throw new Error(`구글 시트 GVIZ 응답 코드: ${response.status}`);
                 const text = await response.text();
                 const parsed = parseGoogleGvizPayload(text);
                 const mapped = mapGoogleSheetRowsToQuestions(parsed);
-                if (!mapped.length) throw new Error('구글 시트 데이터가 비어 있습니다.');
+                if (!mapped.length) throw new Error('구글 시트 GVIZ 데이터가 비어 있습니다.');
+                window.__QUIZ_DATA_SOURCE = 'google_sheet';
                 return mapped;
-            } catch (sheetError) {
-                console.warn('[quiz] google sheet load failed, fallback to questions.json', sheetError);
-                const response = await fetch('questions.json', { cache: 'no-store' });
-                if (!response.ok) throw new Error('questions.json 로드 실패');
-                return await response.json();
+            } catch (gvizError) {
+                const gvizReason = gvizError && gvizError.message ? gvizError.message : String(gvizError);
+                console.warn('[quiz] google sheet gviz load failed', gvizError);
+                try {
+                    const response = await fetch(`${GOOGLE_SHEET_CSV_URL}&${cacheBust}`, { cache: 'no-store' });
+                    if (!response.ok) throw new Error(`구글 시트 CSV 응답 코드: ${response.status}`);
+                    const text = await response.text();
+                    const rows = parseCsvToObjects(text);
+                    const mapped = mapRowObjectsToQuestions(rows);
+                    if (!mapped.length) throw new Error('구글 시트 CSV 데이터가 비어 있습니다.');
+                    window.__QUIZ_DATA_SOURCE = 'google_sheet_csv_fallback';
+                    return mapped;
+                } catch (csvError) {
+                    const csvReason = csvError && csvError.message ? csvError.message : String(csvError);
+                    if (!ENABLE_JSON_FALLBACK) {
+                        throw new Error(`구글 시트 로드 실패: GVIZ(${gvizReason}) / CSV(${csvReason})`);
+                    }
+                    const response = await fetch(`questions.json?${cacheBust}`, { cache: 'no-store' });
+                    if (!response.ok) throw new Error('questions.json 로드 실패');
+                    window.__QUIZ_DATA_SOURCE = 'questions_json_fallback';
+                    return await response.json();
+                }
             }
+        }
+
+        function parseCsvToObjects(csvText) {
+            const rows = [];
+            let row = [];
+            let cell = '';
+            let inQuotes = false;
+            for (let i = 0; i < csvText.length; i++) {
+                const ch = csvText[i];
+                const next = csvText[i + 1];
+                if (ch === '"') {
+                    if (inQuotes && next === '"') {
+                        cell += '"';
+                        i++;
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                    continue;
+                }
+                if (!inQuotes && ch === ',') {
+                    row.push(cell);
+                    cell = '';
+                    continue;
+                }
+                if (!inQuotes && (ch === '\n' || ch === '\r')) {
+                    if (ch === '\r' && next === '\n') i++;
+                    row.push(cell);
+                    rows.push(row);
+                    row = [];
+                    cell = '';
+                    continue;
+                }
+                cell += ch;
+            }
+            if (cell.length || row.length) {
+                row.push(cell);
+                rows.push(row);
+            }
+            if (!rows.length) return [];
+
+            const headers = rows[0].map(h => String(h || '').trim());
+            return rows.slice(1)
+                .filter(r => r.some(v => String(v || '').trim() !== ''))
+                .map((r) => {
+                    const obj = {};
+                    headers.forEach((h, idx) => {
+                        obj[h || `column_${idx}`] = r[idx] == null ? '' : r[idx];
+                    });
+                    return obj;
+                });
         }
 
         function parseGoogleGvizPayload(rawText) {
@@ -334,6 +407,105 @@
             return optionCandidates;
         }
 
+        function collectIndexedValues(normalizedRow, baseKey, maxCount = 20) {
+            const base = normalizeSheetHeader(baseKey);
+            const values = [];
+            for (let i = 0; i < maxCount; i++) {
+                const keyA = `${base}/${i}`;
+                const keyB = `${base}${i}`;
+                const value = normalizedRow[keyA] ?? normalizedRow[keyB];
+                if (value !== undefined && value !== null && String(value).trim() !== '') {
+                    values.push(String(value).trim());
+                }
+            }
+            if (values.length) return values;
+
+            // Fallback: collect keys like options/0, options0, options_0, options-0 in any order.
+            const pairs = Object.keys(normalizedRow)
+                .map((key) => {
+                    const m = key.match(new RegExp(`^${base}(?:\\/|_|-)?(\\d+)$`));
+                    if (!m) return null;
+                    return { idx: Number(m[1]), value: normalizedRow[key] };
+                })
+                .filter(Boolean)
+                .filter(v => Number.isFinite(v.idx))
+                .sort((a, b) => a.idx - b.idx);
+
+            return pairs
+                .map(v => String(v.value == null ? '' : v.value).trim())
+                .filter(Boolean);
+        }
+
+        function buildTableDataFromRow(normalizedRow) {
+            const table = [];
+            let hasAnyContent = false;
+            let maxRow = -1;
+            let maxCol = -1;
+            Object.keys(normalizedRow).forEach((key) => {
+                const matched = key.match(/^tabledata\/(\d+)\/(\d+)$/);
+                if (!matched) return;
+                const rowIdx = Number(matched[1]);
+                const colIdx = Number(matched[2]);
+                const value = normalizedRow[key];
+                if (!Number.isFinite(rowIdx) || !Number.isFinite(colIdx)) return;
+                const text = value == null ? '' : String(value);
+                const trimmed = text.trim();
+                if (!trimmed) return;
+
+                hasAnyContent = true;
+                if (rowIdx > maxRow) maxRow = rowIdx;
+                if (colIdx > maxCol) maxCol = colIdx;
+                if (!table[rowIdx]) table[rowIdx] = [];
+                table[rowIdx][colIdx] = text;
+            });
+            if (!hasAnyContent || maxRow < 0 || maxCol < 0) return null;
+
+            const normalized = [];
+            for (let r = 0; r <= maxRow; r++) {
+                normalized[r] = [];
+                for (let c = 0; c <= maxCol; c++) {
+                    const v = table[r] && table[r][c] != null ? table[r][c] : '';
+                    normalized[r][c] = v;
+                }
+            }
+            const rowHasContent = normalized.map((row) => row.some((cell) => String(cell || '').trim() !== ''));
+            const colHasContent = [];
+            for (let c = 0; c <= maxCol; c++) {
+                let has = false;
+                for (let r = 0; r <= maxRow; r++) {
+                    if (String((normalized[r] && normalized[r][c]) || '').trim() !== '') {
+                        has = true;
+                        break;
+                    }
+                }
+                colHasContent[c] = has;
+            }
+
+            const trimmed = normalized
+                .filter((_, r) => rowHasContent[r])
+                .map((row) => row.filter((_, c) => colHasContent[c]));
+
+            return trimmed.length ? trimmed : null;
+        }
+
+        function hashString(input) {
+            let hash = 2166136261;
+            const str = String(input || '');
+            for (let i = 0; i < str.length; i++) {
+                hash ^= str.charCodeAt(i);
+                hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+            }
+            return (hash >>> 0).toString(16);
+        }
+
+        function buildStableQuestionId(session, subject, number, question, fallbackId) {
+            const explicit = String(fallbackId || '').trim();
+            if (explicit) return explicit;
+            if (Number.isFinite(number) && number > 0) return `${session}-${number}`;
+            const base = `${session}|${subject}|${question}`;
+            return `auto-${hashString(base)}`;
+        }
+
         function mapGoogleSheetRowsToQuestions(gvizPayload) {
             const table = gvizPayload && gvizPayload.table ? gvizPayload.table : null;
             if (!table || !Array.isArray(table.cols) || !Array.isArray(table.rows)) {
@@ -345,7 +517,7 @@
                 return String(raw).trim();
             });
 
-            return table.rows
+            const rowObjects = table.rows
                 .map((row) => {
                     const values = Array.isArray(row && row.c) ? row.c : [];
                     const rowObj = {};
@@ -353,28 +525,74 @@
                         const cell = values[idx];
                         rowObj[header] = cell && cell.v != null ? cell.v : '';
                     });
+                    return rowObj;
+                });
+            let mapped = mapRowObjectsToQuestions(rowObjects);
+            if (mapped.length) return mapped;
+
+            // Some GVIZ responses expose generic headers(A,B,...) and keep real headers in the first data row.
+            const recovered = remapWithFirstDataRowAsHeader(rowObjects);
+            mapped = mapRowObjectsToQuestions(recovered);
+            return mapped;
+        }
+
+        function remapWithFirstDataRowAsHeader(rowObjects) {
+            if (!Array.isArray(rowObjects) || rowObjects.length < 2) return [];
+            const first = rowObjects[0] || {};
+            const originalKeys = Object.keys(first);
+            if (!originalKeys.length) return [];
+
+            const newHeaders = originalKeys.map((k) => String(first[k] == null ? '' : first[k]).trim());
+            if (!newHeaders.some(Boolean)) return [];
+
+            return rowObjects.slice(1).map((row) => {
+                const out = {};
+                originalKeys.forEach((k, idx) => {
+                    const header = (newHeaders[idx] || `column_${idx}`).trim();
+                    out[header] = row[k];
+                });
+                return out;
+            });
+        }
+
+        function mapRowObjectsToQuestions(rowObjects) {
+            return rowObjects
+                .map((rowObj) => {
                     const q = normalizeObjectKeys(rowObj);
                     const session = String(pickFirst(q, ['session', '회차'])).trim();
                     const number = parseQuestionNumber(pickFirst(q, ['number', '문항번호', '번호', '문항']));
                     const subject = String(pickFirst(q, ['subject', '과목'])).trim();
                     const question = String(pickFirst(q, ['question', '문제'])).trim();
-                    const options = buildOptionsFromRow(q);
-                    const answer = parseAnswerArray(pickFirst(q, ['answer', '정답']));
-                    const id = String(pickFirst(q, ['id']) || `${session}-${number}`).trim();
+                    const optionsFromIndexed = collectIndexedValues(q, 'options', 10);
+                    const options = optionsFromIndexed.length ? optionsFromIndexed : buildOptionsFromRow(q);
+                    const answersFromIndexed = collectIndexedValues(q, 'answer', 10)
+                        .map(v => Number(v))
+                        .filter(Number.isFinite);
+                    const answer = answersFromIndexed.length ? answersFromIndexed : parseAnswerArray(pickFirst(q, ['answer', '정답']));
+                    const tagsFromIndexed = collectIndexedValues(q, 'tags', 10);
+                    const id = buildStableQuestionId(
+                        session,
+                        subject,
+                        number,
+                        question,
+                        pickFirst(q, ['id'])
+                    );
                     const imageRaw = String(pickFirst(q, ['image', '이미지'])).trim();
+                    const tableData = buildTableDataFromRow(q);
 
                     return {
                         id,
                         session,
                         number,
                         subject,
-                        tags: parseStringArray(pickFirst(q, ['tags', '태그'])),
+                        tags: tagsFromIndexed.length ? tagsFromIndexed : parseStringArray(pickFirst(q, ['tags', '태그'])),
                         question,
                         image: imageRaw || null,
                         options,
                         answer,
                         explanation: String(pickFirst(q, ['explanation', '해설'])).trim(),
-                        box: String(pickFirst(q, ['box'])).trim()
+                        box: String(pickFirst(q, ['box'])).trim(),
+                        tableData
                     };
                 })
                 .filter((q) => q.session && q.subject && q.question && Array.isArray(q.options) && q.options.length > 0 && Array.isArray(q.answer) && q.answer.length > 0);
