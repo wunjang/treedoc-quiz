@@ -121,7 +121,12 @@
                 favoriteBtn.title = FAVORITE_FILTER_LABEL;
                 favoriteBtn.setAttribute('aria-label', FAVORITE_FILTER_LABEL);
                 favoriteBtn.innerHTML = '&#9733;';
-                favoriteBtn.onclick = function () {
+                favoriteBtn.onclick = function (event) {
+                    if (event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    const shouldRerender = isFavoriteSessionSelected();
                     if (isFavoriteKey(key)) {
                         delete favoriteQuestions[key];
                     } else {
@@ -129,7 +134,8 @@
                     }
                     saveFavorites();
                     updateFavoriteSessionTag();
-                    if (typeof window.processAndRender === 'function') {
+                    favoriteBtn.classList.toggle('active', isFavoriteKey(key));
+                    if (shouldRerender && typeof window.processAndRender === 'function') {
                         window.processAndRender();
                     }
                 };
