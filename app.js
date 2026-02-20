@@ -233,9 +233,8 @@
         }
 
         async function loadQuestionsFromRemote() {
-            const cacheBust = `cb=${Date.now()}`;
             try {
-                const response = await fetch(`${GOOGLE_SHEET_GVIZ_URL}&${cacheBust}`, { cache: 'no-store' });
+                const response = await fetch(GOOGLE_SHEET_GVIZ_URL, { cache: 'default' });
                 if (!response.ok) throw new Error(`구글 시트 GVIZ 응답 코드: ${response.status}`);
                 const text = await response.text();
                 const parsed = parseGoogleGvizPayload(text);
@@ -247,7 +246,7 @@
                 const gvizReason = gvizError && gvizError.message ? gvizError.message : String(gvizError);
                 console.warn('[quiz] google sheet gviz load failed', gvizError);
                 try {
-                    const response = await fetch(`${GOOGLE_SHEET_CSV_URL}&${cacheBust}`, { cache: 'no-store' });
+                    const response = await fetch(GOOGLE_SHEET_CSV_URL, { cache: 'default' });
                     if (!response.ok) throw new Error(`구글 시트 CSV 응답 코드: ${response.status}`);
                     const text = await response.text();
                     const rows = parseCsvToObjects(text);
@@ -260,7 +259,7 @@
                     if (!ENABLE_JSON_FALLBACK) {
                         throw new Error(`구글 시트 로드 실패: GVIZ(${gvizReason}) / CSV(${csvReason})`);
                     }
-                    const response = await fetch(`questions.json?${cacheBust}`, { cache: 'no-store' });
+                    const response = await fetch('questions.json', { cache: 'default' });
                     if (!response.ok) throw new Error('questions.json 로드 실패');
                     window.__QUIZ_DATA_SOURCE = 'questions_json_fallback';
                     return await response.json();
