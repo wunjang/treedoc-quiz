@@ -16,6 +16,9 @@
         let questionMemos = {};
         let headerTitleResizeTimer = null;
         const SHARE_QUERY_KEY = 'data';
+        const GOOGLE_SHEET_ID = '1jpI5fgLIYUQjyHXV3n4IbxOfAl9xLcaHmOAeVf5CECQ';
+        const GOOGLE_SHEET_GID = '0';
+        const GOOGLE_SHEET_GVIZ_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&gid=${GOOGLE_SHEET_GID}`;
         const subjectOrder = ["수목병리학", "수목해충학", "수목생리학", "산림토양학", "수목관리학"];
         const managementSubsubjects = ["수목관리학", "농약학", "비생물적 피해", "정책 및 법규"];
         const managementRatio = {
@@ -214,17 +217,167 @@
 
         async function loadData() {
             try {
-                const response = await fetch('questions.json');
-                if (!response.ok) throw new Error('파일 로드 실패');
-                questions = await response.json();
+                questions = await loadQuestionsFromRemote();
                 initFilters();
                 const modeParam = new URLSearchParams(window.location.search).get('mode');
                 const initialMode = (modeParam && modeParam.toLowerCase() === 'mock') ? 'mock' : 'normal';
                 switchAppMode(initialMode);
                 processAndRender();
             } catch (e) {
-                document.getElementById('questionList').innerHTML = `<p style="color:red; text-align:center;">데이터를 불러올 수 없습니다 (questions.json 확인 필요)</p>`;
+                document.getElementById('questionList').innerHTML = `<p style="color:red; text-align:center;">데이터를 불러올 수 없습니다 (구글 시트/JSON 확인 필요)</p>`;
             }
+        }
+
+        async function loadQuestionsFromRemote() {
+            try {
+                const response = await fetch(GOOGLE_SHEET_GVIZ_URL, { cache: 'no-store' });
+                if (!response.ok) throw new Error(`구글 시트 로드 실패: ${response.status}`);
+                const text = await response.text();
+                const parsed = parseGoogleGvizPayload(text);
+                const mapped = mapGoogleSheetRowsToQuestions(parsed);
+                if (!mapped.length) throw new Error('구글 시트 데이터가 비어 있습니다.');
+                return mapped;
+            } catch (sheetError) {
+                console.warn('[quiz] google sheet load failed, fallback to questions.json', sheetError);
+                const response = await fetch('questions.json', { cache: 'no-store' });
+                if (!response.ok) throw new Error('questions.json 로드 실패');
+                return await response.json();
+            }
+        }
+
+        function parseGoogleGvizPayload(rawText) {
+            const jsonStart = rawText.indexOf('{');
+            const jsonEnd = rawText.lastIndexOf('}');
+            if (jsonStart < 0 || jsonEnd < 0 || jsonEnd <= jsonStart) {
+                throw new Error('구글 시트 응답 파싱 실패');
+            }
+            return JSON.parse(rawText.slice(jsonStart, jsonEnd + 1));
+        }
+
+        function normalizeSheetHeader(value) {
+            return String(value || '')
+                .trim()
+                .toLowerCase()
+                .replace(/\s+/g, '')
+                .replace(/[_-]/g, '');
+        }
+
+        function normalizeObjectKeys(rowObj) {
+            const normalized = {};
+            Object.keys(rowObj).forEach((key) => {
+                normalized[normalizeSheetHeader(key)] = rowObj[key];
+            });
+            return normalized;
+        }
+
+        function parseStringArray(value) {
+            if (Array.isArray(value)) return value.map(v => String(v).trim()).filter(Boolean);
+            if (value == null) return [];
+            const raw = String(value).trim();
+            if (!raw) return [];
+            if (raw.startsWith('[') && raw.endsWith(']')) {
+                try {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) return parsed.map(v => String(v).trim()).filter(Boolean);
+                } catch (e) {
+                    // fallback to delimiter split below
+                }
+            }
+            return raw.split(/\r?\n|[,;|]/).map(v => v.trim()).filter(Boolean);
+        }
+
+        function parseAnswerArray(value) {
+            if (Array.isArray(value)) return value.map(v => Number(v)).filter(Number.isFinite);
+            if (typeof value === 'number') return [value];
+            const raw = String(value || '').trim();
+            if (!raw) return [];
+            if (raw.startsWith('[') && raw.endsWith(']')) {
+                try {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) return parsed.map(v => Number(v)).filter(Number.isFinite);
+                } catch (e) {
+                    // fallback to digit parsing below
+                }
+            }
+            return raw
+                .split(/[^0-9]+/)
+                .map(v => Number(v))
+                .filter(Number.isFinite);
+        }
+
+        function parseQuestionNumber(value) {
+            if (typeof value === 'number') return value;
+            const raw = String(value || '');
+            const matched = raw.match(/\d+/);
+            return matched ? Number(matched[0]) : 0;
+        }
+
+        function pickFirst(row, keys) {
+            for (const key of keys) {
+                const value = row[normalizeSheetHeader(key)];
+                if (value !== undefined && value !== null && String(value).trim() !== '') {
+                    return value;
+                }
+            }
+            return '';
+        }
+
+        function buildOptionsFromRow(normalizedRow) {
+            const optionsRaw = pickFirst(normalizedRow, ['options', '보기', '선지']);
+            const parsedOptions = parseStringArray(optionsRaw);
+            if (parsedOptions.length) return parsedOptions;
+
+            const optionCandidates = ['option1', 'option2', 'option3', 'option4', 'option5', '보기1', '보기2', '보기3', '보기4', '보기5', '선지1', '선지2', '선지3', '선지4', '선지5']
+                .map((key) => normalizedRow[normalizeSheetHeader(key)])
+                .filter(v => v !== undefined && v !== null && String(v).trim() !== '')
+                .map(v => String(v).trim());
+            return optionCandidates;
+        }
+
+        function mapGoogleSheetRowsToQuestions(gvizPayload) {
+            const table = gvizPayload && gvizPayload.table ? gvizPayload.table : null;
+            if (!table || !Array.isArray(table.cols) || !Array.isArray(table.rows)) {
+                throw new Error('구글 시트 테이블 형식이 올바르지 않습니다.');
+            }
+
+            const headers = table.cols.map((col, idx) => {
+                const raw = (col && (col.label || col.id)) || `column_${idx}`;
+                return String(raw).trim();
+            });
+
+            return table.rows
+                .map((row) => {
+                    const values = Array.isArray(row && row.c) ? row.c : [];
+                    const rowObj = {};
+                    headers.forEach((header, idx) => {
+                        const cell = values[idx];
+                        rowObj[header] = cell && cell.v != null ? cell.v : '';
+                    });
+                    const q = normalizeObjectKeys(rowObj);
+                    const session = String(pickFirst(q, ['session', '회차'])).trim();
+                    const number = parseQuestionNumber(pickFirst(q, ['number', '문항번호', '번호', '문항']));
+                    const subject = String(pickFirst(q, ['subject', '과목'])).trim();
+                    const question = String(pickFirst(q, ['question', '문제'])).trim();
+                    const options = buildOptionsFromRow(q);
+                    const answer = parseAnswerArray(pickFirst(q, ['answer', '정답']));
+                    const id = String(pickFirst(q, ['id']) || `${session}-${number}`).trim();
+                    const imageRaw = String(pickFirst(q, ['image', '이미지'])).trim();
+
+                    return {
+                        id,
+                        session,
+                        number,
+                        subject,
+                        tags: parseStringArray(pickFirst(q, ['tags', '태그'])),
+                        question,
+                        image: imageRaw || null,
+                        options,
+                        answer,
+                        explanation: String(pickFirst(q, ['explanation', '해설'])).trim(),
+                        box: String(pickFirst(q, ['box'])).trim()
+                    };
+                })
+                .filter((q) => q.session && q.subject && q.question && Array.isArray(q.options) && q.options.length > 0 && Array.isArray(q.answer) && q.answer.length > 0);
         }
 
         function initFilters() {
