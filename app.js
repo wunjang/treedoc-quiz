@@ -1297,6 +1297,10 @@
                 const memoKey = getQuestionMemoKey(q);
                 const memoText = getQuestionMemo(q);
                 const memoHtml = memoText ? `<div class="memo-preview"><div class="memo-preview-title">📝 내 메모</div><div>${renderMemoText(memoText)}</div></div>` : '';
+                const explanation = (typeof q.explanation === 'string') ? q.explanation.trim() : '';
+                const explanationHtml = explanation
+                    ? `<div style="margin-top:10px; padding:12px; border:1px solid var(--border); border-radius:8px; background:rgba(15,23,42,0.03); line-height:1.6;"><div style="font-weight:bold; margin-bottom:6px; color:#334155;">해설</div><div>${q.explanation}</div></div>`
+                    : '';
 
                 return `
                 <div class="q-card">
@@ -1321,6 +1325,7 @@
                     <button class="btn-ans" onclick="toggleAns(this)">정답 확인</button>
                     <div class="ans-section">
                         <div style="font-weight:bold; color:#166534; font-size:1.1em;">정답: ${q.answer}</div>
+                        ${explanationHtml}
                         ${memoHtml}
                     </div>
                 </div>
