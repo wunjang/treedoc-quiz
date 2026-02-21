@@ -1234,11 +1234,17 @@
             // 랜덤 트리거 단어 정의
             const randomTriggers = ["rand", "random", "랜덤", "무작위"];
             const hasRandomTrigger = rawKeywords.some(kw => randomTriggers.includes(kw));
+            const memoTriggers = ["메모", "memo"];
+            const hasMemoTrigger = rawKeywords.some(kw => memoTriggers.includes(kw));
 
-            // 실제 검색에 사용할 키워드 (랜덤 트리거 단어는 제외)
-            const searchKeywords = rawKeywords.filter(kw => !randomTriggers.includes(kw));
+            // 실제 검색에 사용할 키워드 (트리거 단어는 제외)
+            const searchKeywords = rawKeywords.filter(kw => !randomTriggers.includes(kw) && !memoTriggers.includes(kw));
 
-            // 3. 텍스트 검색 필터링
+            // 3. 메모/텍스트 검색 필터링
+            if (hasMemoTrigger) {
+                res = res.filter(q => getQuestionMemo(q) !== '');
+            }
+
             if (searchKeywords.length > 0) {
                 res = res.filter(q => {
                     const targetText = (q.question + q.options.join(' ') + (q.box || '')).toLowerCase();
@@ -1260,6 +1266,7 @@
             if (selectedSessions.size) summary.push(`회차 ${selectedSessions.size}`);
             if (selectedSubjects.size) summary.push(`과목 ${selectedSubjects.size}`);
             if (selectedSubsubjects.size) summary.push(`부과목 ${selectedSubsubjects.size}`);
+            if (hasMemoTrigger) summary.push(`메모 있음`);
             if (searchKeywords.length) summary.push(`검색어 ${searchKeywords.length}`);
             if (hasRandomTrigger) summary.push(`🔀 랜덤 모드`);
 
