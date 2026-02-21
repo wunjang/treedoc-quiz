@@ -14,7 +14,6 @@
         let mockDeadlineTs = 0;
         let mockForcedFinishOnRestore = false;
         let appMode = 'normal';
-        let hasAutoOpenedMockMenu = false;
         let questionMemos = {};
         let headerTitleResizeTimer = null;
         const SHARE_QUERY_KEY = 'data';
@@ -225,17 +224,9 @@
                 questions = await loadQuestionsFromRemote();
                 console.info(`[quiz] data source: ${window.__QUIZ_DATA_SOURCE || 'unknown'}`);
                 initFilters();
-                const hasRestoredMockState = restoreMockStateFromStorage();
                 const modeParam = new URLSearchParams(window.location.search).get('mode');
-                const initialMode = (modeParam && modeParam.toLowerCase() === 'mock')
-                    ? 'mock'
-                    : (hasRestoredMockState ? 'mock' : 'normal');
+                const initialMode = (modeParam && modeParam.toLowerCase() === 'mock') ? 'mock' : 'normal';
                 switchAppMode(initialMode);
-                if (initialMode === 'mock' && hasRestoredMockState) {
-                    resumeMockTimerAfterRestore();
-                    renderMockExam();
-                    saveMockStateToStorage();
-                }
                 processAndRender();
             } catch (e) {
                 const message = (e && e.message) ? e.message : '알 수 없는 오류';
@@ -660,24 +651,22 @@
         function switchAppMode(mode, e) {
             if (e) e.stopPropagation();
             appMode = mode;
-            const shouldAutoOpenModeMenu = mode === 'mock' && !hasAutoOpenedMockMenu;
-            if (shouldAutoOpenModeMenu) hasAutoOpenedMockMenu = true;
             document.getElementById('modeNormalBtn').classList.toggle('active', mode === 'normal');
             document.getElementById('modeMockBtn').classList.toggle('active', mode === 'mock');
             document.getElementById('normalFilterUI').style.display = mode === 'normal' ? 'block' : 'none';
             document.getElementById('mockPanel').style.display = mode === 'mock' ? 'block' : 'none';
             scheduleHeaderTitleLayout();
 
-            if (mode === 'normal') {
-                resetMockState();
-            } else {
-                updateMockHeaderSummary();
+            if (mode === 'mock') {
+                if (!isMockMode && restoreMockStateFromStorage()) {
+                    resumeMockTimerAfterRestore();
+                    renderMockExam();
+                    saveMockStateToStorage();
+                } else {
+                    updateMockHeaderSummary();
+                }
             }
-            if (shouldAutoOpenModeMenu) {
-                document.getElementById('modeMenu').style.display = 'block';
-            } else {
-                closeModeMenu();
-            }
+            closeModeMenu();
             processAndRender();
         }
 
@@ -696,9 +685,8 @@
         function togglePanel(e) { e.stopPropagation(); document.getElementById('filterPanel').classList.toggle('collapsed'); }
 
         window.addEventListener('click', function (e) {
-            if (appMode === 'mock') return;
             const panel = document.getElementById('filterPanel');
-            if (panel && !panel.contains(e.target)) panel.classList.add('collapsed');
+            if (appMode !== 'mock' && panel && !panel.contains(e.target)) panel.classList.add('collapsed');
             closeModeMenu();
         });
 
