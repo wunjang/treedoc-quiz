@@ -11,11 +11,14 @@
         let mockPaused = false;
         let mockTimerId = null;
         let mockTimeLeft = 0;
+        let mockDeadlineTs = 0;
+        let mockForcedFinishOnRestore = false;
         let appMode = 'normal';
         let hasAutoOpenedMockMenu = false;
         let questionMemos = {};
         let headerTitleResizeTimer = null;
         const SHARE_QUERY_KEY = 'data';
+        const MOCK_STATE_STORAGE_KEY = 'mockExamStateV1';
         const GOOGLE_SHEET_ID = '1jpI5fgLIYUQjyHXV3n4IbxOfAl9xLcaHmOAeVf5CECQ';
         const GOOGLE_SHEET_GID = '0';
         const GOOGLE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv&gid=${GOOGLE_SHEET_GID}`;
@@ -222,9 +225,17 @@
                 questions = await loadQuestionsFromRemote();
                 console.info(`[quiz] data source: ${window.__QUIZ_DATA_SOURCE || 'unknown'}`);
                 initFilters();
+                const hasRestoredMockState = restoreMockStateFromStorage();
                 const modeParam = new URLSearchParams(window.location.search).get('mode');
-                const initialMode = (modeParam && modeParam.toLowerCase() === 'mock') ? 'mock' : 'normal';
+                const initialMode = (modeParam && modeParam.toLowerCase() === 'mock')
+                    ? 'mock'
+                    : (hasRestoredMockState ? 'mock' : 'normal');
                 switchAppMode(initialMode);
+                if (initialMode === 'mock' && hasRestoredMockState) {
+                    resumeMockTimerAfterRestore();
+                    renderMockExam();
+                    saveMockStateToStorage();
+                }
                 processAndRender();
             } catch (e) {
                 const message = (e && e.message) ? e.message : '알 수 없는 오류';
@@ -610,7 +621,10 @@
             document.getElementById('subsubjectGroup').innerHTML = managementSubsubjects.map(s => `<div class="tag subsubject" onclick="toggleFilter('subsubject', '${s}', this)">${s}</div>`).join('');
             selectedMockSubjects = new Set(subjects);
             document.getElementById('mockSubjectGroup').innerHTML = subjects.map(s => `<div class="tag subject active" onclick="toggleMockSubject('${s}', this)">${s}</div>`).join('');
-            document.getElementById('mockCountPerSubject').addEventListener('input', updateMockHeaderSummary);
+            document.getElementById('mockCountPerSubject').addEventListener('input', () => {
+                updateMockHeaderSummary();
+                saveMockStateToStorage();
+            });
             updateSubsubjectVisibility();
             initFeatureBubble();
         }
@@ -702,6 +716,7 @@
             selectedMockSubjects.has(value) ? selectedMockSubjects.delete(value) : selectedMockSubjects.add(value);
             el.classList.toggle('active');
             if (appMode === 'mock') updateMockHeaderSummary();
+            saveMockStateToStorage();
         }
 
         function shuffleArray(arr) {
@@ -777,6 +792,150 @@
             return mockQuestions.filter(q => !(mockAnswers[q.mockId] && mockAnswers[q.mockId].length)).length;
         }
 
+        function getLiveMockTimeLeft() {
+            if (!isMockMode || isMockFinished || mockPaused) return mockTimeLeft;
+            if (!Number.isFinite(mockDeadlineTs) || mockDeadlineTs <= 0) return mockTimeLeft;
+            return Math.max(0, Math.ceil((mockDeadlineTs - Date.now()) / 1000));
+        }
+
+        function saveMockStateToStorage() {
+            const storedPerSubject = parseInt(document.getElementById('mockCountPerSubject').value || '0', 10);
+            const payload = {
+                version: 1,
+                selectedMockSubjects: [...selectedMockSubjects],
+                perSubject: Number.isInteger(storedPerSubject) && storedPerSubject > 0 ? storedPerSubject : 25,
+                isMockMode,
+                isMockFinished,
+                mockPaused,
+                mockTimeLeft: getLiveMockTimeLeft(),
+                mockDeadlineTs: (!isMockFinished && !mockPaused && Number.isFinite(mockDeadlineTs) && mockDeadlineTs > 0) ? mockDeadlineTs : 0,
+                mockQuestions: isMockMode ? mockQuestions : [],
+                mockAnswers: isMockMode ? mockAnswers : {}
+            };
+            localStorage.setItem(MOCK_STATE_STORAGE_KEY, JSON.stringify(payload));
+        }
+
+        function clearMockStateInStorage() {
+            localStorage.removeItem(MOCK_STATE_STORAGE_KEY);
+        }
+
+        function restoreMockStateFromStorage() {
+            let parsed = null;
+            try {
+                parsed = JSON.parse(localStorage.getItem(MOCK_STATE_STORAGE_KEY) || 'null');
+            } catch (e) {
+                clearMockStateInStorage();
+                return false;
+            }
+            if (!parsed || typeof parsed !== 'object') return false;
+
+            const allMockTags = [...document.querySelectorAll('#mockSubjectGroup .tag')];
+            const availableSubjects = new Set(allMockTags.map(t => t.innerText.trim()));
+            const restoredSubjects = Array.isArray(parsed.selectedMockSubjects)
+                ? parsed.selectedMockSubjects.filter(v => typeof v === 'string' && availableSubjects.has(v))
+                : [];
+            if (restoredSubjects.length) {
+                selectedMockSubjects = new Set(restoredSubjects);
+                allMockTags.forEach(tag => tag.classList.toggle('active', selectedMockSubjects.has(tag.innerText.trim())));
+            }
+
+            const restoredPerSubject = parseInt(parsed.perSubject, 10);
+            if (Number.isInteger(restoredPerSubject) && restoredPerSubject > 0) {
+                document.getElementById('mockCountPerSubject').value = String(restoredPerSubject);
+            }
+
+            const hasQuestions = Array.isArray(parsed.mockQuestions) && parsed.mockQuestions.length > 0;
+            if (!parsed.isMockMode || !hasQuestions) {
+                updateMockHeaderSummary();
+                return false;
+            }
+
+            isMockMode = true;
+            isMockFinished = parsed.isMockFinished === true;
+            mockPaused = parsed.mockPaused === true;
+            mockQuestions = parsed.mockQuestions;
+            mockAnswers = (parsed.mockAnswers && typeof parsed.mockAnswers === 'object') ? parsed.mockAnswers : {};
+            mockTimeLeft = Math.max(0, parseInt(parsed.mockTimeLeft, 10) || 0);
+            mockDeadlineTs = 0;
+            mockForcedFinishOnRestore = false;
+
+            if (!isMockFinished) {
+                if (mockPaused) {
+                    if (mockTimeLeft <= 0) {
+                        isMockFinished = true;
+                        mockPaused = false;
+                        mockForcedFinishOnRestore = true;
+                    }
+                } else {
+                    const restoredDeadline = Number(parsed.mockDeadlineTs);
+                    if (!Number.isFinite(restoredDeadline) || restoredDeadline <= 0) {
+                        isMockFinished = true;
+                        mockPaused = false;
+                        mockTimeLeft = 0;
+                        mockForcedFinishOnRestore = true;
+                    } else {
+                        const remain = Math.max(0, Math.ceil((restoredDeadline - Date.now()) / 1000));
+                        if (remain <= 0) {
+                            isMockFinished = true;
+                            mockPaused = false;
+                            mockTimeLeft = 0;
+                            mockForcedFinishOnRestore = true;
+                        } else {
+                            mockTimeLeft = remain;
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        function applyMockControlState() {
+            const startBtn = document.getElementById('startMockBtn');
+            const pauseBtn = document.getElementById('pauseMockBtn');
+            const endBtn = document.getElementById('endMockBtn');
+            const timerEl = document.getElementById('mockTimer');
+            if (!isMockMode) {
+                startBtn.style.display = 'inline-block';
+                pauseBtn.style.display = 'none';
+                pauseBtn.innerText = '모의고사 일시정지';
+                endBtn.style.display = 'none';
+                timerEl.style.display = 'none';
+                return;
+            }
+
+            startBtn.style.display = isMockFinished ? 'inline-block' : 'none';
+            pauseBtn.style.display = isMockFinished ? 'none' : 'inline-block';
+            pauseBtn.innerText = mockPaused ? '모의고사 재개' : '모의고사 일시정지';
+            endBtn.style.display = isMockFinished ? 'none' : 'inline-block';
+            timerEl.style.display = 'block';
+        }
+
+        function resumeMockTimerAfterRestore() {
+            if (!isMockMode) return;
+            applyMockControlState();
+
+            if (isMockFinished) {
+                if (mockForcedFinishOnRestore) {
+                    document.getElementById('mockTimer').innerText = '브라우저 재실행으로 진행 중 시험이 종료 처리되었습니다.';
+                }
+                updateMockHeaderSummary();
+                return;
+            }
+
+            if (mockPaused) {
+                updateMockTimerText();
+                return;
+            }
+
+            if (mockTimeLeft <= 0) {
+                finishMockExam(true);
+                return;
+            }
+
+            startMockTimer(mockTimeLeft);
+        }
+
         function updateMockHeaderSummary() {
             if (appMode !== 'mock') return;
             const perSubject = parseInt(document.getElementById('mockCountPerSubject').value || '0', 10);
@@ -788,6 +947,7 @@
                 scheduleHeaderTitleLayout();
                 return;
             }
+            if (!isMockFinished && !mockPaused) mockTimeLeft = getLiveMockTimeLeft();
             const mm = String(Math.floor(mockTimeLeft / 60)).padStart(2, '0');
             const ss = String(mockTimeLeft % 60).padStart(2, '0');
             const remain = getUnansweredCount();
@@ -808,11 +968,10 @@
             mockQuestions = [];
             mockAnswers = {};
             mockTimeLeft = 0;
-            document.getElementById('mockTimer').style.display = 'none';
-            document.getElementById('startMockBtn').style.display = 'inline-block';
-            document.getElementById('pauseMockBtn').style.display = 'none';
-            document.getElementById('pauseMockBtn').innerText = '모의고사 일시정지';
-            document.getElementById('endMockBtn').style.display = 'none';
+            mockDeadlineTs = 0;
+            mockForcedFinishOnRestore = false;
+            applyMockControlState();
+            clearMockStateInStorage();
         }
 
         function startMockExam() {
@@ -860,33 +1019,39 @@
             isMockMode = true;
             isMockFinished = false;
             mockPaused = false;
+            mockDeadlineTs = 0;
+            mockForcedFinishOnRestore = false;
 
-            document.getElementById('startMockBtn').style.display = 'none';
-            document.getElementById('pauseMockBtn').style.display = 'inline-block';
-            document.getElementById('endMockBtn').style.display = 'inline-block';
+            applyMockControlState();
             startMockTimer(mockQuestions.length * 60);
             document.getElementById('filterPanel').classList.add('collapsed');
             closeModeMenu();
             renderMockExam();
+            saveMockStateToStorage();
         }
 
         function updateMockTimerText() {
             const mm = String(Math.floor(mockTimeLeft / 60)).padStart(2, '0');
             const ss = String(mockTimeLeft % 60).padStart(2, '0');
-            document.getElementById('mockTimer').innerText = `남은 시간 (문항당 1분 기준): ${mm}:${ss}`;
+            const pausedSuffix = mockPaused ? ' (일시정지)' : '';
+            document.getElementById('mockTimer').innerText = `남은 시간 (문항당 1분 기준): ${mm}:${ss}${pausedSuffix}`;
             updateMockHeaderSummary();
         }
 
         function startMockTimer(seconds) {
             if (mockTimerId) clearInterval(mockTimerId);
-            mockTimeLeft = seconds;
+            mockPaused = false;
+            mockTimeLeft = Math.max(0, parseInt(seconds, 10) || 0);
+            mockDeadlineTs = Date.now() + (mockTimeLeft * 1000);
             const timerEl = document.getElementById('mockTimer');
             timerEl.style.display = 'block';
+            applyMockControlState();
             updateMockTimerText();
+            saveMockStateToStorage();
 
             mockTimerId = setInterval(() => {
                 if (mockPaused) return;
-                mockTimeLeft -= 1;
+                mockTimeLeft = getLiveMockTimeLeft();
                 if (mockTimeLeft <= 0) {
                     finishMockExam(true);
                     return;
@@ -898,14 +1063,16 @@
         function togglePauseMockExam() {
             if (!isMockMode || isMockFinished) return;
             mockPaused = !mockPaused;
-            const pauseBtn = document.getElementById('pauseMockBtn');
-            pauseBtn.innerText = mockPaused ? '모의고사 재개' : '모의고사 일시정지';
             if (mockPaused) {
-                document.getElementById('mockTimer').innerText += ' (일시정지)';
+                mockTimeLeft = getLiveMockTimeLeft();
+                mockDeadlineTs = 0;
             } else {
-                updateMockTimerText();
+                mockDeadlineTs = Date.now() + (mockTimeLeft * 1000);
             }
+            applyMockControlState();
+            updateMockTimerText();
             updateMockHeaderSummary();
+            saveMockStateToStorage();
         }
 
         function finishMockExam(isAutoSubmit) {
@@ -916,14 +1083,15 @@
             }
             isMockFinished = true;
             mockPaused = false;
-            document.getElementById('pauseMockBtn').style.display = 'none';
-            document.getElementById('endMockBtn').style.display = 'none';
-            document.getElementById('startMockBtn').style.display = 'inline-block';
+            mockDeadlineTs = 0;
+            mockForcedFinishOnRestore = false;
+            applyMockControlState();
             if (isAutoSubmit) {
                 document.getElementById('mockTimer').innerText = '시간이 종료되어 자동으로 모의고사가 제출되었습니다.';
             }
             updateMockHeaderSummary();
             renderMockExam();
+            saveMockStateToStorage();
         }
 
         function toggleMockOption(mockId, optionIndex) {
@@ -936,6 +1104,7 @@
                 if (target) target.classList.add('selected');
             }
             updateMockHeaderSummary();
+            saveMockStateToStorage();
         }
 
         function isSameAnswer(a, b) {
