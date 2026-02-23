@@ -1072,6 +1072,14 @@ async function importDataFromFile(event) {
             return true;
         }
 
+        function formatAnswerText(answer) {
+            const normalized = Array.isArray(answer)
+                ? answer.map(Number).filter(n => Number.isFinite(n))
+                : String(answer || '').split(',').map(v => Number(v.trim())).filter(n => Number.isFinite(n));
+            if (isSameAnswer(normalized, [1, 2, 3, 4, 5])) return '모두 정답';
+            return normalized.join(', ');
+        }
+
         function renderMockExam() {
             if (!isMockMode) return;
             const listEl = document.getElementById('questionList');
@@ -1123,7 +1131,7 @@ async function importDataFromFile(event) {
                     <div class="options-list" style="display:grid; gap:8px; margin: 20px 0;">
                         ${optionsHtml}
                     </div>
-                    ${isMockFinished ? `<div style="font-weight:bold; color:${correct ? '#166534' : '#b91c1c'};">${correct ? '정답' : `오답 (정답: ${q.answer.join(', ')})`}</div><div class="memo-preview-target">${memoHtml}</div>` : ''}
+                    ${isMockFinished ? `<div style="font-weight:bold; color:${correct ? '#166534' : '#b91c1c'};">${correct ? '정답' : `오답 (정답: ${formatAnswerText(q.answer)})`}</div><div class="memo-preview-target">${memoHtml}</div>` : ''}
                 </div>
             `;
             }).join('');
@@ -1285,7 +1293,7 @@ async function importDataFromFile(event) {
                     </div>
                     <button class="btn-ans" onclick="toggleAns(this)">정답 확인</button>
                     <div class="ans-section">
-                        <div style="font-weight:bold; color:#166534; font-size:1.1em;">정답: ${q.answer}</div>
+                        <div style="font-weight:bold; color:#166534; font-size:1.1em;">정답: ${formatAnswerText(q.answer)}</div>
                         ${explanationHtml}
                         ${memoHtml}
                     </div>
