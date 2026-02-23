@@ -105,22 +105,20 @@
         style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
         <div style="background: var(--card-bg); color: var(--text); padding: 25px; border-radius: 16px; max-width: 90%; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); transition: background 0.3s, color 0.3s;"
             onclick="event.stopPropagation()">
-            <h3 style="margin-top: 0; color: var(--primary);">🌳 이용 안내</h3>
+            <h3 style="margin-top: 0; color: var(--primary);">❓ 도움말</h3>
             <ul style="padding-left: 20px; line-height: 1.8; font-size: 0.95em;">
-                <li><b>TREEDOC-QUIZ</b>는 나무의사 기출문제 학습 도구입니다.</li>
                 <li><b>🔀랜덤모드:</b> 검색창에 '랜덤'을 입력해 문제 순서를 뒤섞을 수 있습니다.</li>
-                <li><b>⭐즐겨찾기:</b> 문제 카드 오른쪽 위 즐겨찾기 아이콘을 눌러 추가하고, 필터의 '즐겨찾기' 를 눌러 추가한 문제만 볼 수 있습니다.</li>
-                <li><b>📝메모:</b> 문제 카드 오른쪽 위 메모 아이콘을 눌러 메모를 작성할 수 있습니다. 검색창에 '메모'를 입력하면 메모가 작성된 문제만 볼 수 있습니다.</li>
-                <li><b>💾데이터 공유:</b> 도움말 하단 '📤데이터 내보내기'로 메모/즐겨찾기/다크모드를 파일로 저장하고, '📥데이터 가져오기'로 불러올 수 있습니다.</li>
+                <li><b>📝메모:</b> 검색창에 '메모'를 입력해 메모가 작성된 문제만 볼 수 있습니다.</li>
+                <li><b>💾데이터 공유:</b> 하단 '📤데이터 내보내기'로 메모와 즐겨찾기를 저장하고, '📥데이터 가져오기'로 불러올 수 있습니다.</li>
                 <hr style="border: 0; border-top: 1px dashed var(--border); margin: 10px 0;">
                 <li><b>⌨️ 단축키 안내:</b></li>
-                <li><b>Enter:</b> 필터 열기 및 검색창 이동 (다시 누르면 닫기)</li>
+                <li><b>Enter:</b> 필터 열기 및 검색창 이동/닫기</li>
                 <li><b>← / → 화살표:</b> 이전/다음 문제로 이동</li>
                 <li><b>Space:</b> 선택된 문제의 정답 확인 토글</li>
             </ul>
             <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
             <p style="font-size: 0.9em; color: #64748b;">
-                문의: <span onclick="copyEmail(this)"
+                문의 및 오류 제보: <span onclick="copyEmail(this)"
                     style="color: var(--primary); text-decoration: underline; cursor: pointer; font-weight: bold;">treedocquiz@gmail.com</span>
                 <br><small id="copyMessage" style="color: #10b981; display: none;">✅ 주소가 복사되었습니다!</small>
             </p>
