@@ -16,150 +16,117 @@
         let appMode = 'normal';
         let questionMemos = {};
         let headerTitleResizeTimer = null;
-        const SHARE_QUERY_KEY = 'data';
-        const MOCK_STATE_STORAGE_KEY = 'mockExamStateV1';
-        const GOOGLE_SHEET_ID = '1jpI5fgLIYUQjyHXV3n4IbxOfAl9xLcaHmOAeVf5CECQ';
-        const GOOGLE_SHEET_GID = '0';
-        const GOOGLE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv&gid=${GOOGLE_SHEET_GID}`;
-        const GOOGLE_SHEET_GVIZ_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&gid=${GOOGLE_SHEET_GID}&headers=1`;
-        const ENABLE_JSON_FALLBACK = true;
-        const subjectOrder = ["수목병리학", "수목해충학", "수목생리학", "산림토양학", "수목관리학"];
-        const managementSubsubjects = ["수목관리학", "농약학", "비생물적 피해", "정책 및 법규"];
-        const managementRatio = {
-            "수목관리학": 8,
-            "농약학": 6,
-            "비생물적 피해": 8,
-            "정책 및 법규": 3
-        };
+const MOCK_STATE_STORAGE_KEY = 'mockExamStateV1';
+const GOOGLE_SHEET_ID = '1jpI5fgLIYUQjyHXV3n4IbxOfAl9xLcaHmOAeVf5CECQ';
+const GOOGLE_SHEET_GID = '0';
+const GOOGLE_SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv&gid=${GOOGLE_SHEET_GID}`;
+const GOOGLE_SHEET_GVIZ_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&gid=${GOOGLE_SHEET_GID}&headers=1`;
+const ENABLE_JSON_FALLBACK = true;
+const subjectOrder = ["수목병리학", "수목해충학", "수목생리학", "산림토양학", "수목관리학"];
+const managementSubsubjects = ["수목관리학", "농약학", "비생물적 피해", "정책 및 법규"];
+const managementRatio = {
+    "수목관리학": 8,
+    "농약학": 6,
+    "비생물적 피해": 8,
+    "정책 및 법규": 3
+};
 
-        function parseStoredObject(key) {
-            try {
-                const parsed = JSON.parse(localStorage.getItem(key) || '{}');
-                return parsed && typeof parsed === 'object' ? parsed : {};
-            } catch (e) {
-                return {};
-            }
+function parseStoredObject(key) {
+    try {
+        const parsed = JSON.parse(localStorage.getItem(key) || '{}');
+        return parsed && typeof parsed === 'object' ? parsed : {};
+    } catch (e) {
+        return {};
+    }
+}
+
+function getPortableDataSnapshot() {
+    return {
+        version: 1,
+        data: {
+            questionMemos: parseStoredObject('questionMemos'),
+            favoriteQuestions: parseStoredObject('favoriteQuestions'),
+            darkMode: localStorage.getItem('darkMode') === 'enabled' ? 'enabled' : 'disabled'
+        }
+    };
+}
+
+function hasExistingLocalStudyData() {
+    const memoCount = Object.keys(parseStoredObject('questionMemos')).length;
+    const favoriteCount = Object.keys(parseStoredObject('favoriteQuestions')).length;
+    const hasDarkMode = localStorage.getItem('darkMode') === 'enabled';
+    return memoCount > 0 || favoriteCount > 0 || hasDarkMode;
+}
+
+function applyPortableDataSnapshot(payload) {
+    const data = payload && payload.data ? payload.data : {};
+    const nextMemos = (data.questionMemos && typeof data.questionMemos === 'object') ? data.questionMemos : {};
+    const nextFavorites = (data.favoriteQuestions && typeof data.favoriteQuestions === 'object') ? data.favoriteQuestions : {};
+    const nextDarkMode = data.darkMode === 'enabled' ? 'enabled' : 'disabled';
+
+    localStorage.setItem('questionMemos', JSON.stringify(nextMemos));
+    localStorage.setItem('favoriteQuestions', JSON.stringify(nextFavorites));
+    localStorage.setItem('darkMode', nextDarkMode);
+
+    questionMemos = nextMemos;
+    const isDark = nextDarkMode === 'enabled';
+    document.body.classList.toggle('dark-mode', isDark);
+    const toggle = document.getElementById('darkModeToggle');
+    if (toggle) toggle.checked = isDark;
+}
+
+function exportDataToFile() {
+    const payload = getPortableDataSnapshot();
+    const json = JSON.stringify(payload, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const downloadUrl = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    const datePart = new Date().toISOString().slice(0, 10);
+
+    anchor.href = downloadUrl;
+    anchor.download = `treedoc-quiz-data-${datePart}.json`;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(downloadUrl);
+    alert('데이터 파일을 저장했습니다.');
+}
+
+function triggerImportDataFile() {
+    const input = document.getElementById('importDataFileInput');
+    if (!input) return;
+    input.value = '';
+    input.click();
+}
+
+async function importDataFromFile(event) {
+    const input = event && event.target ? event.target : document.getElementById('importDataFileInput');
+    const file = input && input.files && input.files[0] ? input.files[0] : null;
+    if (!file) return;
+
+    try {
+        const text = await file.text();
+        const payload = JSON.parse(text);
+        if (!payload || typeof payload !== 'object' || !payload.data || typeof payload.data !== 'object') {
+            throw new Error('invalid payload');
         }
 
-        function getPortableDataSnapshot() {
-            return {
-                version: 1,
-                data: {
-                    questionMemos: parseStoredObject('questionMemos'),
-                    favoriteQuestions: parseStoredObject('favoriteQuestions'),
-                    darkMode: localStorage.getItem('darkMode') === 'enabled' ? 'enabled' : 'disabled'
-                }
-            };
+        if (hasExistingLocalStudyData()) {
+            const shouldOverwrite = confirm('이 기기에 이미 저장된 데이터가 있습니다. 가져온 파일 데이터로 덮어쓸까요?');
+            if (!shouldOverwrite) return;
         }
 
-        function encodePortablePayload(payload) {
-            const json = JSON.stringify(payload);
-            let binary = '';
-            if (typeof TextEncoder !== 'undefined') {
-                const bytes = new TextEncoder().encode(json);
-                for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
-            } else {
-                binary = unescape(encodeURIComponent(json));
-            }
-            return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
-        }
+        applyPortableDataSnapshot(payload);
+        alert('데이터 파일을 이 기기의 로컬 저장소에 적용했습니다.');
+        window.location.reload();
+    } catch (e) {
+        alert('데이터 파일 해석에 실패했습니다. 파일 형식을 확인해 주세요.');
+    } finally {
+        if (input) input.value = '';
+    }
+}
 
-        function decodePortablePayload(encoded) {
-            if (!encoded) return null;
-            const normalized = encoded.replace(/-/g, '+').replace(/_/g, '/');
-            const padLength = (4 - (normalized.length % 4)) % 4;
-            const padded = normalized + '='.repeat(padLength);
-            const binary = atob(padded);
-            let json = '';
-            if (typeof TextDecoder !== 'undefined') {
-                const bytes = new Uint8Array(binary.length);
-                for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-                json = new TextDecoder().decode(bytes);
-            } else {
-                json = decodeURIComponent(escape(binary));
-            }
-            const payload = JSON.parse(json);
-            if (!payload || typeof payload !== 'object' || !payload.data || typeof payload.data !== 'object') {
-                throw new Error('invalid payload');
-            }
-            return payload;
-        }
-
-        function clearShareParamFromUrl() {
-            const currentUrl = new URL(window.location.href);
-            if (!currentUrl.searchParams.has(SHARE_QUERY_KEY)) return;
-            currentUrl.searchParams.delete(SHARE_QUERY_KEY);
-            history.replaceState(null, '', currentUrl.toString());
-        }
-
-        function hasExistingLocalStudyData() {
-            const memoCount = Object.keys(parseStoredObject('questionMemos')).length;
-            const favoriteCount = Object.keys(parseStoredObject('favoriteQuestions')).length;
-            const hasDarkMode = localStorage.getItem('darkMode') === 'enabled';
-            return memoCount > 0 || favoriteCount > 0 || hasDarkMode;
-        }
-
-        function applyPortableDataSnapshot(payload) {
-            const data = payload && payload.data ? payload.data : {};
-            const nextMemos = (data.questionMemos && typeof data.questionMemos === 'object') ? data.questionMemos : {};
-            const nextFavorites = (data.favoriteQuestions && typeof data.favoriteQuestions === 'object') ? data.favoriteQuestions : {};
-            const nextDarkMode = data.darkMode === 'enabled' ? 'enabled' : 'disabled';
-
-            localStorage.setItem('questionMemos', JSON.stringify(nextMemos));
-            localStorage.setItem('favoriteQuestions', JSON.stringify(nextFavorites));
-            localStorage.setItem('darkMode', nextDarkMode);
-
-            questionMemos = nextMemos;
-            const isDark = nextDarkMode === 'enabled';
-            document.body.classList.toggle('dark-mode', isDark);
-            const toggle = document.getElementById('darkModeToggle');
-            if (toggle) toggle.checked = isDark;
-        }
-
-        function maybeImportDataFromUrl() {
-            const params = new URLSearchParams(window.location.search);
-            const encoded = params.get(SHARE_QUERY_KEY);
-            if (!encoded) return;
-
-            let payload = null;
-            try {
-                payload = decodePortablePayload(encoded);
-            } catch (e) {
-                clearShareParamFromUrl();
-                alert('공유 URL 데이터 해석에 실패했습니다.');
-                return;
-            }
-
-            if (hasExistingLocalStudyData()) {
-                const shouldOverwrite = confirm('이 기기에 이미 저장된 데이터가 있습니다. 공유 데이터로 덮어쓸까요?');
-                if (!shouldOverwrite) {
-                    clearShareParamFromUrl();
-                    return;
-                }
-            }
-
-            applyPortableDataSnapshot(payload);
-            clearShareParamFromUrl();
-            alert('공유 데이터를 이 기기의 로컬 저장소에 적용했습니다.');
-            window.location.reload();
-        }
-
-        async function exportDataToUrl() {
-            const payload = getPortableDataSnapshot();
-            const encoded = encodePortablePayload(payload);
-            const exportUrl = new URL(window.location.href);
-            exportUrl.searchParams.set(SHARE_QUERY_KEY, encoded);
-            const shareUrl = exportUrl.toString();
-
-            try {
-                await navigator.clipboard.writeText(shareUrl);
-                alert('데이터 URL이 복사되었습니다.');
-            } catch (e) {
-                window.prompt('아래 URL을 복사해 다른 기기에서 열어 주세요.', shareUrl);
-            }
-        }
-
-        // 다크 모드 토글 함수
+// 다크 모드 토글 함수
         function toggleDarkMode() {
             const isChecked = document.getElementById('darkModeToggle').checked;
             const isDark = document.body.classList.toggle('dark-mode', isChecked);
@@ -199,7 +166,6 @@
 
         // 초기 로드 시 다크 모드 설정 확인
         window.addEventListener('DOMContentLoaded', () => {
-            maybeImportDataFromUrl();
             const darkModeStatus = localStorage.getItem('darkMode');
             const toggle = document.getElementById('darkModeToggle');
             try {
