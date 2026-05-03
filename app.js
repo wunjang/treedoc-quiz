@@ -190,6 +190,7 @@ async function importDataFromFile(event) {
                 questions = await loadQuestionsFromRemote();
                 console.info(`[quiz] data source: ${window.__QUIZ_DATA_SOURCE || 'unknown'}`);
                 initFilters();
+                applyInitialUrlFilters();
                 const modeParam = new URLSearchParams(window.location.search).get('mode');
                 const initialMode = (modeParam && modeParam.toLowerCase() === 'mock') ? 'mock' : 'normal';
                 switchAppMode(initialMode);
@@ -584,6 +585,41 @@ async function importDataFromFile(event) {
             });
             updateSubsubjectVisibility();
             initFeatureBubble();
+        }
+
+        function getUrlFilterValues(params, key) {
+            const values = [];
+            params.getAll(key).forEach((value) => {
+                String(value || '')
+                    .split(',')
+                    .map(v => v.trim())
+                    .filter(Boolean)
+                    .forEach(v => values.push(v));
+            });
+            return values;
+        }
+
+        function applyInitialUrlFilters() {
+            const params = new URLSearchParams(window.location.search);
+            const subjectValues = getUrlFilterValues(params, 'subject');
+            const sessionValues = getUrlFilterValues(params, 'session');
+            const queryValue = params.get('q');
+
+            subjectValues.forEach((value) => selectedSubjects.add(value));
+            sessionValues.forEach((value) => selectedSessions.add(value));
+
+            document.querySelectorAll('#subjectGroup .tag').forEach((tag) => {
+                tag.classList.toggle('active', selectedSubjects.has(tag.innerText.trim()));
+            });
+            document.querySelectorAll('#sessionGroup .tag').forEach((tag) => {
+                tag.classList.toggle('active', selectedSessions.has(tag.innerText.trim()));
+            });
+
+            if (queryValue) {
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) searchInput.value = queryValue;
+            }
+            updateSubsubjectVisibility();
         }
 
         function initFeatureBubble() {

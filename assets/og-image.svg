@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f1f5f9"/>
+  <rect x="72" y="72" width="1056" height="486" rx="32" fill="#ffffff" stroke="#dbe4ef" stroke-width="4"/>
+  <text x="112" y="170" font-family="Arial, sans-serif" font-size="44" font-weight="700" fill="#2563eb">TREEDOC-QUIZ</text>
+  <text x="112" y="285" font-family="Arial, sans-serif" font-size="78" font-weight="800" fill="#172033">나무의사 기출문제</text>
+  <text x="112" y="365" font-family="Arial, sans-serif" font-size="38" fill="#475569">회차별 · 과목별 문제풀이와 모의고사</text>
+  <text x="112" y="455" font-family="Arial, sans-serif" font-size="30" fill="#64748b">수목병리학 · 수목해충학 · 수목생리학 · 산림토양학 · 수목관리학</text>
+  <circle cx="970" cy="232" r="86" fill="#22c55e"/>
+  <path d="M970 278v116" stroke="#14532d" stroke-width="34" stroke-linecap="round"/>
+  <path d="M906 358h128" stroke="#14532d" stroke-width="34" stroke-linecap="round"/>
+</svg>

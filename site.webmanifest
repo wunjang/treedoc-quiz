@@ -1,0 +1,19 @@
+{
+  "name": "TREEDOC-QUIZ - 나무의사 기출문제",
+  "short_name": "TREEDOC-QUIZ",
+  "description": "나무의사 필기 시험 기출문제를 회차별, 과목별로 풀어보는 학습 서비스",
+  "lang": "ko-KR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f1f5f9",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
