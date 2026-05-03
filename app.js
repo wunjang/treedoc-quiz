@@ -404,7 +404,48 @@ async function importDataFromFile(event) {
                 .filter(Boolean);
         }
 
+        function normalizeParsedTableData(parsed) {
+            if (!Array.isArray(parsed)) return null;
+            const rows = parsed
+                .filter(row => Array.isArray(row))
+                .map(row => row.map(cell => cell == null ? '' : String(cell)))
+                .filter(row => row.some(cell => String(cell || '').trim() !== ''));
+            if (!rows.length) return null;
+
+            const maxCol = rows.reduce((max, row) => Math.max(max, row.length), 0);
+            if (!maxCol) return null;
+
+            const normalized = rows.map((row) => {
+                const out = row.slice();
+                while (out.length < maxCol) out.push('');
+                return out;
+            });
+
+            const colHasContent = [];
+            for (let c = 0; c < maxCol; c++) {
+                colHasContent[c] = normalized.some(row => String(row[c] || '').trim() !== '');
+            }
+
+            const trimmed = normalized.map(row => row.filter((_, c) => colHasContent[c]));
+            return trimmed.some(row => row.length) ? trimmed : null;
+        }
+
+        function parseTableDataCell(value) {
+            if (value == null) return null;
+            const raw = String(value).trim();
+            if (!raw) return null;
+            try {
+                return normalizeParsedTableData(JSON.parse(raw));
+            } catch (e) {
+                console.warn('tableData JSON 파싱 실패:', e);
+                return null;
+            }
+        }
+
         function buildTableDataFromRow(normalizedRow) {
+            const tableDataFromCell = parseTableDataCell(normalizedRow.tabledata);
+            if (tableDataFromCell) return tableDataFromCell;
+
             const table = [];
             let hasAnyContent = false;
             let maxRow = -1;
