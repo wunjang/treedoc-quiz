@@ -404,13 +404,38 @@ async function importDataFromFile(event) {
                 .filter(Boolean);
         }
 
+        function normalizeTableCell(cell) {
+            if (cell && typeof cell === 'object' && !Array.isArray(cell)) {
+                return {
+                    text: cell.text == null ? '' : String(cell.text),
+                    rowspan: Number(cell.rowspan),
+                    colspan: Number(cell.colspan)
+                };
+            }
+            return cell == null ? '' : String(cell);
+        }
+
+        function getTableCellText(cell) {
+            if (cell && typeof cell === 'object' && !Array.isArray(cell)) {
+                return cell.text == null ? '' : String(cell.text);
+            }
+            return cell == null ? '' : String(cell);
+        }
+
         function normalizeParsedTableData(parsed) {
             if (!Array.isArray(parsed)) return null;
             const rows = parsed
                 .filter(row => Array.isArray(row))
-                .map(row => row.map(cell => cell == null ? '' : String(cell)))
-                .filter(row => row.some(cell => String(cell || '').trim() !== ''));
+                .map(row => row.map(normalizeTableCell))
+                .filter(row => row.some(cell => getTableCellText(cell).trim() !== ''));
             if (!rows.length) return null;
+
+            const hasSpan = rows.some(row => row.some((cell) => {
+                if (!cell || typeof cell !== 'object' || Array.isArray(cell)) return false;
+                return Number.isFinite(cell.rowspan) || Number.isFinite(cell.colspan);
+            }));
+
+            if (hasSpan) return rows;
 
             const maxCol = rows.reduce((max, row) => Math.max(max, row.length), 0);
             if (!maxCol) return null;
@@ -423,7 +448,7 @@ async function importDataFromFile(event) {
 
             const colHasContent = [];
             for (let c = 0; c < maxCol; c++) {
-                colHasContent[c] = normalized.some(row => String(row[c] || '').trim() !== '');
+                colHasContent[c] = normalized.some(row => getTableCellText(row[c]).trim() !== '');
             }
 
             const trimmed = normalized.map(row => row.filter((_, c) => colHasContent[c]));
@@ -1158,6 +1183,32 @@ async function importDataFromFile(event) {
             return normalized.join(', ');
         }
 
+        function renderTableCell(cell, tagName) {
+            const cellObject = cell && typeof cell === 'object' && !Array.isArray(cell) ? cell : null;
+            const text = cellObject ? cellObject.text : cell;
+            const rowspan = cellObject && Number.isFinite(cellObject.rowspan) && cellObject.rowspan > 1
+                ? ` rowspan="${Math.floor(cellObject.rowspan)}"`
+                : '';
+            const colspan = cellObject && Number.isFinite(cellObject.colspan) && cellObject.colspan > 1
+                ? ` colspan="${Math.floor(cellObject.colspan)}"`
+                : '';
+
+            return `<${tagName}${rowspan}${colspan}>${escapeHtml(text == null ? '' : text)}</${tagName}>`;
+        }
+
+        function renderTableData(tableData) {
+            if (!Array.isArray(tableData) || !tableData.length) return '';
+            return `
+                        <table class="quiz-table">
+                            ${tableData.map((row, rowIdx) => {
+                                if (!Array.isArray(row)) return '';
+                                const tagName = rowIdx === 0 ? 'th' : 'td';
+                                return `<tr>${row.map(cell => renderTableCell(cell, tagName)).join('')}</tr>`;
+                            }).join('')}
+                        </table>
+                    `;
+        }
+
         function renderMockExam() {
             if (!isMockMode) return;
             const listEl = document.getElementById('questionList');
@@ -1200,11 +1251,7 @@ async function importDataFromFile(event) {
                     ` : ''}
                     <div class="q-title" style="font-weight:bold; margin: 15px 0; font-size:1.1em; line-height:1.6;">${q.question}</div>
                     ${q.box ? `<div class="inner-box">${q.box}</div>` : ''}
-                    ${q.tableData ? `
-                        <table class="quiz-table">
-                            ${q.tableData.map((row, rowIdx) => `<tr>${row.map(cell => `<${rowIdx === 0 ? 'th' : 'td'}>${cell}</${rowIdx === 0 ? 'th' : 'td'}>`).join('')}</tr>`).join('')}
-                        </table>
-                    ` : ''}
+                    ${q.tableData ? renderTableData(q.tableData) : ''}
                     ${q.image ? `<img src="images/${q.image}" style="max-width:100%; border-radius:8px; margin-bottom:15px; display:block;">` : ''}
                     <div class="options-list" style="display:grid; gap:8px; margin: 20px 0;">
                         ${optionsHtml}
@@ -1360,11 +1407,7 @@ async function importDataFromFile(event) {
                     </div>
                     <div class="q-title" style="font-weight:bold; margin: 15px 0; font-size:1.1em; line-height:1.6;">${displayQuestion}</div>
                     ${q.box ? `<div class="inner-box">${displayBox}</div>` : ''}
-                    ${q.tableData ? `
-                        <table class="quiz-table">
-                            ${q.tableData.map((row, idx) => `<tr>${row.map(cell => `<${idx === 0 ? 'th' : 'td'}>${cell}</${idx === 0 ? 'th' : 'td'}>`).join('')}</tr>`).join('')}
-                        </table>
-                    ` : ''}
+                    ${q.tableData ? renderTableData(q.tableData) : ''}
                     ${q.image ? `<img src="images/${q.image}" style="max-width:100%; border-radius:8px; margin-bottom:15px; display:block;">` : ''}
                     <div class="options-list" style="display:grid; gap:8px; margin: 20px 0;">
                         ${displayOptions.map((opt, i) => `<div style="padding:12px; border:1px solid var(--border); border-radius:8px; background:rgba(0,0,0,0.02); font-size:0.95em;"><span style="font-weight:bold; margin-right:5px;">${i + 1}.</span> ${opt}</div>`).join('')}
