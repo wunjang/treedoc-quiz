@@ -587,11 +587,12 @@ async function importDataFromFile(event) {
         }
 
         function initFeatureBubble() {
-            const shown = localStorage.getItem('mockFeatureBubbleShown');
-            if (shown === '1') return;
             const bubble = document.getElementById('featureBubble');
+            const bubbleVersion = bubble.textContent.trim();
+            const shownVersion = localStorage.getItem('featureBubbleShownVersion');
+            if (shownVersion === bubbleVersion) return;
             bubble.style.display = 'block';
-            localStorage.setItem('mockFeatureBubbleShown', '1');
+            localStorage.setItem('featureBubbleShownVersion', bubbleVersion);
             setTimeout(() => {
                 bubble.style.display = 'none';
             }, 8000);
