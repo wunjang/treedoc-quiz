@@ -21,3 +21,8 @@
 - 다른 기기에서 `데이터 파일 가져오기`로 해당 JSON 파일을 선택하면 메모(`questionMemos`), 즐겨찾기(`favoriteQuestions`), 다크모드(`darkMode`)가 해당 기기 로컬 저장소로 복원됩니다.
 - 새 기기에 기존 로컬 데이터가 이미 있으면 덮어쓰기 여부를 먼저 확인합니다.
 - 가져오기가 완료되면 화면이 자동 새로고침되어 적용 결과가 즉시 반영됩니다.
+
+## 🔄 문제 데이터 갱신
+- 구글시트 원본 데이터를 `questions.json`에 반영하려면 `node scripts/sync-questions.js`를 실행합니다.
+- 기본 시트 탭은 `gid=322747574`입니다. 다른 탭을 사용할 때는 `node scripts/sync-questions.js --gid=시트GID` 형식으로 실행합니다.
+- 검색 노출용 정적 페이지와 사이트맵은 `node scripts/generate-seo-pages.js`로 다시 생성합니다.

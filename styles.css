@@ -242,6 +242,41 @@ body {
     border: 1px solid var(--border);
 }
 
+.seo-links {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin: 24px 0 8px;
+}
+
+.seo-links section + section {
+    margin-top: 14px;
+}
+
+.seo-links h2 {
+    margin: 0 0 8px;
+    font-size: 0.95em;
+    color: #64748b;
+}
+
+.seo-link-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.seo-link-list a {
+    color: var(--primary);
+    font-size: 0.9em;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.seo-link-list a:hover {
+    text-decoration: underline;
+}
+
 .q-header {
     display: flex;
     justify-content: space-between;
